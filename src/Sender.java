@@ -1,7 +1,5 @@
-import java.lang.reflect.Array;
 import java.net.*;
 import java.io.*;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 import java.util.logging.*;
@@ -72,7 +70,7 @@ public class Sender {
             short recSeqNo = Utils.getSeqNo(stpSegment);
             short type = Utils.getType(stpSegment);
 
-            if (controlPktLost()) {
+            if (dropPkt()) {
                 continue;
             }
 
@@ -96,7 +94,7 @@ public class Sender {
         sendOnePktAndCheckACK(Utils.SYN, this.ISN, Utils.mod(this.ISN + 1));
     }
 
-    private boolean controlPktLost() throws InterruptedException {
+    private boolean dropPkt() throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your choice, d for drop, otherwise not drop:");
         String input = scanner.next();
@@ -107,7 +105,7 @@ public class Sender {
         byte[] stpSegment = Utils.createSTPSegment(type, seqNo, "".getBytes());
         DatagramPacket stpPacket = createSTPPacket(stpSegment);
 
-        if (controlPktLost()) {
+        if (!dropPkt()) {
             senderSocket.send(stpPacket);
             this.SYNSentTime = System.currentTimeMillis();
             System.out.println(Utils.convertTypeNumToString(type) + " sent");
@@ -131,7 +129,7 @@ public class Sender {
                 System.exit(0);
             }
 
-            if (controlPktLost()) {
+            if (dropPkt()) {
                 senderSocket.send(stpPacket);
                 this.SYNSentTime = System.currentTimeMillis();
                 System.out.println(Utils.convertTypeNumToString(type) + " sent");
