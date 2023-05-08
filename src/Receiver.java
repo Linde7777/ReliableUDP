@@ -1,18 +1,18 @@
 /**
-    Sample code for Receiver
-    Java
-    Usage: 
-        - You need to compile it first: javac Receiver.java
-        - then run it: java Receiver receiver_port sender_port FileReceived.txt flp rlp
-    coding: utf-8
-
-    Notes:
-        Try to run the server first with the command:
-            java Receiver 10000 9000 FileReceived.txt 1 1
-        Then run the sender:
-            java Sender 9000 10000 FileToReceived.txt 1000 1
-
-    Author: Wei Song (Tutor for COMP3331/9331)    
+ * Sample code for Receiver
+ * Java
+ * Usage:
+ * - You need to compile it first: javac Receiver.java
+ * - then run it: java Receiver receiver_port sender_port FileReceived.txt flp rlp
+ * coding: utf-8
+ * <p>
+ * Notes:
+ * Try to run the server first with the command:
+ * java Receiver 10000 9000 FileReceived.txt 1 1
+ * Then run the sender:
+ * java Sender 9000 10000 FileToReceived.txt 1000 1
+ * <p>
+ * Author: Wei Song (Tutor for COMP3331/9331)
  */
 
 
@@ -25,12 +25,12 @@ import java.util.logging.Logger;
 
 public class Receiver {
     /**
-    The server will be able to receive the file from the sender via UDP
-    :param receiver_port: the UDP port number to be used by the receiver to receive PTP segments from the sender.
-    :param sender_port: the UDP port number to be used by the sender to send PTP segments to the receiver.
-    :param filename: the name of the text file into which the text sent by the sender should be stored
-    :param flp: forward loss probability, which is the probability that any segment in the forward direction (Data, FIN, SYN) is lost.
-    :param rlp: reverse loss probability, which is the probability of a segment in the reverse direction (i.e., ACKs) being lost.
+     * The server will be able to receive the file from the sender via UDP
+     * :param receiver_port: the UDP port number to be used by the receiver to receive PTP segments from the sender.
+     * :param sender_port: the UDP port number to be used by the sender to send PTP segments to the receiver.
+     * :param filename: the name of the text file into which the text sent by the sender should be stored
+     * :param flp: forward loss probability, which is the probability that any segment in the forward direction (Data, FIN, SYN) is lost.
+     * :param rlp: reverse loss probability, which is the probability of a segment in the reverse direction (i.e., ACKs) being lost.
      */
 
     private static final int BUFFERSIZE = 1024;
@@ -41,6 +41,7 @@ public class Receiver {
     private final float flp;
     private final float rlp;
     private final InetAddress serverAddress;
+    private InetAddress clientAddress;
 
     private final DatagramSocket receiverSocket;
 
@@ -59,20 +60,27 @@ public class Receiver {
     }
 
     public void run() throws IOException {
-        byte[] buffer = new byte[BUFFERSIZE];
-        DatagramPacket incomingPacket = new DatagramPacket(buffer, buffer.length);
 
         while (true) {
             // try to receive any incoming message from the sender
+            byte[] buffer = new byte[BUFFERSIZE];
+            DatagramPacket incomingPacket = new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
-            String incomingMessage = new String(incomingPacket.getData(), 0, incomingPacket.getLength());
-            Logger.getLogger(Receiver.class.getName()).log(Level.INFO, "client" + incomingPacket.getAddress() + " send a message: " + incomingMessage);
 
-            // reply "ACK" once receive any message from sender
-            byte[] replyMessage = "ACK".getBytes();
-            DatagramPacket replyPacket = new DatagramPacket(replyMessage, replyMessage.length, incomingPacket.getAddress(), senderPort);
+            byte[] stpSegment = incomingPacket.getData();
+            short recSeqNo = Utils.getSeqNo(stpSegment);
+            short recType = Utils.getType(stpSegment);
+            byte[] recData = Utils.getData(stpSegment);
+            this.clientAddress = incomingPacket.getAddress();
+
+            byte[] replySegment = Utils.createSTPSegment(Utils.ACK, (short) 1, "".getBytes());
+            DatagramPacket replyPacket = createSTPPacket(replySegment);
             receiverSocket.send(replyPacket);
         }
+    }
+
+    private DatagramPacket createSTPPacket(byte[] stpSegment) {
+        return Utils.createSTPPacket(stpSegment, this.clientAddress, senderPort);
     }
 
     public static void main(String[] args) throws IOException {

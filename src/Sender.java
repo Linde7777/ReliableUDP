@@ -1,5 +1,8 @@
+import java.lang.reflect.Array;
 import java.net.*;
 import java.io.*;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 import java.util.logging.*;
 
@@ -31,9 +34,10 @@ public class Sender {
     private short receivedACKOfSYNPkt;
     private int resentLimit = 3;
     private long SYNSentTime;
-    private short SYNExpACK;
+    private boolean connectionIsEstablished = false;
 
     public Sender(int senderPort, int receiverPort, String filename, int maxWin, int rto) throws IOException {
+        this.semaphore = new Semaphore(1);
         this.senderPort = senderPort;
         this.receiverPort = receiverPort;
         this.senderAddress = InetAddress.getByName("127.0.0.1");
@@ -47,71 +51,105 @@ public class Sender {
         this.senderSocket = new DatagramSocket(senderPort, senderAddress);
 
         // start the listening sub-thread
-        Thread listenThread = new Thread(this::listen);
+        Thread listenThread = new Thread(() -> {
+            try {
+                listen();
+            } catch (IOException | InterruptedException e) {
+                // Handle exceptions here
+            }
+        });
         listenThread.start();
 
     }
 
+    public void listen() throws IOException, InterruptedException {
+        // listen to incoming packets from receiver
+        while (true) {
+            byte[] receiveData = new byte[BUFFERSIZE];
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            senderSocket.receive(receivePacket);
+            byte[] stpSegment = receivePacket.getData();
+            short recSeqNo = Utils.getSeqNo(stpSegment);
+            short type = Utils.getType(stpSegment);
 
-    public void ptpClose() {
-        senderSocket.close();
-    }
-
-    public void listen() {
-        try {
-            // listen to incoming packets from receiver
-            while (true) {
-                byte[] receiveData = new byte[BUFFERSIZE];
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                senderSocket.receive(receivePacket);
-                String incomingMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
-                Logger.getLogger(Sender.class.getName()).log(Level.INFO, "received reply from receiver: {0}", incomingMessage);
+            if (controlPktLost()) {
+                continue;
             }
-        } catch (IOException e) {
-            // error while listening, stop the thread
-            Logger.getLogger(Sender.class.getName()).log(Level.SEVERE, "Error while listening", e);
+
+            System.out.println("receive ACK: " + recSeqNo);
+            semaphore.acquire();
+            boolean condition = !this.connectionIsEstablished;
+            semaphore.release();
+            if (condition) {
+                semaphore.acquire();
+                this.receivedACKOfSYNPkt = recSeqNo;
+                semaphore.release();
+            }
         }
     }
 
     public void run() throws IOException, InterruptedException {
         sendSYNAndCheckACK();
-        sendDATAAndCheckACK();
-        sendFINAndCheckACK();
     }
 
     private void sendSYNAndCheckACK() throws IOException, InterruptedException {
-        byte[] stpSegment = Utils.createSTPSegment(Utils.SYN, ISN, "".getBytes());
-        DatagramPacket stpPacket = createSTPPacket(stpSegment);
-        senderSocket.send(stpPacket);
+        sendOnePktAndCheckACK(Utils.SYN, this.ISN, Utils.mod(this.ISN + 1));
+    }
 
-        this.SYNExpACK = (short) (ISN + 1);
-        this.SYNSentTime = System.currentTimeMillis();
+    private boolean controlPktLost() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your choice, d for drop, otherwise not drop:");
+        String input = scanner.next();
+        return input.equals("d");
+    }
+
+    private void sendOnePktAndCheckACK(short type, short seqNo, short expACK) throws IOException, InterruptedException {
+        byte[] stpSegment = Utils.createSTPSegment(type, seqNo, "".getBytes());
+        DatagramPacket stpPacket = createSTPPacket(stpSegment);
+
+        if (controlPktLost()) {
+            senderSocket.send(stpPacket);
+            this.SYNSentTime = System.currentTimeMillis();
+            System.out.println(Utils.convertTypeNumToString(type) + " sent");
+        } else {
+            System.out.println(Utils.convertTypeNumToString(type) + " lost");
+        }
 
         Thread.sleep(this.rto);
 
         semaphore.acquire();
-        boolean shouldRetransmit = receivedACKOfSYNPkt != this.SYNExpACK;
+        boolean shouldRetransmit = this.receivedACKOfSYNPkt != expACK;
         semaphore.release();
 
         int resentCount = 0;
         while (shouldRetransmit) {
             if (resentCount > this.resentLimit) {
-                System.out.println("sendSYN function is sending Reset...");
+                System.out.println("sending Reset...");
                 sendRESETAndDoNotCheckACK();
                 // todo: tell listen() to stop
-                System.out.println("sendSYN call System.exit");
+                System.out.println("calling System.exit...");
                 System.exit(0);
             }
-            senderSocket.send(stpPacket);
-            this.SYNSentTime = System.currentTimeMillis();
+
+            if (controlPktLost()) {
+                senderSocket.send(stpPacket);
+                this.SYNSentTime = System.currentTimeMillis();
+                System.out.println(Utils.convertTypeNumToString(type) + " sent");
+            } else {
+                System.out.println(Utils.convertTypeNumToString(type) + " lost");
+            }
+
             Thread.sleep(this.rto);
             resentCount += 1;
 
             semaphore.acquire();
-            shouldRetransmit = receivedACKOfSYNPkt != this.SYNExpACK;
+            shouldRetransmit = this.receivedACKOfSYNPkt != expACK;
             semaphore.release();
         }
 
+        semaphore.acquire();
+        this.connectionIsEstablished = true;
+        semaphore.release();
     }
 
 
@@ -121,11 +159,10 @@ public class Sender {
     private void sendDATAAndCheckACK() {
     }
 
-
     private void sendRESETAndDoNotCheckACK() {
     }
 
-    private boolean detect3DupACKs() {
+    private boolean detect3DupACKs(short seqNo) {
         return false;
     }
 
@@ -144,5 +181,6 @@ public class Sender {
         Sender sender = new Sender(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]));
         sender.run();
     }
+
 }
 

@@ -11,6 +11,10 @@ public class Utils {
 
     static String outputFormat = "%s %.6f \t%s %d %d\n";
 
+    public static short mod(int seqNo) {
+        return (short) (seqNo % 2 ^ 16);
+    }
+
     public static double convertTime(long time) {
         return (time / 100.0);
     }
@@ -42,10 +46,10 @@ public class Utils {
     }
 
     public static DatagramPacket createSTPPacket(
-            byte[] stpSegment, InetAddress receiverAddress, int receiverPort) {
+            byte[] stpSegment, InetAddress address, int portNum) {
 
         DatagramPacket packet = new DatagramPacket(stpSegment,
-                stpSegment.length, receiverAddress, receiverPort);
+                stpSegment.length, address, portNum);
         return packet;
     }
 
@@ -105,4 +109,5 @@ public class Utils {
         System.arraycopy(STPSegment, 4, data, 0, data.length);
         return data;
     }
+
 }
