@@ -64,8 +64,28 @@ public class Receiver {
         this.receiverSocket = new DatagramSocket(receiverPort, serverAddress);
     }
 
-    private DatagramPacket createReplyPkt(){
+    private DatagramPacket createReplyPkt(short recType, short recSeqNo, byte[] recData) {
+        byte[] replySegment = new byte[0];
+        switch (recType) {
+            case Utils.DATA:
+                if (!dataBuffer.containsKey(recSeqNo)) {
+                    this.dataBuffer.put(recSeqNo, recData);
+                }
+                this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer,
+                        this.latestInOrderSeqNo);
+                replySegment = Utils.createSTPSegment(Utils.ACK,
+                        (short) latestInOrderSeqNo, "".getBytes());
+                break;
+            case Utils.SYN:
+                replySegment = Utils.createSTPSegment(Utils.ACK,
+                        (short) (recSeqNo + 1), "".getBytes());
+                break;
+            case Utils.FIN:
+                //todo
+                break;
+        }
 
+        return createSTPPacket(replySegment);
     }
 
     public void run() throws IOException, InterruptedException {
@@ -87,28 +107,7 @@ public class Receiver {
                 continue;
             }
 
-            byte[] replySegment = new byte[0];
-            switch (recType) {
-                case Utils.DATA:
-                    if (!dataBuffer.containsKey(recSeqNo)) {
-                        this.dataBuffer.put(recSeqNo, recData);
-                    }
-                    this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer,
-                            this.latestInOrderSeqNo);
-                    replySegment = Utils.createSTPSegment(Utils.ACK,
-                            (short) latestInOrderSeqNo, "".getBytes());
-                    break;
-
-                case Utils.SYN:
-                    replySegment=Utils.createSTPSegment(Utils.ACK,
-                            (short) (recSeqNo+1),"".getBytes());
-                    break;
-            }
-
-
-            DatagramPacket replyPacket = createSTPPacket(replySegment);
-
-            System.out.println("sending ACK " + 1);
+            DatagramPacket replyPacket = createReplyPkt(recType, recSeqNo, recData);
 
             System.out.print("drop the ack? ");
             if (Utils.dropPkt()) {
@@ -120,13 +119,16 @@ public class Receiver {
     }
 
     private int updateLatestInOrderSeqNo(HashMap<Short, byte[]> dataBuffer, int latestInOrderSeqNo) {
+        if (dataBuffer.isEmpty()) {
+            throw new IllegalArgumentException("dataBuffer is empty");
+        }
+
         if (dataBuffer.size() == 1) {
             return dataBuffer.keySet().iterator().next();
         }
 
         short nextSeqNo = (short) (latestInOrderSeqNo +
                 dataBuffer.get(latestInOrderSeqNo).length);
-
         while (true) {
             if (dataBuffer.containsKey(nextSeqNo)) {
                 latestInOrderSeqNo = nextSeqNo;
@@ -136,18 +138,6 @@ public class Receiver {
         }
 
         return latestInOrderSeqNo;
-    }
-
-    private short createReplyACK(short recType, short recSeqNo, byte[] recData) {
-        short replyACK = -999;
-        if (recType == Utils.SYN || recType == Utils.FIN) {
-            replyACK = Utils.mod(recSeqNo + 1);
-        }
-        if (recType == Utils.DATA) {
-            replyACK = Utils.mod(recSeqNo + recData.length);
-        }
-
-        return replyACK;
     }
 
     private DatagramPacket createSTPPacket(byte[] stpSegment) {
