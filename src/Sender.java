@@ -33,12 +33,12 @@ public class Sender {
     private final InetAddress receiverAddress;
     private final DatagramSocket senderSocket;
     private final String filename;
-    private final int maxWin;
+    private final int windowSizeInByte;
     private final int rto;
 
     private final int BUFFERSIZE = 1024;
 
-    private int MSS = 2;
+    private final int maxSegmentSize = 2;
 
     private Semaphore semaphore;
     private short receivedACKOfSYNPkt;
@@ -53,15 +53,20 @@ public class Sender {
     private int base = 0;
 
 
-    public Sender(int senderPort, int receiverPort, String filename, int maxWin, int rto) throws IOException {
+    public Sender(int senderPort, int receiverPort, String filename, int windowSizeInByte, int rto) throws IOException {
         this.semaphore = new Semaphore(1);
         this.senderPort = senderPort;
         this.receiverPort = receiverPort;
         this.senderAddress = InetAddress.getByName("127.0.0.1");
         this.receiverAddress = InetAddress.getByName("127.0.0.1");
         this.filename = filename;
-        this.maxWin = maxWin;
+        this.windowSizeInByte = windowSizeInByte;
         this.rto = rto;
+
+        if (windowSizeInByte % maxSegmentSize != 0) {
+            throw new IllegalArgumentException("windowSizeInByte " +
+                    "must be a multiple od max segment size");
+        }
 
         this.fileBytes = readBytesFromFile(filename);
         this.dataArr = sliceFileBytesIntoDataWindow(this.fileBytes);
@@ -252,7 +257,7 @@ public class Sender {
 
     private void sendDATAAndCheckACK() throws IOException, InterruptedException {
         while (this.base < this.UDPPacketArr.length) {
-            int numOfSegInWindow = Math.min(maxWin / MSS, UDPPacketArr.length - base);
+            int numOfSegInWindow = Math.min(windowSizeInByte / maxSegmentSize, UDPPacketArr.length - base);
             // in this example, maxWin is 6 bytes, MSS is 2 bytes,
             // so generally the num of segments in a window is 3(maxWin/MSS),
             // but in the rightmost window, the num of segments may less than 3
@@ -328,16 +333,16 @@ public class Sender {
     // [1000][1000][1000][790]
     private byte[][] sliceFileBytesIntoDataWindow(byte[] fileBytes) {
         int dataWindowLen = -1;
-        if (fileBytes.length % MSS == 0) {
-            dataWindowLen = fileBytes.length / MSS;
+        if (fileBytes.length % maxSegmentSize == 0) {
+            dataWindowLen = fileBytes.length / maxSegmentSize;
         } else {
-            dataWindowLen = fileBytes.length / MSS + 1;
+            dataWindowLen = fileBytes.length / maxSegmentSize + 1;
         }
         byte[][] dataWindow = new byte[dataWindowLen][];
         int fbIndex = 0; // fileBytes 's index
         int dwIndex = 0;// dataWindow 's index
         while (fbIndex < fileBytes.length) {
-            int copyLen = Math.min(fileBytes.length - fbIndex, MSS);
+            int copyLen = Math.min(fileBytes.length - fbIndex, maxSegmentSize);
             dataWindow[dwIndex] = new byte[copyLen];
             System.arraycopy(fileBytes, fbIndex, dataWindow[dwIndex], 0, copyLen);
             fbIndex += copyLen;
