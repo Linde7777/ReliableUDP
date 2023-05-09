@@ -21,6 +21,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +49,8 @@ public class Receiver {
 
     private HashMap<Short, byte[]> dataBuffer;
     private short latestInOrderSeqNo;
+    Random random = new Random();
+    private short writeIndex = 0;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -64,19 +67,33 @@ public class Receiver {
         this.receiverSocket = new DatagramSocket(receiverPort, serverAddress);
     }
 
+    private boolean randomDropIncomingData() {
+        return random.nextFloat() < this.flp;
+    }
+
+    private boolean randomDropACK() {
+        return random.nextFloat() < this.rlp;
+    }
+
+    private void writeData() {
+        //this.writeIndex;
+    }
 
     public void run() throws IOException, InterruptedException {
 
         while (true) {
             // try to receive any incoming message from the sender
             byte[] buffer = new byte[BUFFERSIZE];
-            DatagramPacket incomingPacket = new DatagramPacket(buffer, buffer.length);
+            DatagramPacket incomingPacket =
+                    new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
             System.out.print("drop the incoming data? ");
-            boolean dropIncomingData = Utils.scanDropOption();
+            //boolean dropIncomingData = Utils.scanDropOption();
+            boolean dropIncomingData = randomDropIncomingData();
             System.out.print("drop the ack? ");
-            boolean dropACK = Utils.scanDropOption();
+            //boolean dropACK = Utils.scanDropOption();
+            boolean dropACK = randomDropACK();
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);

@@ -45,13 +45,13 @@ public class Sender {
     private int resentLimit = 3;
     private long SYNSentTime;
     private boolean connectionIsEstablished = false;
-    private Integer recACKIndex = 0;
+    private Integer recACKNext = 0;
     private int amountOfDataTransferred = 0;
     private int numOfDataSegmentSent = 0;
     private int numOfRetransmittedDataSegment = 0;
     private int next = 0;
     private int base = 0;
-
+    private boolean allDataHasBeenACKed = false;
 
     public Sender(int senderPort, int receiverPort, String filename, int windowSizeInByte, int rto) throws IOException {
         this.semaphore = new Semaphore(1);
@@ -99,7 +99,7 @@ public class Sender {
     array index:     0   1   2   3
     expectedACKArr:  3   5   7   9
     receivedACKArr:  3   9  -1  -1
-    recACKIndex is 1
+    recACKNext is 1
 
     all packets in a window has been received,
     but ACK 5 and 7 are lost
@@ -112,12 +112,12 @@ public class Sender {
     array index:     0   1   2   3
     expectedACKArr:  3   5   7   9
     receivedACKArr:  3   5   7   9
-    recACKIndex is 3
+    recACKNext is 3
      */
-    private void fixACKGap(short[] receivedACKArr, short[] expectedACKArr, Integer recACKIndex) {
-        short currRecACK = receivedACKArr[recACKIndex];
+    private void fixACKGap(short[] receivedACKArr, short[] expectedACKArr, Integer recACKNext) {
+        short currRecACK = receivedACKArr[recACKNext];
 
-        int startIndex = recACKIndex;
+        int startIndex = recACKNext;
         int endIndex = Arrays.binarySearch(expectedACKArr, currRecACK);
         /*
         @Original Code, Copy arrays manually.
@@ -130,6 +130,48 @@ public class Sender {
         if (endIndex + 1 - startIndex >= 0) {
             System.arraycopy(expectedACKArr, startIndex, receivedACKArr, startIndex, endIndex + 1 - startIndex);
         }
+    }
+
+    private void doNothing() {
+        // we can not increment recACKNext here
+        /*
+        window length is 4(max segment size is 2,
+        window size in byte is 8).
+        sender send packet with seqNo 1 3 5 7,
+        receiver receive packet with seqNo 1 7,
+        and the ACKs of packet 1 and packet 7 do not get lost,
+        so in Sender.java,
+        expectedACKArr: 3  5  7  9
+        receivedACKArr: 3  3 -1 -1
+
+        now Sender.java going to resent packet 3,
+        if we increment recACKNext as what we do when
+        currRecACK == expRecACK and currRecACK> expRecACK,
+        this will happen:
+        expectedACKArr: 3  5  7  9
+        receivedACKArr: 3  3  5 -1
+
+        that is not we want, we want this:
+        expectedACKArr: 3  5  7  9
+        receivedACKArr: 3  5 -1 -1
+         */
+    }
+
+    private void dealingWithRecACKOfDATA(short recSeqNo) throws InterruptedException {
+        semaphore.acquire();
+        receivedACKArr[recACKNext] = recSeqNo;
+        short currRecACK = receivedACKArr[recACKNext];
+        short expRecACK = expectedACKArr[recACKNext];
+
+        if (currRecACK > expRecACK) {
+            fixACKGap(receivedACKArr, expectedACKArr, recACKNext);
+            recACKNext += 1;
+        } else if (currRecACK == expRecACK) {
+            recACKNext += 1;
+        } else {
+            doNothing();
+        }
+        semaphore.release();
     }
 
     public void listen() throws IOException, InterruptedException {
@@ -148,41 +190,7 @@ public class Sender {
             boolean recACKIsForDATASegment = this.connectionIsEstablished;
             semaphore.release();
             if (recACKIsForDATASegment) {
-                semaphore.acquire();
-                receivedACKArr[recACKIndex] = recSeqNo;
-
-                short currRecACK = receivedACKArr[recACKIndex];
-                short expRecACK = expectedACKArr[recACKIndex];
-                if (currRecACK > expRecACK) {
-                    fixACKGap(receivedACKArr, expectedACKArr, recACKIndex);
-                    recACKIndex += 1;
-                } else if (currRecACK == expRecACK) {
-                    recACKIndex += 1;
-                } else {
-                    // do not increment recACKIndex
-                    /*
-                    window length is 4(max segment size is 2,
-                    window size in byte is 8).
-                    sender send packet with seqNo 1 3 5 7,
-                    receiver receive packet with seqNo 1 7,
-                    and the ACKs of packet 1 and packet 7 do not get lost,
-                    so in Sender.java,
-                    expectedACKArr: 3  5  7  9
-                    receivedACKArr: 3  3 -1 -1
-
-                    now Sender.java going to resent packet 3,
-                    if we increment recACKIndex as what we do when
-                    currRecACK == expRecACK and currRecACK> expRecACK,
-                    this will happen:
-                    expectedACKArr: 3  5  7  9
-                    receivedACKArr: 3  3  5 -1
-
-                    that is not we want, we want this:
-                    expectedACKArr: 3  5  7  9
-                    receivedACKArr: 3  5 -1 -1
-                     */
-                }
-                semaphore.release();
+                dealingWithRecACKOfDATA(recSeqNo);
             }
 
             semaphore.acquire();
@@ -194,6 +202,13 @@ public class Sender {
                 semaphore.release();
             }
 
+            semaphore.acquire();
+            boolean recACKIsForFINSegment = this.allDataHasBeenACKed;
+            semaphore.release();
+            if (recACKIsForFINSegment) {
+                System.out.println("receive ACK for FIN, closing socket...");
+                senderSocket.close();
+            }
 
         }
     }
@@ -201,6 +216,7 @@ public class Sender {
     public void run() throws IOException, InterruptedException {
         sendSYNAndCheckACK();
         sendDATAAndCheckACK();
+        sendFINAndCheckACK();
     }
 
     private void sendSYNAndCheckACK() throws IOException, InterruptedException {
@@ -300,11 +316,15 @@ public class Sender {
 
         }
 
-
+        semaphore.acquire();
+        this.allDataHasBeenACKed = true;
+        semaphore.release();
     }
 
-    private void sendFINAndCheckACK() {
-
+    private void sendFINAndCheckACK() throws IOException, InterruptedException {
+        short seqNo = Utils.mod(this.fileBytes.length);
+        short expACK = Utils.mod(seqNo + 1);
+        sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
     }
 
     private void sendRESETAndDoNotCheckACK() {
