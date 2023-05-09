@@ -101,6 +101,9 @@ public class Sender {
     receivedACKArr:  3   9  -1  -1
     recACKIndex is 1
 
+    all packets in a window has been received,
+    but ACK 5 and 7 are lost
+
     since I use cumulative acknowledge here,
     if I receive ACK 9, that means all packet
     before 9 has been acknowledged.
@@ -111,18 +114,8 @@ public class Sender {
     receivedACKArr:  3   5   7   9
     recACKIndex is 3
      */
-    private void detectAndFixACKLost(short[] receivedACKArr, short[] expectedACKArr, Integer recACKIndex) {
+    private void fixACKGap(short[] receivedACKArr, short[] expectedACKArr, Integer recACKIndex) {
         short currRecACK = receivedACKArr[recACKIndex];
-        short expRecACK = expectedACKArr[recACKIndex];
-        // ACK didn't get lost
-        if (currRecACK == expRecACK) {
-            return;
-        }
-
-        // ACK haven't been sent yet.
-        if (currRecACK < expRecACK) {
-            return;
-        }
 
         int startIndex = recACKIndex;
         int endIndex = Arrays.binarySearch(expectedACKArr, currRecACK);
@@ -157,10 +150,39 @@ public class Sender {
             if (recACKIsForDATASegment) {
                 semaphore.acquire();
                 receivedACKArr[recACKIndex] = recSeqNo;
-                detectAndFixACKLost(receivedACKArr, expectedACKArr, recACKIndex);
-                semaphore.release();
 
-                recACKIndex += 1;
+                short currRecACK = receivedACKArr[recACKIndex];
+                short expRecACK = expectedACKArr[recACKIndex];
+                if (currRecACK > expRecACK) {
+                    fixACKGap(receivedACKArr, expectedACKArr, recACKIndex);
+                    recACKIndex += 1;
+                } else if (currRecACK == expRecACK) {
+                    recACKIndex += 1;
+                } else {
+                    // do not increment recACKIndex
+                    /*
+                    window length is 4(max segment size is 2,
+                    window size in byte is 8).
+                    sender send packet with seqNo 1 3 5 7,
+                    receiver receive packet with seqNo 1 7,
+                    and the ACKs of packet 1 and packet 7 do not get lost,
+                    so in Sender.java,
+                    expectedACKArr: 3  5  7  9
+                    receivedACKArr: 3  3 -1 -1
+
+                    now Sender.java going to resent packet 3,
+                    if we increment recACKIndex as what we do when
+                    currRecACK == expRecACK and currRecACK> expRecACK,
+                    this will happen:
+                    expectedACKArr: 3  5  7  9
+                    receivedACKArr: 3  3  5 -1
+
+                    that is not we want, we want this:
+                    expectedACKArr: 3  5  7  9
+                    receivedACKArr: 3  5 -1 -1
+                     */
+                }
+                semaphore.release();
             }
 
             semaphore.acquire();
