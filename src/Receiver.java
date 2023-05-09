@@ -107,12 +107,12 @@ public class Receiver {
                     new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
-            System.out.print("drop the incoming data? ");
-            boolean dropIncomingData = Utils.scanDropOption();
-            //boolean dropIncomingData = randomDropIncomingData();
-            System.out.print("drop the ack? ");
-            boolean dropACK = Utils.scanDropOption();
-            //boolean dropACK = randomDropACK();
+            //System.out.print("drop the incoming data? ");
+            //boolean dropIncomingData = Utils.scanDropOption();
+            boolean dropIncomingData = randomDropIncomingData();
+            //System.out.print("drop the ack? ");
+            //boolean dropACK = Utils.scanDropOption();
+            boolean dropACK = randomDropACK();
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);
@@ -125,7 +125,7 @@ public class Receiver {
                 continue;
             }
 
-            DatagramPacket replyPacket = createReplyPkt(recType, recSeqNo, recData);
+            DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (dataBuffer.size() == 1) {
                 this.writeNext = this.latestInOrderSeqNo;
             }
@@ -162,7 +162,9 @@ public class Receiver {
         return (short) (latestInOrderSeqNo + len);
     }
 
-    private DatagramPacket createReplyPkt(short recType, short recSeqNo, byte[] recData) {
+    //todo: spilt this function,
+    // case DATA: recData(); createReplyPacket();
+    private DatagramPacket recDataAndCreateReplyPacket(short recType, short recSeqNo, byte[] recData) {
         byte[] replySegment = new byte[0];
         switch (recType) {
             case Utils.DATA:
@@ -173,12 +175,11 @@ public class Receiver {
                 short replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 break;
+
             case Utils.SYN:
+            case Utils.FIN:
                 replySegment = Utils.createSTPSegment(Utils.ACK,
                         (short) (recSeqNo + 1), "".getBytes());
-                break;
-            case Utils.FIN:
-                //todo
                 break;
         }
 
