@@ -20,7 +20,8 @@ public class Utils {
     }
 
     public static short mod(int seqNo) {
-        return (short) (seqNo % Short.BYTES);
+        // short is 2 bytes, aka 16 bits
+        return (short) (seqNo % Math.pow(2, 16));
     }
 
     public static double convertTime(long time) {

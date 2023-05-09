@@ -174,7 +174,7 @@ public class Sender {
     }
 
     // this function doesn't have a limit for retransmit packet
-    private void sendAllDataInWindow(Integer next, Integer base, int numOfSegInWindow) throws IOException {
+    private void sendPacketsInWindow(Integer next, Integer base, int numOfSegInWindow) throws IOException {
         while (next < base + numOfSegInWindow) {
             System.out.println("sending pkt with seqNo " + segmentSeqNoArr[next]);
             senderSocket.send(this.UDPPacketArr[next]);
@@ -185,7 +185,7 @@ public class Sender {
         }
     }
 
-    private void resentUnACKPacketInWindow(Integer next, Integer base, int numOfSegInWindow) throws InterruptedException, IOException {
+    private void resentUnACKPacketsInWindow(Integer next, Integer base, int numOfSegInWindow) throws InterruptedException, IOException {
         int flag = numOfSegInWindow;
         while (flag > 0) {
             semaphore.acquire();
@@ -213,7 +213,7 @@ public class Sender {
             // so generally the num of segments in a window is 3(maxWin/MSS),
             // but in the rightmost window, the num of segments may less than 3
 
-            sendAllDataInWindow(next, base, numOfSegInWindow);
+            sendPacketsInWindow(next, base, numOfSegInWindow);
 
             long durationSinceOldestPktHasBeenSent = System.currentTimeMillis() - startTimeArr[base];
             long sleepDuration = this.rto - durationSinceOldestPktHasBeenSent;
@@ -225,7 +225,7 @@ public class Sender {
             // after sending all segments in a window, current time is 10.7,
             // we need to sleep until 11.1s (rto is 1 second)
 
-            resentUnACKPacketInWindow(next,base,numOfSegInWindow);
+            resentUnACKPacketsInWindow(next, base, numOfSegInWindow);
 
         }
 
@@ -247,17 +247,6 @@ public class Sender {
         return Utils.createSTPPacket(stpSegment, receiverAddress, receiverPort);
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        Logger.getLogger(Sender.class.getName()).setLevel(Level.ALL);
-
-        if (args.length != 5) {
-            System.err.println("\n===== Error usage, java Sender senderPort receiverPort FileReceived.txt maxWin rto ======\n");
-            System.exit(0);
-        }
-
-        Sender sender = new Sender(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]));
-        sender.run();
-    }
 
     private byte[][] createSTPSegmentArr(byte[][] dataArr, short[] segmentSeqNoArr) {
         byte[][] STPSegmentArr = new byte[dataArr.length][];
@@ -324,6 +313,17 @@ public class Sender {
         return seqNoArr;
     }
 
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Logger.getLogger(Sender.class.getName()).setLevel(Level.ALL);
+
+        if (args.length != 5) {
+            System.err.println("\n===== Error usage, java Sender senderPort receiverPort FileReceived.txt maxWin rto ======\n");
+            System.exit(0);
+        }
+
+        Sender sender = new Sender(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+        sender.run();
+    }
 
 }
 

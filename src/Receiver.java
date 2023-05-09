@@ -72,6 +72,7 @@ public class Receiver {
             byte[] buffer = new byte[BUFFERSIZE];
             DatagramPacket incomingPacket = new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
+
             System.out.print("drop the incoming data? ");
             boolean dropIncomingData = Utils.scanDropOption();
             System.out.print("drop the ack? ");
