@@ -1,6 +1,7 @@
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
+import java.util.Scanner;
 
 public class Utils {
     static final short DATA = 0;
@@ -11,8 +12,15 @@ public class Utils {
 
     static String outputFormat = "%s %.6f \t%s %d %d\n";
 
+    public static boolean dropPkt() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter your choice, d for drop, otherwise not drop:");
+        String input = scanner.next();
+        return input.equals("d");
+    }
+
     public static short mod(int seqNo) {
-        return (short) (seqNo % 2 ^ 16);
+        return (short) (seqNo % Short.BYTES);
     }
 
     public static double convertTime(long time) {

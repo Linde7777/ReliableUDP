@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,6 +46,9 @@ public class Receiver {
 
     private final DatagramSocket receiverSocket;
 
+    private HashMap<Short, byte[]> dataBuffer;
+    private int latestInOrderSeqNo;
+
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
         this.senderPort = senderPort;
@@ -52,6 +56,7 @@ public class Receiver {
         this.flp = flp;
         this.rlp = rlp;
         this.serverAddress = InetAddress.getByName(address);
+        this.dataBuffer = new HashMap<>();
 
         // init the UDP socket
         // define socket for the server side and bind address
@@ -59,7 +64,11 @@ public class Receiver {
         this.receiverSocket = new DatagramSocket(receiverPort, serverAddress);
     }
 
-    public void run() throws IOException {
+    private DatagramPacket createReplyPkt(){
+
+    }
+
+    public void run() throws IOException, InterruptedException {
 
         while (true) {
             // try to receive any incoming message from the sender
@@ -73,17 +82,79 @@ public class Receiver {
             byte[] recData = Utils.getData(stpSegment);
             this.clientAddress = incomingPacket.getAddress();
 
-            byte[] replySegment = Utils.createSTPSegment(Utils.ACK, (short) 1, "".getBytes());
+            System.out.print("drop the incoming data? ");
+            if (Utils.dropPkt()) {
+                continue;
+            }
+
+            byte[] replySegment = new byte[0];
+            switch (recType) {
+                case Utils.DATA:
+                    if (!dataBuffer.containsKey(recSeqNo)) {
+                        this.dataBuffer.put(recSeqNo, recData);
+                    }
+                    this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer,
+                            this.latestInOrderSeqNo);
+                    replySegment = Utils.createSTPSegment(Utils.ACK,
+                            (short) latestInOrderSeqNo, "".getBytes());
+                    break;
+
+                case Utils.SYN:
+                    replySegment=Utils.createSTPSegment(Utils.ACK,
+                            (short) (recSeqNo+1),"".getBytes());
+                    break;
+            }
+
+
             DatagramPacket replyPacket = createSTPPacket(replySegment);
+
+            System.out.println("sending ACK " + 1);
+
+            System.out.print("drop the ack? ");
+            if (Utils.dropPkt()) {
+                continue;
+            }
+            System.out.println("sending ack");
             receiverSocket.send(replyPacket);
         }
+    }
+
+    private int updateLatestInOrderSeqNo(HashMap<Short, byte[]> dataBuffer, int latestInOrderSeqNo) {
+        if (dataBuffer.size() == 1) {
+            return dataBuffer.keySet().iterator().next();
+        }
+
+        short nextSeqNo = (short) (latestInOrderSeqNo +
+                dataBuffer.get(latestInOrderSeqNo).length);
+
+        while (true) {
+            if (dataBuffer.containsKey(nextSeqNo)) {
+                latestInOrderSeqNo = nextSeqNo;
+            } else {
+                break;
+            }
+        }
+
+        return latestInOrderSeqNo;
+    }
+
+    private short createReplyACK(short recType, short recSeqNo, byte[] recData) {
+        short replyACK = -999;
+        if (recType == Utils.SYN || recType == Utils.FIN) {
+            replyACK = Utils.mod(recSeqNo + 1);
+        }
+        if (recType == Utils.DATA) {
+            replyACK = Utils.mod(recSeqNo + recData.length);
+        }
+
+        return replyACK;
     }
 
     private DatagramPacket createSTPPacket(byte[] stpSegment) {
         return Utils.createSTPPacket(stpSegment, this.clientAddress, senderPort);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Logger.getLogger(Receiver.class.getName()).log(Level.INFO, "Starting Receiver...");
         if (args.length != 5) {
             System.err.println("\n===== Error usage, java Receiver <receiver_port> <sender_port> <FileReceived.txt> <flp> <rlp> =====\n");
