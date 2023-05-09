@@ -47,7 +47,7 @@ public class Receiver {
     private final DatagramSocket receiverSocket;
 
     private HashMap<Short, byte[]> dataBuffer;
-    private int latestInOrderSeqNo;
+    private short latestInOrderSeqNo;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -82,6 +82,7 @@ public class Receiver {
             short recSeqNo = Utils.getSeqNo(stpSegment);
             short recType = Utils.getType(stpSegment);
             byte[] recData = Utils.getData(stpSegment);
+            recData = filterNullValue(recData);
             this.clientAddress = incomingPacket.getAddress();
 
             if (dropIncomingData) {
@@ -99,6 +100,28 @@ public class Receiver {
         }
     }
 
+    private byte[] filterNullValue(byte[] data) {
+        int nullValuePosition = 0;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == 0) {
+                nullValuePosition = i;
+                break;
+            }
+        }
+
+        // if the data[0] is null, this code also works,
+        // create an empty array
+        byte[] arr = new byte[nullValuePosition];
+        System.arraycopy(data, 0, arr, 0, nullValuePosition);
+        return arr;
+
+    }
+
+    private short createReplyACK(HashMap<Short, byte[]> dataBuffer, short latestInOrderSeqNo) {
+        int len = dataBuffer.get(latestInOrderSeqNo).length;
+        return (short) (latestInOrderSeqNo + len);
+    }
+
     private DatagramPacket createReplyPkt(short recType, short recSeqNo, byte[] recData) {
         byte[] replySegment = new byte[0];
         switch (recType) {
@@ -106,10 +129,9 @@ public class Receiver {
                 if (!dataBuffer.containsKey(recSeqNo)) {
                     this.dataBuffer.put(recSeqNo, recData);
                 }
-                this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer,
-                        this.latestInOrderSeqNo);
-                replySegment = Utils.createSTPSegment(Utils.ACK,
-                        (short) latestInOrderSeqNo, "".getBytes());
+                this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer, this.latestInOrderSeqNo);
+                short replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
+                replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 break;
             case Utils.SYN:
                 replySegment = Utils.createSTPSegment(Utils.ACK,
@@ -123,7 +145,7 @@ public class Receiver {
         return createSTPPacket(replySegment);
     }
 
-    private int updateLatestInOrderSeqNo(HashMap<Short, byte[]> dataBuffer, int latestInOrderSeqNo) {
+    private short updateLatestInOrderSeqNo(HashMap<Short, byte[]> dataBuffer, short latestInOrderSeqNo) {
         if (dataBuffer.isEmpty()) {
             throw new IllegalArgumentException("dataBuffer is empty");
         }
@@ -132,9 +154,9 @@ public class Receiver {
             return dataBuffer.keySet().iterator().next();
         }
 
-        short nextSeqNo = (short) (latestInOrderSeqNo +
-                dataBuffer.get(latestInOrderSeqNo).length);
         while (true) {
+            int len = dataBuffer.get(latestInOrderSeqNo).length;
+            short nextSeqNo = (short) (latestInOrderSeqNo + len);
             if (dataBuffer.containsKey(nextSeqNo)) {
                 latestInOrderSeqNo = nextSeqNo;
             } else {
@@ -142,7 +164,9 @@ public class Receiver {
             }
         }
 
+
         return latestInOrderSeqNo;
+
     }
 
     private DatagramPacket createSTPPacket(byte[] stpSegment) {

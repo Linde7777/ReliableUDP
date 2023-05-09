@@ -49,6 +49,9 @@ public class Sender {
     private int amountOfDataTransferred = 0;
     private int numOfDataSegmentSent = 0;
     private int numOfRetransmittedDataSegment = 0;
+    private int next = 0;
+    private int base = 0;
+
 
     public Sender(int senderPort, int receiverPort, String filename, int maxWin, int rto) throws IOException {
         this.semaphore = new Semaphore(1);
@@ -143,14 +146,13 @@ public class Sender {
 
             System.out.println("receive ACK: " + recSeqNo);
 
-            // received ACK is for DATA Segment
             semaphore.acquire();
             boolean recACKIsForDATASegment = this.connectionIsEstablished;
             semaphore.release();
             if (recACKIsForDATASegment) {
                 semaphore.acquire();
                 receivedACKArr[recACKIndex] = recSeqNo;
-                detectAndFixACKLost(receivedACKArr,expectedACKArr,recACKIndex);
+                detectAndFixACKLost(receivedACKArr, expectedACKArr, recACKIndex);
                 semaphore.release();
 
                 recACKIndex += 1;
@@ -219,46 +221,43 @@ public class Sender {
     }
 
     // this function doesn't have a limit for retransmit packet
-    private void sendPacketsInWindow(Integer next, Integer base, int numOfSegInWindow) throws IOException {
-        while (next < base + numOfSegInWindow) {
-            System.out.println("sending pkt with seqNo " + segmentSeqNoArr[next]);
-            senderSocket.send(this.UDPPacketArr[next]);
-            this.startTimeArr[next] = System.currentTimeMillis();
-            this.amountOfDataTransferred += dataArr[next].length;
+    private void sendAllPacketsInWindow(int numOfSegInWindow) throws IOException {
+        while (this.next < this.base + numOfSegInWindow) {
+            System.out.println("sending pkt with seqNo " + segmentSeqNoArr[this.next]);
+            senderSocket.send(this.UDPPacketArr[this.next]);
+            this.startTimeArr[this.next] = System.currentTimeMillis();
+            this.amountOfDataTransferred += dataArr[this.next].length;
             this.numOfDataSegmentSent += 1;
-            next += 1;
+            this.next += 1;
         }
     }
 
-    private void resentUnACKPacketsInWindow(Integer next, Integer base, int numOfSegInWindow) throws InterruptedException, IOException {
+    private void resentUnACKPacketsInWindow(int numOfSegInWindow) throws InterruptedException, IOException {
         int flag = numOfSegInWindow;
         while (flag > 0) {
             semaphore.acquire();
-            boolean needToBeResent = receivedACKArr[base] < expectedACKArr[base];
+            boolean needToBeResent = receivedACKArr[this.base] < expectedACKArr[this.base];
             semaphore.release();
             if (needToBeResent) {
-                senderSocket.send(this.UDPPacketArr[base]);
-                this.startTimeArr[base] = System.currentTimeMillis();
+                senderSocket.send(this.UDPPacketArr[this.base]);
+                this.startTimeArr[this.base] = System.currentTimeMillis();
                 this.numOfRetransmittedDataSegment += 1;
                 Thread.sleep(this.rto);
             } else {
-                base += 1;
+                this.base += 1;
                 flag -= 1;
             }
         }
     }
 
     private void sendDATAAndCheckACK() throws IOException, InterruptedException {
-        Integer next = 0;
-        Integer base = 0;
-
-        while (base < this.UDPPacketArr.length) {
+        while (this.base < this.UDPPacketArr.length) {
             int numOfSegInWindow = Math.min(maxWin / MSS, UDPPacketArr.length - base);
             // in this example, maxWin is 6 bytes, MSS is 2 bytes,
             // so generally the num of segments in a window is 3(maxWin/MSS),
             // but in the rightmost window, the num of segments may less than 3
 
-            sendPacketsInWindow(next, base, numOfSegInWindow);
+            sendAllPacketsInWindow(numOfSegInWindow);
 
             long durationSinceOldestPktHasBeenSent = System.currentTimeMillis() - startTimeArr[base];
             long sleepDuration = this.rto - durationSinceOldestPktHasBeenSent;
@@ -270,7 +269,7 @@ public class Sender {
             // after sending all segments in a window, current time is 10.7,
             // we need to sleep until 11.1s (rto is 1 second)
 
-            resentUnACKPacketsInWindow(next, base, numOfSegInWindow);
+            resentUnACKPacketsInWindow(numOfSegInWindow);
 
         }
 
