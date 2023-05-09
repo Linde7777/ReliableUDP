@@ -90,7 +90,7 @@ public class Receiver {
             return;
         }
 
-        while (this.writeNext < this.latestInOrderSeqNo) {
+        while (this.writeNext <= this.latestInOrderSeqNo) {
             byte[] data = dataBuffer.get(this.writeNext);
             fos.write(data);
             fos.flush();
