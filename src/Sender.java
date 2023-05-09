@@ -45,7 +45,7 @@ public class Sender {
     private int resentLimit = 3;
     private long SYNSentTime;
     private boolean connectionIsEstablished = false;
-    private int recACKIndex = 0;
+    private Integer recACKIndex = 0;
     private int amountOfDataTransferred = 0;
     private int numOfDataSegmentSent = 0;
     private int numOfRetransmittedDataSegment = 0;
@@ -86,6 +86,50 @@ public class Sender {
 
     }
 
+    /*
+    input:
+    array index:     0   1   2   3
+    expectedACKArr:  3   5   7   9
+    receivedACKArr:  3   9  -1  -1
+    recACKIndex is 1
+
+    since I use cumulative acknowledge here,
+    if I receive ACK 9, that means all packet
+    before 9 has been acknowledged.
+
+    output:
+    array index:     0   1   2   3
+    expectedACKArr:  3   5   7   9
+    receivedACKArr:  3   5   7   9
+    recACKIndex is 3
+     */
+    private void detectAndFixACKLost(short[] receivedACKArr, short[] expectedACKArr, Integer recACKIndex) {
+        short currRecACK = receivedACKArr[recACKIndex];
+        short expRecACK = expectedACKArr[recACKIndex];
+        // ACK didn't get lost
+        if (currRecACK == expRecACK) {
+            return;
+        }
+
+        // ACK haven't been sent yet.
+        if (currRecACK < expRecACK) {
+            return;
+        }
+
+        int startIndex = recACKIndex;
+        int endIndex = Arrays.binarySearch(expectedACKArr, currRecACK);
+        /*
+        @Original Code, Copy arrays manually.
+        for (int i = startIndex; i <= endIndex; i++) {
+            receivedACKArr[i] = expectedACKArr[i];
+        }
+         */
+
+        // the code below is equal to the @Original Code
+        if (endIndex + 1 - startIndex >= 0) {
+            System.arraycopy(expectedACKArr, startIndex, receivedACKArr, startIndex, endIndex + 1 - startIndex);
+        }
+    }
 
     public void listen() throws IOException, InterruptedException {
         // listen to incoming packets from receiver
@@ -106,7 +150,9 @@ public class Sender {
             if (recACKIsForDATASegment) {
                 semaphore.acquire();
                 receivedACKArr[recACKIndex] = recSeqNo;
+                detectAndFixACKLost(receivedACKArr,expectedACKArr,recACKIndex);
                 semaphore.release();
+
                 recACKIndex += 1;
             }
 
