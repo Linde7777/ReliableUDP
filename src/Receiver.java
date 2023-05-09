@@ -52,7 +52,7 @@ public class Receiver {
     private HashMap<Short, byte[]> dataBuffer;
     private short latestInOrderSeqNo;
     private Random random = new Random();
-    private short writeNext = 0;
+    private short writeNext = -111;
     private File fileReceived;
     private FileOutputStream fos;
 
@@ -89,6 +89,7 @@ public class Receiver {
         if (dataBuffer.isEmpty()) {
             return;
         }
+
         while (this.writeNext < this.latestInOrderSeqNo) {
             byte[] data = dataBuffer.get(this.writeNext);
             fos.write(data);
@@ -107,11 +108,11 @@ public class Receiver {
             receiverSocket.receive(incomingPacket);
 
             System.out.print("drop the incoming data? ");
-            //boolean dropIncomingData = Utils.scanDropOption();
-            boolean dropIncomingData = randomDropIncomingData();
+            boolean dropIncomingData = Utils.scanDropOption();
+            //boolean dropIncomingData = randomDropIncomingData();
             System.out.print("drop the ack? ");
-            //boolean dropACK = Utils.scanDropOption();
-            boolean dropACK = randomDropACK();
+            boolean dropACK = Utils.scanDropOption();
+            //boolean dropACK = randomDropACK();
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);
@@ -125,6 +126,9 @@ public class Receiver {
             }
 
             DatagramPacket replyPacket = createReplyPkt(recType, recSeqNo, recData);
+            if (dataBuffer.size() == 1) {
+                this.writeNext = this.latestInOrderSeqNo;
+            }
             writeDataIntoFile();
 
             if (dropACK) {
