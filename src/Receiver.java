@@ -16,6 +16,8 @@
  */
 
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -49,8 +51,10 @@ public class Receiver {
 
     private HashMap<Short, byte[]> dataBuffer;
     private short latestInOrderSeqNo;
-    Random random = new Random();
-    private short writeIndex = 0;
+    private Random random = new Random();
+    private short writeNext = 0;
+    private File fileReceived;
+    private FileOutputStream fos;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -60,6 +64,12 @@ public class Receiver {
         this.rlp = rlp;
         this.serverAddress = InetAddress.getByName(address);
         this.dataBuffer = new HashMap<>();
+        this.fileReceived = new File(System.getProperty("user.dir")
+                + System.getProperty("file.separator") + filename);
+        if (!fileReceived.exists()) {
+            fileReceived.createNewFile();
+        }
+        this.fos = new FileOutputStream(fileReceived);
 
         // init the UDP socket
         // define socket for the server side and bind address
@@ -75,8 +85,16 @@ public class Receiver {
         return random.nextFloat() < this.rlp;
     }
 
-    private void writeData() {
-        //this.writeIndex;
+    private void writeDataIntoFile() throws IOException {
+        if (dataBuffer.isEmpty()) {
+            return;
+        }
+        while (this.writeNext < this.latestInOrderSeqNo) {
+            byte[] data = dataBuffer.get(this.writeNext);
+            fos.write(data);
+            fos.flush();
+            writeNext += data.length;
+        }
     }
 
     public void run() throws IOException, InterruptedException {
@@ -107,6 +125,7 @@ public class Receiver {
             }
 
             DatagramPacket replyPacket = createReplyPkt(recType, recSeqNo, recData);
+            writeDataIntoFile();
 
             if (dropACK) {
                 continue;
