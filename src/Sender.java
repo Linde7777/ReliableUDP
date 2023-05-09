@@ -101,20 +101,19 @@ public class Sender {
 
             // received ACK is for DATA Segment
             semaphore.acquire();
-            boolean condition = this.connectionIsEstablished;
+            boolean recACKIsForDATASegment = this.connectionIsEstablished;
             semaphore.release();
-            if (condition) {
+            if (recACKIsForDATASegment) {
                 semaphore.acquire();
                 receivedACKArr[recACKIndex] = recSeqNo;
                 semaphore.release();
                 recACKIndex += 1;
             }
 
-            // received ACK is for SYN Segment
             semaphore.acquire();
-            condition = !this.connectionIsEstablished;
+            boolean recACKIsForSYNSegment = !this.connectionIsEstablished;
             semaphore.release();
-            if (condition) {
+            if (recACKIsForSYNSegment) {
                 semaphore.acquire();
                 this.receivedACKOfSYNPkt = recSeqNo;
                 semaphore.release();
