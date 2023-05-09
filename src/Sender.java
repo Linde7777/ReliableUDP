@@ -133,7 +133,7 @@ public class Sender {
         sendOnePktAndCheckACK(Utils.SYN, this.ISN, Utils.mod(this.ISN + 1));
     }
 
-
+    // retransmit unacknowledged packet at most this.resentLimit times
     private void sendOnePktAndCheckACK(short type, short seqNo, short expACK) throws IOException, InterruptedException {
         byte[] stpSegment = Utils.createSTPSegment(type, seqNo, "".getBytes());
         DatagramPacket stpPacket = createUDPPacket(stpSegment);
@@ -173,7 +173,7 @@ public class Sender {
         semaphore.release();
     }
 
-
+    // this function doesn't have a limit for retransmit packet
     private void sendAllDataInWindow(Integer next, Integer base, int numOfSegInWindow) throws IOException {
         while (next < base + numOfSegInWindow) {
             System.out.println("sending pkt with seqNo " + segmentSeqNoArr[next]);
@@ -182,6 +182,24 @@ public class Sender {
             this.amountOfDataTransferred += dataArr[next].length;
             this.numOfDataSegmentSent += 1;
             next += 1;
+        }
+    }
+
+    private void resentUnACKPacketInWindow(Integer next, Integer base, int numOfSegInWindow) throws InterruptedException, IOException {
+        int flag = numOfSegInWindow;
+        while (flag > 0) {
+            semaphore.acquire();
+            boolean needToBeResent = receivedACKArr[base] < expectedACKArr[base];
+            semaphore.release();
+            if (needToBeResent) {
+                senderSocket.send(this.UDPPacketArr[base]);
+                this.startTimeArr[base] = System.currentTimeMillis();
+                this.numOfRetransmittedDataSegment += 1;
+                Thread.sleep(this.rto);
+            } else {
+                base += 1;
+                flag -= 1;
+            }
         }
     }
 
@@ -207,21 +225,7 @@ public class Sender {
             // after sending all segments in a window, current time is 10.7,
             // we need to sleep until 11.1s (rto is 1 second)
 
-            int flag = numOfSegInWindow;
-            while (flag > 0) {
-                semaphore.acquire();
-                boolean needToBeResent = receivedACKArr[base] < expectedACKArr[base];
-                semaphore.release();
-                if (needToBeResent) {
-                    senderSocket.send(this.UDPPacketArr[base]);
-                    this.startTimeArr[base] = System.currentTimeMillis();
-                    this.numOfRetransmittedDataSegment += 1;
-                    Thread.sleep(this.rto);
-                } else {
-                    base += 1;
-                    flag -= 1;
-                }
-            }
+            resentUnACKPacketInWindow(next,base,numOfSegInWindow);
 
         }
 

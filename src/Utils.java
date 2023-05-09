@@ -12,7 +12,7 @@ public class Utils {
 
     static String outputFormat = "%s %.6f \t%s %d %d\n";
 
-    public static boolean dropPkt() throws InterruptedException {
+    public static boolean scanDropOption() throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your choice, d for drop, otherwise not drop:");
         String input = scanner.next();

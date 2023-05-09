@@ -64,6 +64,40 @@ public class Receiver {
         this.receiverSocket = new DatagramSocket(receiverPort, serverAddress);
     }
 
+
+    public void run() throws IOException, InterruptedException {
+
+        while (true) {
+            // try to receive any incoming message from the sender
+            byte[] buffer = new byte[BUFFERSIZE];
+            DatagramPacket incomingPacket = new DatagramPacket(buffer, buffer.length);
+            receiverSocket.receive(incomingPacket);
+            System.out.print("drop the incoming data? ");
+            boolean dropIncomingData = Utils.scanDropOption();
+            System.out.print("drop the ack? ");
+            boolean dropACK = Utils.scanDropOption();
+
+            byte[] stpSegment = incomingPacket.getData();
+            short recSeqNo = Utils.getSeqNo(stpSegment);
+            short recType = Utils.getType(stpSegment);
+            byte[] recData = Utils.getData(stpSegment);
+            this.clientAddress = incomingPacket.getAddress();
+
+            if (dropIncomingData) {
+                continue;
+            }
+
+            DatagramPacket replyPacket = createReplyPkt(recType, recSeqNo, recData);
+
+            if (dropACK) {
+                continue;
+            }
+
+            System.out.println("sending ack");
+            receiverSocket.send(replyPacket);
+        }
+    }
+
     private DatagramPacket createReplyPkt(short recType, short recSeqNo, byte[] recData) {
         byte[] replySegment = new byte[0];
         switch (recType) {
@@ -86,36 +120,6 @@ public class Receiver {
         }
 
         return createSTPPacket(replySegment);
-    }
-
-    public void run() throws IOException, InterruptedException {
-
-        while (true) {
-            // try to receive any incoming message from the sender
-            byte[] buffer = new byte[BUFFERSIZE];
-            DatagramPacket incomingPacket = new DatagramPacket(buffer, buffer.length);
-            receiverSocket.receive(incomingPacket);
-
-            byte[] stpSegment = incomingPacket.getData();
-            short recSeqNo = Utils.getSeqNo(stpSegment);
-            short recType = Utils.getType(stpSegment);
-            byte[] recData = Utils.getData(stpSegment);
-            this.clientAddress = incomingPacket.getAddress();
-
-            System.out.print("drop the incoming data? ");
-            if (Utils.dropPkt()) {
-                continue;
-            }
-
-            DatagramPacket replyPacket = createReplyPkt(recType, recSeqNo, recData);
-
-            System.out.print("drop the ack? ");
-            if (Utils.dropPkt()) {
-                continue;
-            }
-            System.out.println("sending ack");
-            receiverSocket.send(replyPacket);
-        }
     }
 
     private int updateLatestInOrderSeqNo(HashMap<Short, byte[]> dataBuffer, int latestInOrderSeqNo) {
