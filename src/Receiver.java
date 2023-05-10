@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Level;
@@ -95,6 +96,8 @@ public class Receiver {
             byte[] data = dataBuffer.get(this.writeNext);
             recFileFOS.write(data);
             recFileFOS.flush();
+            System.out.println("write content: " + Arrays.toString(data));
+            logFOS.write(("write content: " + Arrays.toString(data) + "\n").getBytes());
             writeNext += data.length;
         }
     }
@@ -132,8 +135,10 @@ public class Receiver {
                 continue;
             }
 
-            System.out.println("receive pkt with seqNo " + recSeqNo);
-            logFOS.write(("receive pkt with seqNo " + recSeqNo + "\n").getBytes());
+            System.out.println("receive pkt with seqNo " + recSeqNo
+                    + " content: " + Arrays.toString(recData));
+            logFOS.write(("receive pkt with seqNo " + recSeqNo
+                    + " content: " + Arrays.toString(recData) + "\n").getBytes());
 
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (dataBuffer.size() == 1) {
@@ -155,7 +160,7 @@ public class Receiver {
                 String statement = "ACK of FIN has been sent, " +
                         "to avoid this ACK get lost \n" +
                         "on the way to the sender, receiver will " +
-                        "wait for 3 seconds for the possible\n" +
+                        "wait for 3 seconds \nfor the possible " +
                         "FIN from sender, then receiver will close.\n";
                 System.out.print(statement);
                 logFOS.write(statement.getBytes());

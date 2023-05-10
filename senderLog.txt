@@ -6,10 +6,10 @@ sending pkt with seqNo 5
 sending pkt with seqNo 7
 resending pkt with seqNo 1
 resending pkt with seqNo 1
+resending pkt with seqNo 1
+resending pkt with seqNo 1
+resending pkt with seqNo 1
 receive ACK: 3
-resending pkt with seqNo 3
-resending pkt with seqNo 3
-resending pkt with seqNo 3
 resending pkt with seqNo 3
 resending pkt with seqNo 3
 resending pkt with seqNo 3
@@ -23,13 +23,7 @@ resending pkt with seqNo 3
 resending pkt with seqNo 3
 receive ACK: 5
 resending pkt with seqNo 5
-resending pkt with seqNo 5
-resending pkt with seqNo 5
 receive ACK: 7
-resending pkt with seqNo 7
-resending pkt with seqNo 7
-resending pkt with seqNo 7
-resending pkt with seqNo 7
 resending pkt with seqNo 7
 resending pkt with seqNo 7
 resending pkt with seqNo 7
@@ -37,11 +31,832 @@ resending pkt with seqNo 7
 resending pkt with seqNo 7
 receive ACK: 9
 sending pkt with seqNo 9
+sending pkt with seqNo 11
+sending pkt with seqNo 13
+sending pkt with seqNo 15
 resending pkt with seqNo 9
 resending pkt with seqNo 9
 resending pkt with seqNo 9
 resending pkt with seqNo 9
-receive ACK: 10
-sending FIN pkt with seqNo 10
-receive ACK: 11
-FIN has been ACK, tell listenThread to close, call System.exit
+resending pkt with seqNo 9
+resending pkt with seqNo 9
+resending pkt with seqNo 9
+resending pkt with seqNo 9
+receive ACK: 13
+resending pkt with seqNo 13
+receive ACK: 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+resending pkt with seqNo 15
+receive ACK: 17
+sending pkt with seqNo 17
+sending pkt with seqNo 19
+sending pkt with seqNo 21
+sending pkt with seqNo 23
+resending pkt with seqNo 17
+receive ACK: 19
+resending pkt with seqNo 19
+resending pkt with seqNo 19
+resending pkt with seqNo 19
+receive ACK: 21
+resending pkt with seqNo 21
+resending pkt with seqNo 21
+resending pkt with seqNo 21
+resending pkt with seqNo 21
+resending pkt with seqNo 21
+receive ACK: 23
+resending pkt with seqNo 23
+receive ACK: 25
+sending pkt with seqNo 25
+sending pkt with seqNo 27
+sending pkt with seqNo 29
+sending pkt with seqNo 31
+resending pkt with seqNo 25
+resending pkt with seqNo 25
+resending pkt with seqNo 25
+resending pkt with seqNo 25
+resending pkt with seqNo 25
+resending pkt with seqNo 25
+receive ACK: 27
+resending pkt with seqNo 27
+resending pkt with seqNo 27
+resending pkt with seqNo 27
+resending pkt with seqNo 27
+resending pkt with seqNo 27
+resending pkt with seqNo 27
+resending pkt with seqNo 27
+receive ACK: 31
+resending pkt with seqNo 31
+receive ACK: 33
+sending pkt with seqNo 33
+sending pkt with seqNo 35
+sending pkt with seqNo 37
+sending pkt with seqNo 39
+resending pkt with seqNo 33
+receive ACK: 35
+resending pkt with seqNo 35
+resending pkt with seqNo 35
+receive ACK: 37
+resending pkt with seqNo 37
+receive ACK: 39
+resending pkt with seqNo 39
+resending pkt with seqNo 39
+resending pkt with seqNo 39
+resending pkt with seqNo 39
+receive ACK: 41
+sending pkt with seqNo 41
+sending pkt with seqNo 43
+sending pkt with seqNo 45
+sending pkt with seqNo 47
+resending pkt with seqNo 41
+receive ACK: 43
+resending pkt with seqNo 43
+resending pkt with seqNo 43
+receive ACK: 49
+sending pkt with seqNo 49
+sending pkt with seqNo 51
+sending pkt with seqNo 53
+sending pkt with seqNo 55
+receive ACK: 53
+resending pkt with seqNo 53
+resending pkt with seqNo 53
+resending pkt with seqNo 53
+resending pkt with seqNo 53
+resending pkt with seqNo 53
+resending pkt with seqNo 53
+receive ACK: 55
+resending pkt with seqNo 55
+resending pkt with seqNo 55
+resending pkt with seqNo 55
+resending pkt with seqNo 55
+receive ACK: 57
+sending pkt with seqNo 57
+sending pkt with seqNo 59
+sending pkt with seqNo 61
+sending pkt with seqNo 63
+receive ACK: 57
+resending pkt with seqNo 57
+resending pkt with seqNo 57
+receive ACK: 61
+resending pkt with seqNo 61
+resending pkt with seqNo 61
+resending pkt with seqNo 61
+resending pkt with seqNo 61
+resending pkt with seqNo 61
+resending pkt with seqNo 61
+receive ACK: 65
+sending pkt with seqNo 65
+sending pkt with seqNo 67
+sending pkt with seqNo 69
+sending pkt with seqNo 71
+receive ACK: 67
+resending pkt with seqNo 67
+resending pkt with seqNo 67
+resending pkt with seqNo 67
+receive ACK: 69
+resending pkt with seqNo 69
+receive ACK: 71
+resending pkt with seqNo 71
+resending pkt with seqNo 71
+resending pkt with seqNo 71
+resending pkt with seqNo 71
+resending pkt with seqNo 71
+resending pkt with seqNo 71
+resending pkt with seqNo 71
+receive ACK: 73
+sending pkt with seqNo 73
+sending pkt with seqNo 75
+sending pkt with seqNo 77
+sending pkt with seqNo 79
+receive ACK: 75
+receive ACK: 75
+resending pkt with seqNo 75
+receive ACK: 81
+sending pkt with seqNo 81
+sending pkt with seqNo 83
+sending pkt with seqNo 85
+sending pkt with seqNo 87
+receive ACK: 81
+receive ACK: 81
+resending pkt with seqNo 81
+receive ACK: 85
+resending pkt with seqNo 85
+receive ACK: 89
+sending pkt with seqNo 89
+sending pkt with seqNo 91
+sending pkt with seqNo 93
+sending pkt with seqNo 95
+receive ACK: 89
+resending pkt with seqNo 89
+resending pkt with seqNo 89
+resending pkt with seqNo 89
+resending pkt with seqNo 89
+receive ACK: 95
+resending pkt with seqNo 95
+resending pkt with seqNo 95
+receive ACK: 97
+sending pkt with seqNo 97
+sending pkt with seqNo 99
+sending pkt with seqNo 101
+sending pkt with seqNo 103
+receive ACK: 99
+receive ACK: 99
+resending pkt with seqNo 99
+resending pkt with seqNo 99
+resending pkt with seqNo 99
+resending pkt with seqNo 99
+resending pkt with seqNo 99
+receive ACK: 103
+resending pkt with seqNo 103
+receive ACK: 105
+sending pkt with seqNo 105
+sending pkt with seqNo 107
+sending pkt with seqNo 109
+sending pkt with seqNo 111
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+resending pkt with seqNo 105
+receive ACK: 109
+resending pkt with seqNo 109
+receive ACK: 111
+resending pkt with seqNo 111
+resending pkt with seqNo 111
+resending pkt with seqNo 111
+resending pkt with seqNo 111
+resending pkt with seqNo 111
+receive ACK: 113
+sending pkt with seqNo 113
+sending pkt with seqNo 115
+sending pkt with seqNo 117
+sending pkt with seqNo 119
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+resending pkt with seqNo 113
+receive ACK: 115
+resending pkt with seqNo 115
+resending pkt with seqNo 115
+resending pkt with seqNo 115
+resending pkt with seqNo 115
+resending pkt with seqNo 115
+receive ACK: 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+resending pkt with seqNo 117
+receive ACK: 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+resending pkt with seqNo 119
+receive ACK: 121
+sending pkt with seqNo 121
+sending pkt with seqNo 123
+sending pkt with seqNo 125
+sending pkt with seqNo 127
+resending pkt with seqNo 121
+resending pkt with seqNo 121
+receive ACK: 125
+resending pkt with seqNo 125
+resending pkt with seqNo 125
+receive ACK: 129
+sending pkt with seqNo 129
+sending pkt with seqNo 131
+sending pkt with seqNo 133
+sending pkt with seqNo 135
+receive ACK: 131
+receive ACK: 135
+resending pkt with seqNo 135
+resending pkt with seqNo 135
+resending pkt with seqNo 135
+receive ACK: 137
+sending pkt with seqNo 137
+sending pkt with seqNo 139
+sending pkt with seqNo 141
+sending pkt with seqNo 143
+resending pkt with seqNo 137
+resending pkt with seqNo 137
+resending pkt with seqNo 137
+resending pkt with seqNo 137
+resending pkt with seqNo 137
+receive ACK: 141
+resending pkt with seqNo 141
+receive ACK: 145
+sending pkt with seqNo 145
+sending pkt with seqNo 147
+sending pkt with seqNo 149
+sending pkt with seqNo 151
+receive ACK: 147
+resending pkt with seqNo 147
+resending pkt with seqNo 147
+resending pkt with seqNo 147
+resending pkt with seqNo 147
+receive ACK: 149
+resending pkt with seqNo 149
+receive ACK: 153
+sending pkt with seqNo 153
+sending pkt with seqNo 155
+sending pkt with seqNo 157
+sending pkt with seqNo 159
+resending pkt with seqNo 153
+resending pkt with seqNo 153
+resending pkt with seqNo 153
+resending pkt with seqNo 153
+resending pkt with seqNo 153
+resending pkt with seqNo 153
+resending pkt with seqNo 153
+receive ACK: 155
+resending pkt with seqNo 155
+receive ACK: 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+resending pkt with seqNo 159
+receive ACK: 161
+sending pkt with seqNo 161
+sending pkt with seqNo 163
+sending pkt with seqNo 165
+sending pkt with seqNo 167
+resending pkt with seqNo 161
+receive ACK: 163
+resending pkt with seqNo 163
+resending pkt with seqNo 163
+resending pkt with seqNo 163
+resending pkt with seqNo 163
+receive ACK: 165
+resending pkt with seqNo 165
+resending pkt with seqNo 165
+receive ACK: 167
+resending pkt with seqNo 167
+receive ACK: 169
+sending pkt with seqNo 169
+sending pkt with seqNo 171
+sending pkt with seqNo 173
+sending pkt with seqNo 175
+receive ACK: 171
+resending pkt with seqNo 171
+resending pkt with seqNo 171
+receive ACK: 173
+resending pkt with seqNo 173
+resending pkt with seqNo 173
+receive ACK: 177
+sending pkt with seqNo 177
+sending pkt with seqNo 179
+sending pkt with seqNo 181
+sending pkt with seqNo 183
+receive ACK: 179
+receive ACK: 181
+resending pkt with seqNo 181
+resending pkt with seqNo 181
+resending pkt with seqNo 181
+resending pkt with seqNo 181
+receive ACK: 183
+resending pkt with seqNo 183
+resending pkt with seqNo 183
+resending pkt with seqNo 183
+receive ACK: 185
+sending pkt with seqNo 185
+sending pkt with seqNo 187
+sending pkt with seqNo 189
+sending pkt with seqNo 191
+resending pkt with seqNo 185
+resending pkt with seqNo 185
+resending pkt with seqNo 185
+receive ACK: 187
+resending pkt with seqNo 187
+receive ACK: 189
+resending pkt with seqNo 189
+receive ACK: 191
+resending pkt with seqNo 191
+resending pkt with seqNo 191
+resending pkt with seqNo 191
+resending pkt with seqNo 191
+resending pkt with seqNo 191
+resending pkt with seqNo 191
+resending pkt with seqNo 191
+receive ACK: 193
+sending pkt with seqNo 193
+sending pkt with seqNo 195
+sending pkt with seqNo 197
+sending pkt with seqNo 199
+receive ACK: 195
+receive ACK: 197
+resending pkt with seqNo 197
+resending pkt with seqNo 197
+resending pkt with seqNo 197
+resending pkt with seqNo 197
+resending pkt with seqNo 197
+resending pkt with seqNo 197
+receive ACK: 201
+sending pkt with seqNo 201
+sending pkt with seqNo 203
+sending pkt with seqNo 205
+sending pkt with seqNo 207
+resending pkt with seqNo 201
+resending pkt with seqNo 201
+resending pkt with seqNo 201
+resending pkt with seqNo 201
+receive ACK: 203
+resending pkt with seqNo 203
+resending pkt with seqNo 203
+receive ACK: 205
+resending pkt with seqNo 205
+resending pkt with seqNo 205
+resending pkt with seqNo 205
+resending pkt with seqNo 205
+receive ACK: 207
+resending pkt with seqNo 207
+receive ACK: 209
+sending pkt with seqNo 209
+sending pkt with seqNo 211
+sending pkt with seqNo 213
+sending pkt with seqNo 215
+resending pkt with seqNo 209
+resending pkt with seqNo 209
+receive ACK: 211
+resending pkt with seqNo 211
+resending pkt with seqNo 211
+receive ACK: 213
+resending pkt with seqNo 213
+resending pkt with seqNo 213
+resending pkt with seqNo 213
+receive ACK: 215
+resending pkt with seqNo 215
+resending pkt with seqNo 215
+receive ACK: 217
+sending pkt with seqNo 217
+sending pkt with seqNo 219
+sending pkt with seqNo 221
+sending pkt with seqNo 223
+receive ACK: 219
+resending pkt with seqNo 219
+resending pkt with seqNo 219
+resending pkt with seqNo 219
+resending pkt with seqNo 219
+receive ACK: 225
+sending pkt with seqNo 225
+sending pkt with seqNo 227
+sending pkt with seqNo 229
+sending pkt with seqNo 231
+resending pkt with seqNo 225
+resending pkt with seqNo 225
+resending pkt with seqNo 225
+receive ACK: 229
+resending pkt with seqNo 229
+resending pkt with seqNo 229
+resending pkt with seqNo 229
+receive ACK: 231
+resending pkt with seqNo 231
+resending pkt with seqNo 231
+resending pkt with seqNo 231
+resending pkt with seqNo 231
+receive ACK: 233
+sending pkt with seqNo 233
+sending pkt with seqNo 235
+sending pkt with seqNo 237
+sending pkt with seqNo 239
+receive ACK: 235
+receive ACK: 237
+resending pkt with seqNo 237
+resending pkt with seqNo 237
+resending pkt with seqNo 237
+resending pkt with seqNo 237
+receive ACK: 239
+resending pkt with seqNo 239
+resending pkt with seqNo 239
+resending pkt with seqNo 239
+resending pkt with seqNo 239
+resending pkt with seqNo 239
+receive ACK: 241
+sending pkt with seqNo 241
+sending pkt with seqNo 243
+sending pkt with seqNo 245
+sending pkt with seqNo 247
+receive ACK: 241
+resending pkt with seqNo 241
+receive ACK: 243
+resending pkt with seqNo 243
+resending pkt with seqNo 243
+resending pkt with seqNo 243
+receive ACK: 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+resending pkt with seqNo 247
+receive ACK: 249
+sending pkt with seqNo 249
+sending pkt with seqNo 251
+sending pkt with seqNo 253
+sending pkt with seqNo 255
+receive ACK: 251
+receive ACK: 253
+resending pkt with seqNo 253
+receive ACK: 257
+sending pkt with seqNo 257
+sending pkt with seqNo 259
+sending pkt with seqNo 261
+sending pkt with seqNo 263
+receive ACK: 261
+resending pkt with seqNo 261
+resending pkt with seqNo 261
+resending pkt with seqNo 261
+resending pkt with seqNo 261
+resending pkt with seqNo 261
+resending pkt with seqNo 261
+resending pkt with seqNo 261
+receive ACK: 265
+sending pkt with seqNo 265
+sending pkt with seqNo 267
+sending pkt with seqNo 269
+sending pkt with seqNo 271
+receive ACK: 267
+receive ACK: 269
+resending pkt with seqNo 269
+receive ACK: 273
+sending pkt with seqNo 273
+sending pkt with seqNo 275
+sending pkt with seqNo 277
+sending pkt with seqNo 279
+receive ACK: 275
+resending pkt with seqNo 275
+receive ACK: 277
+resending pkt with seqNo 277
+resending pkt with seqNo 277
+resending pkt with seqNo 277
+receive ACK: 279
+resending pkt with seqNo 279
+resending pkt with seqNo 279
+receive ACK: 281
+sending pkt with seqNo 281
+sending pkt with seqNo 283
+sending pkt with seqNo 285
+sending pkt with seqNo 287
+receive ACK: 283
+resending pkt with seqNo 283
+resending pkt with seqNo 283
+resending pkt with seqNo 283
+receive ACK: 289
+sending pkt with seqNo 289
+sending pkt with seqNo 291
+sending pkt with seqNo 293
+sending pkt with seqNo 295
+receive ACK: 291
+resending pkt with seqNo 291
+receive ACK: 295
+resending pkt with seqNo 295
+resending pkt with seqNo 295
+receive ACK: 297
+sending pkt with seqNo 297
+sending pkt with seqNo 299
+sending pkt with seqNo 301
+sending pkt with seqNo 303
+receive ACK: 297
+resending pkt with seqNo 297
+resending pkt with seqNo 297
+resending pkt with seqNo 297
+resending pkt with seqNo 297
+resending pkt with seqNo 297
+receive ACK: 303
+resending pkt with seqNo 303
+resending pkt with seqNo 303
+resending pkt with seqNo 303
+receive ACK: 305
+sending pkt with seqNo 305
+sending pkt with seqNo 307
+sending pkt with seqNo 309
+sending pkt with seqNo 311
+resending pkt with seqNo 305
+resending pkt with seqNo 305
+resending pkt with seqNo 305
+resending pkt with seqNo 305
+receive ACK: 307
+resending pkt with seqNo 307
+resending pkt with seqNo 307
+resending pkt with seqNo 307
+receive ACK: 309
+resending pkt with seqNo 309
+resending pkt with seqNo 309
+resending pkt with seqNo 309
+resending pkt with seqNo 309
+receive ACK: 311
+resending pkt with seqNo 311
+resending pkt with seqNo 311
+resending pkt with seqNo 311
+resending pkt with seqNo 311
+receive ACK: 313
+sending pkt with seqNo 313
+sending pkt with seqNo 315
+sending pkt with seqNo 317
+sending pkt with seqNo 319
+receive ACK: 315
+resending pkt with seqNo 315
+receive ACK: 321
+sending pkt with seqNo 321
+sending pkt with seqNo 323
+sending pkt with seqNo 325
+sending pkt with seqNo 327
+receive ACK: 323
+resending pkt with seqNo 323
+resending pkt with seqNo 323
+resending pkt with seqNo 323
+resending pkt with seqNo 323
+receive ACK: 325
+resending pkt with seqNo 325
+resending pkt with seqNo 325
+receive ACK: 327
+resending pkt with seqNo 327
+resending pkt with seqNo 327
+resending pkt with seqNo 327
+receive ACK: 329
+sending pkt with seqNo 329
+sending pkt with seqNo 331
+sending pkt with seqNo 333
+sending pkt with seqNo 335
+resending pkt with seqNo 329
+resending pkt with seqNo 329
+resending pkt with seqNo 329
+receive ACK: 331
+resending pkt with seqNo 331
+resending pkt with seqNo 331
+receive ACK: 333
+resending pkt with seqNo 333
+receive ACK: 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+resending pkt with seqNo 335
+receive ACK: 337
+sending pkt with seqNo 337
+sending pkt with seqNo 339
+sending pkt with seqNo 341
+sending pkt with seqNo 343
+receive ACK: 339
+receive ACK: 341
+resending pkt with seqNo 341
+resending pkt with seqNo 341
+receive ACK: 345
+sending pkt with seqNo 345
+sending pkt with seqNo 347
+sending pkt with seqNo 349
+sending pkt with seqNo 351
+resending pkt with seqNo 345
+resending pkt with seqNo 345
+resending pkt with seqNo 345
+receive ACK: 347
+resending pkt with seqNo 347
+resending pkt with seqNo 347
+resending pkt with seqNo 347
+receive ACK: 351
+resending pkt with seqNo 351
+resending pkt with seqNo 351
+resending pkt with seqNo 351
+resending pkt with seqNo 351
+resending pkt with seqNo 351
+receive ACK: 353
+sending pkt with seqNo 353
+sending pkt with seqNo 355
+sending pkt with seqNo 357
+sending pkt with seqNo 359
+receive ACK: 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+resending pkt with seqNo 355
+receive ACK: 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+resending pkt with seqNo 359
+receive ACK: 361
+sending pkt with seqNo 361
+sending pkt with seqNo 363
+sending pkt with seqNo 365
+sending pkt with seqNo 367
+receive ACK: 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+resending pkt with seqNo 363
+receive ACK: 365
+resending pkt with seqNo 365
+receive ACK: 367
+resending pkt with seqNo 367
+resending pkt with seqNo 367
+resending pkt with seqNo 367
+resending pkt with seqNo 367
+resending pkt with seqNo 367
+resending pkt with seqNo 367
+receive ACK: 369
+sending pkt with seqNo 369
+sending pkt with seqNo 371
+sending pkt with seqNo 373
+sending pkt with seqNo 375
+resending pkt with seqNo 369
+resending pkt with seqNo 369
+resending pkt with seqNo 369
+resending pkt with seqNo 369
+receive ACK: 373
+resending pkt with seqNo 373
+resending pkt with seqNo 373
+resending pkt with seqNo 373
+resending pkt with seqNo 373
+resending pkt with seqNo 373
+resending pkt with seqNo 373
+receive ACK: 375
+resending pkt with seqNo 375
+resending pkt with seqNo 375
+receive ACK: 377
+sending pkt with seqNo 377
+sending pkt with seqNo 379
+sending pkt with seqNo 381
+sending pkt with seqNo 383
+receive ACK: 377
+resending pkt with seqNo 377
+resending pkt with seqNo 377
+resending pkt with seqNo 377
+receive ACK: 383
+resending pkt with seqNo 383
+resending pkt with seqNo 383
+resending pkt with seqNo 383
+resending pkt with seqNo 383
+receive ACK: 385
+sending pkt with seqNo 385
+sending pkt with seqNo 387
+sending pkt with seqNo 389
+sending pkt with seqNo 391
+resending pkt with seqNo 385
+resending pkt with seqNo 385
+resending pkt with seqNo 385
+resending pkt with seqNo 385
+receive ACK: 387
+resending pkt with seqNo 387
+resending pkt with seqNo 387
+resending pkt with seqNo 387
+receive ACK: 391
+resending pkt with seqNo 391
+resending pkt with seqNo 391
+resending pkt with seqNo 391
+resending pkt with seqNo 391
+resending pkt with seqNo 391
+resending pkt with seqNo 391
+receive ACK: 393
+sending pkt with seqNo 393
+sending pkt with seqNo 395
+sending pkt with seqNo 397
+sending pkt with seqNo 399
+receive ACK: 393
+resending pkt with seqNo 393
+receive ACK: 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+resending pkt with seqNo 399
+receive ACK: 401
+sending pkt with seqNo 401
+sending pkt with seqNo 403
+sending pkt with seqNo 405
+sending pkt with seqNo 407
+receive ACK: 403
+receive ACK: 407
+resending pkt with seqNo 407
+resending pkt with seqNo 407
+resending pkt with seqNo 407
+resending pkt with seqNo 407
+resending pkt with seqNo 407
+resending pkt with seqNo 407
+resending pkt with seqNo 407
+receive ACK: 409
+sending pkt with seqNo 409
+sending pkt with seqNo 411
+sending pkt with seqNo 413
+sending pkt with seqNo 415
+receive ACK: 411
+receive ACK: 415
+resending pkt with seqNo 415
+resending pkt with seqNo 415
+receive ACK: 417
+sending pkt with seqNo 417
+sending pkt with seqNo 419
+sending pkt with seqNo 421
+sending pkt with seqNo 423
+receive ACK: 419
+resending pkt with seqNo 419
+receive ACK: 421
+resending pkt with seqNo 421
+receive ACK: 423
+resending pkt with seqNo 423
+resending pkt with seqNo 423
+receive ACK: 425
+sending pkt with seqNo 425
+sending pkt with seqNo 427
+sending pkt with seqNo 429
+sending pkt with seqNo 431
+receive ACK: 427
+resending pkt with seqNo 427
+resending pkt with seqNo 427
+receive ACK: 429
