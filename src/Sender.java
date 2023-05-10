@@ -319,7 +319,7 @@ public class Sender {
 
     private void sendFINAndCheckACK() throws IOException, InterruptedException {
         short seqNo = Utils.mod(this.fileBytes.length + 1);
-        short expACK = Utils.mod(seqNo + 2);
+        short expACK = Utils.mod(seqNo + 1);
         sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
     }
 

@@ -55,7 +55,9 @@ public class Receiver {
     private short writeNext = -111;
     private File fileReceived;
     private FileOutputStream fos;
-    private short debug_replyACK;
+    private short debug_replyACK = -111;
+    private boolean connectionIsEstablished = false;
+    private boolean receiveFIN = false;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -138,6 +140,12 @@ public class Receiver {
 
             System.out.println("sending ack");
             receiverSocket.send(replyPacket);
+
+            if (this.receiveFIN) {
+                System.out.println("receive FIN, closing...");
+                this.receiverSocket.close();
+                return;
+            }
         }
     }
 
@@ -167,21 +175,31 @@ public class Receiver {
     // case DATA: recData(); createReplyPacket();
     private DatagramPacket recDataAndCreateReplyPacket(short recType, short recSeqNo, byte[] recData) {
         byte[] replySegment = new byte[0];
+        short replyACK = -111;
         switch (recType) {
             case Utils.DATA:
                 if (!dataBuffer.containsKey(recSeqNo)) {
                     this.dataBuffer.put(recSeqNo, recData);
                 }
                 this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer, this.latestInOrderSeqNo);
-                short replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
-                this.debug_replyACK = replyACK;
+                replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
+                this.debug_replyACK = replyACK;
                 break;
 
             case Utils.SYN:
-            case Utils.FIN:
+                replyACK = (short) (recSeqNo + 1);
                 replySegment = Utils.createSTPSegment(Utils.ACK,
-                        (short) (recSeqNo + 1), "".getBytes());
+                        replyACK, "".getBytes());
+                this.connectionIsEstablished = true;
+                this.debug_replyACK=replyACK;
+                break;
+            case Utils.FIN:
+                replyACK = (short) (recSeqNo + 1);
+                replySegment = Utils.createSTPSegment(Utils.ACK,
+                        replyACK, "".getBytes());
+                this.debug_replyACK = replyACK;
+                this.receiveFIN = true;
                 break;
         }
 
