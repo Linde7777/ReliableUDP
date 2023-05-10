@@ -158,7 +158,6 @@ public class Sender {
     }
 
     private void dealingWithRecACKOfDATA(short recSeqNo) throws InterruptedException {
-        semaphore.acquire();
         receivedACKArr[recACKNext] = recSeqNo;
         short currRecACK = receivedACKArr[recACKNext];
         short expRecACK = expectedACKArr[recACKNext];
@@ -171,7 +170,6 @@ public class Sender {
         } else {
             doNothing();
         }
-        semaphore.release();
     }
 
     public void listen() throws IOException, InterruptedException {
@@ -187,29 +185,24 @@ public class Sender {
             System.out.println("receive ACK: " + recSeqNo);
 
             semaphore.acquire();
+
             boolean recACKIsForDATASegment = this.connectionIsEstablished;
-            semaphore.release();
             if (recACKIsForDATASegment) {
-                // todo: move semaphore to here
                 dealingWithRecACKOfDATA(recSeqNo);
             }
 
-            semaphore.acquire();
             boolean recACKIsForSYNSegment = !this.connectionIsEstablished;
-            semaphore.release();
             if (recACKIsForSYNSegment) {
-                semaphore.acquire();
                 this.receivedACKOfSYNPkt = recSeqNo;
-                semaphore.release();
             }
 
-            semaphore.acquire();
             boolean recACKIsForFINSegment = this.allDataHasBeenACKed;
-            semaphore.release();
             if (recACKIsForFINSegment) {
                 System.out.println("receive ACK for FIN, closing socket...");
                 senderSocket.close();
             }
+
+            semaphore.release();
 
         }
     }
