@@ -282,10 +282,10 @@ public class Sender {
                 semaphore.acquire();
                 this.listenThreadShouldBeClosed = true;
                 semaphore.release();
-                temp = "calling return...\n";
+                temp = "calling System.exit...\n";
                 System.out.print(temp);
                 logFOS.write(temp.getBytes());
-                return;
+                System.exit(0);
             }
 
             temp = "resending " + Utils.convertTypeNumToString(type)
@@ -397,8 +397,11 @@ public class Sender {
         System.exit(0);
     }
 
-    private void sendRESETAndDoNotCheckACK() {
-        //todo
+    private void sendRESETAndDoNotCheckACK() throws IOException {
+        // in RESET segment, the seqNo will not be used, so set a random number here
+        byte[] stpSegment = Utils.createSTPSegment(Utils.RESET, (short) -111, "".getBytes());
+        DatagramPacket packet = createUDPPacket(stpSegment);
+        senderSocket.send(packet);
     }
 
     private boolean detect3DupACKs(short seqNo) {

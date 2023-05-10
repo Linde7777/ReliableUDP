@@ -247,6 +247,11 @@ public class Receiver {
                 this.debug_replyACK = replyACK;
                 this.receiveFIN = true;
                 break;
+            case Utils.RESET:
+                temp = "receive RESET, closing...\n";
+                System.out.print(temp);
+                logFOS.write(temp.getBytes());
+                System.exit(1);
         }
 
         return createSTPPacket(replySegment);
