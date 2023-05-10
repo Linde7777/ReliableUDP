@@ -199,8 +199,18 @@ public class Receiver {
     }
 
     private short createReplyACK(HashMap<Short, byte[]> dataBuffer, short latestInOrderSeqNo) {
-        int len = dataBuffer.get(latestInOrderSeqNo).length;
-        return (short) (latestInOrderSeqNo + len);
+        /*
+        Receiver has received SYN(with seqNo 0), sender has received the ACK 1,
+        then sender send packet with seqNo 1,3,5,7,
+        but receiver only receive packet with seqNo 7,
+        in this scenario, receiver should send ACK 1, not 9
+         */
+        if (dataBuffer.containsKey(latestInOrderSeqNo)) {
+            int len = dataBuffer.get(latestInOrderSeqNo).length;
+            return (short) (latestInOrderSeqNo + len);
+        } else {
+            return this.latestInOrderSeqNo;
+        }
     }
 
     //todo: spilt this function,
@@ -251,6 +261,11 @@ public class Receiver {
         After receive SYN, the latestInOrderSeqNo is SYN's seqNo,
         now we receive DATA, if the DATA's seqNo is SYN's seqNo + 1,
         we should update the latestInOrderSeqNo.
+
+        receiver has received SYN(with seqNo 0) and sender receive the ACK of SYN,
+        then sender send packet with seqNo 1,3,5,7
+        and receiver only receive the packet with seqNo 7,
+        in this scenario, receive should return ACK 1, not ACK 9
          */
         if (dataBuffer.size() == 1) {
             short tempSeqNo = (short) (this.latestInOrderSeqNo + 1);
