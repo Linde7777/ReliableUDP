@@ -237,6 +237,8 @@ public class Sender {
         byte[] stpSegment = Utils.createSTPSegment(type, seqNo, "".getBytes());
         DatagramPacket stpPacket = createUDPPacket(stpSegment);
 
+        System.out.println("Sending " + Utils.convertTypeNumToString(type)
+                + " pkt with seqNo " + seqNo);
         senderSocket.send(stpPacket);
         if (type == Utils.SYN) {
             this.SYNSentTime = System.currentTimeMillis();
