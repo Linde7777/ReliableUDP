@@ -55,6 +55,7 @@ public class Receiver {
     private short writeNext = -111;
     private File fileReceived;
     private FileOutputStream fos;
+    private short debug_replyACK;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -173,6 +174,7 @@ public class Receiver {
                 }
                 this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer, this.latestInOrderSeqNo);
                 short replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
+                this.debug_replyACK = replyACK;
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 break;
 
