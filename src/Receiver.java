@@ -44,6 +44,8 @@ public class Receiver {
     private boolean connectionIsEstablished = false;
     private boolean receiveFIN = false;
 
+    private String temp;
+
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
         this.senderPort = senderPort;
@@ -96,8 +98,9 @@ public class Receiver {
             byte[] data = dataBuffer.get(this.writeNext);
             recFileFOS.write(data);
             recFileFOS.flush();
-            System.out.println("write content: " + Arrays.toString(data));
-            logFOS.write(("write content: " + Arrays.toString(data) + "\n").getBytes());
+            temp = "write content: " + Arrays.toString(data) + "\n";
+            System.out.print(temp);
+            logFOS.write(temp.getBytes());
             writeNext += data.length;
         }
     }
@@ -130,15 +133,16 @@ public class Receiver {
             this.clientAddress = incomingPacket.getAddress();
 
             if (dropIncomingData) {
-                System.out.println("drop packet with seqNo " + recSeqNo);
-                logFOS.write(("drop packet with seqNo " + recSeqNo + "\n").getBytes());
+                temp = "drop packet with seqNo " + recSeqNo + "\n";
+                System.out.print(temp);
+                logFOS.write(temp.getBytes());
                 continue;
             }
 
-            System.out.println("receive pkt with seqNo " + recSeqNo
-                    + " ,content: " + Arrays.toString(recData));
-            logFOS.write(("receive pkt with seqNo " + recSeqNo
-                    + " ,content: " + Arrays.toString(recData) + "\n").getBytes());
+            temp = "receive pkt with seqNo " + recSeqNo
+                    + " ,content: " + Arrays.toString(recData) + "\n";
+            System.out.print(temp);
+            logFOS.write(temp.getBytes());
 
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (dataBuffer.size() == 1) {
@@ -147,23 +151,25 @@ public class Receiver {
             writeDataIntoFile();
 
             if (dropACK) {
-                System.out.println("drop ACK " + debug_replyACK);
-                logFOS.write(("drop ACK " + debug_replyACK + "\n").getBytes());
+                temp = "drop ACK " + debug_replyACK + "\n";
+                System.out.print(temp);
+                logFOS.write(temp.getBytes());
                 continue;
             }
 
-            System.out.println("sending ack " + debug_replyACK);
-            logFOS.write(("sending ack " + debug_replyACK + "\n").getBytes());
+            temp = "sending ack " + debug_replyACK + "\n";
+            System.out.print(temp);
+            logFOS.write(temp.getBytes());
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
-                String statement = "ACK of FIN has been sent, " +
+                temp = "ACK of FIN has been sent, " +
                         "to avoid this ACK get lost \n" +
                         "on the way to the sender, receiver will " +
                         "wait for 3 seconds \nfor the possible " +
                         "FIN from sender, then receiver will close.\n";
-                System.out.print(statement);
-                logFOS.write(statement.getBytes());
+                System.out.print(temp);
+                logFOS.write(temp.getBytes());
                 this.receiverSocket.setSoTimeout(3000);
                 return;
             }
