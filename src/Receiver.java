@@ -46,6 +46,8 @@ public class Receiver {
 
     private String temp;
     private boolean writeNextHasBeenInit = false;
+    private short seqNoOfSYN;
+    private short seqNoOfFIN;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -211,7 +213,7 @@ public class Receiver {
                 if (!dataBuffer.containsKey(recSeqNo)) {
                     this.dataBuffer.put(recSeqNo, recData);
                 }
-                this.latestInOrderSeqNo = updateLatestInOrderSeqNo(dataBuffer, this.latestInOrderSeqNo);
+                this.latestInOrderSeqNo = updateLatestInOrderSeqNo();
                 replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 this.debug_replyACK = replyACK;
@@ -219,6 +221,8 @@ public class Receiver {
                 break;
 
             case Utils.SYN:
+                this.seqNoOfSYN = recSeqNo;
+                this.latestInOrderSeqNo = this.seqNoOfSYN;
                 replyACK = (short) (recSeqNo + 1);
                 replySegment = Utils.createSTPSegment(Utils.ACK,
                         replyACK, "".getBytes());
@@ -226,6 +230,7 @@ public class Receiver {
                 this.debug_replyACK = replyACK;
                 break;
             case Utils.FIN:
+                this.seqNoOfFIN = recSeqNo;
                 replyACK = (short) (recSeqNo + 1);
                 replySegment = Utils.createSTPSegment(Utils.ACK,
                         replyACK, "".getBytes());
@@ -237,13 +242,23 @@ public class Receiver {
         return createSTPPacket(replySegment);
     }
 
-    private short updateLatestInOrderSeqNo(HashMap<Short, byte[]> dataBuffer, short latestInOrderSeqNo) {
+    private short updateLatestInOrderSeqNo() {
         if (dataBuffer.isEmpty()) {
             throw new IllegalArgumentException("dataBuffer is empty");
         }
 
+        /*
+        After receive SYN, the latestInOrderSeqNo is SYN's seqNo,
+        now we receive DATA, if the DATA's seqNo is SYN's seqNo + 1,
+        we should update the latestInOrderSeqNo.
+         */
         if (dataBuffer.size() == 1) {
-            return dataBuffer.keySet().iterator().next();
+            short tempSeqNo = (short) (this.latestInOrderSeqNo + 1);
+            if (dataBuffer.containsKey(tempSeqNo)) {
+                return tempSeqNo;
+            } else {
+                return this.latestInOrderSeqNo;
+            }
         }
 
         while (true) {
