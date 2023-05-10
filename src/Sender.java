@@ -16,6 +16,8 @@ public class Sender {
     private final DatagramPacket[] UDPPacketArr;
     private final long[] startTimeArr;
     private final short[] receivedACKArr;
+    private final File senderLogFile;
+    private FileOutputStream logFOS;
     //todo: random ISN
     private short ISN = 0;
     /**
@@ -65,6 +67,10 @@ public class Sender {
         this.filename = filename;
         this.windowSizeInByte = windowSizeInByte;
         this.rto = rto;
+        this.senderLogFile = new File(System.getProperty("user.dir") +
+                System.getProperty("file.separator") + "senderLog.txt");
+        this.logFOS = new FileOutputStream(senderLogFile);
+
 
         if (windowSizeInByte % maxSegmentSize != 0) {
             throw new IllegalArgumentException("windowSizeInByte " +
