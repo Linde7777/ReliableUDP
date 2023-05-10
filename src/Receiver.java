@@ -129,7 +129,7 @@ public class Receiver {
             this.clientAddress = incomingPacket.getAddress();
 
             if (dropIncomingData) {
-                System.out.println("Drop packet with seqNo " + recSeqNo);
+                System.out.println("drop packet with seqNo " + recSeqNo);
                 continue;
             }
 
