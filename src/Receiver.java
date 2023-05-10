@@ -45,6 +45,7 @@ public class Receiver {
     private boolean receiveFIN = false;
 
     private String temp;
+    private boolean writeNextHasBeenInit = false;
 
     public Receiver(int receiverPort, int senderPort, String filename, float flp, float rlp) throws IOException {
         this.receiverPort = receiverPort;
@@ -114,16 +115,16 @@ public class Receiver {
                     new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
-            /*
             //@ manual control packet lost
             String dropOption = Utils.scanDropOption();
             boolean dropIncomingData = dropOption.charAt(0) == 'd';
             boolean dropACK = dropOption.charAt(1) == 'd';
-             */
 
+            /*
             //@random control packet lost
             boolean dropIncomingData = randomDropIncomingData();
             boolean dropACK = randomDropACK();
+             */
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);
@@ -145,8 +146,9 @@ public class Receiver {
             logFOS.write(temp.getBytes());
 
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
-            if (dataBuffer.size() == 1) {
+            if (!this.writeNextHasBeenInit && dataBuffer.size() == 1) {
                 this.writeNext = this.latestInOrderSeqNo;
+                this.writeNextHasBeenInit = true;
             }
             writeDataIntoFile();
 
