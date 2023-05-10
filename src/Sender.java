@@ -186,7 +186,7 @@ public class Sender {
 
             semaphore.acquire();
 
-            boolean recACKIsForDATASegment = this.connectionIsEstablished;
+            boolean recACKIsForDATASegment = this.connectionIsEstablished && !this.allDataHasBeenACKed;
             if (recACKIsForDATASegment) {
                 dealingWithRecACKOfDATA(recSeqNo);
             }
@@ -196,7 +196,7 @@ public class Sender {
                 this.receivedACKOfSYNPkt = recSeqNo;
             }
 
-            boolean recACKIsForFINSegment = this.allDataHasBeenACKed;
+            boolean recACKIsForFINSegment = connectionIsEstablished && this.allDataHasBeenACKed;
             if (recACKIsForFINSegment) {
                 System.out.println("receive ACK for FIN, closing socket...");
                 senderSocket.close();
