@@ -59,6 +59,7 @@ public class Receiver {
         this.recFileFOS = new FileOutputStream(fileReceived);
         this.receiverLogFile = new File(System.getProperty("user.dir")
                 + System.getProperty("file.separator") + "receiverLog.txt");
+        receiverLogFile.createNewFile();
         this.logFOS = new FileOutputStream(receiverLogFile);
 
         // init the UDP socket

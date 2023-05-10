@@ -70,6 +70,7 @@ public class Sender {
         this.rto = rto;
         this.senderLogFile = new File(System.getProperty("user.dir") +
                 System.getProperty("file.separator") + "senderLog.txt");
+        this.senderLogFile.createNewFile();
         this.logFOS = new FileOutputStream(senderLogFile);
 
 
