@@ -110,12 +110,16 @@ public class Receiver {
                     new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
+            /*
+            //@ manual control packet lost
             String dropOption = Utils.scanDropOption();
             boolean dropIncomingData = dropOption.charAt(0) == 'd';
             boolean dropACK = dropOption.charAt(1) == 'd';
+             */
 
-            //boolean dropIncomingData = randomDropIncomingData();
-            //boolean dropACK = randomDropACK();
+            //@random control packet lost
+            boolean dropIncomingData = randomDropIncomingData();
+            boolean dropACK = randomDropACK();
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);
