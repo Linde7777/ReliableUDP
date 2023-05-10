@@ -302,15 +302,17 @@ public class Sender {
 
             sendAllPacketsInWindow(numOfSegInWindow);
 
-            long durationSinceOldestPktHasBeenSent = System.currentTimeMillis() - startTimeArr[base];
-            long sleepDuration = this.rto - durationSinceOldestPktHasBeenSent;
-            if (sleepDuration > 0) {
-                Thread.sleep(sleepDuration);
-            }
+            Thread.sleep(this.rto);
+            /*
+            you might think this will be a possible scenario
             // e.g.
             // startTimeArr:    10.1    10.3    10.5
             // after sending all segments in a window, current time is 10.7,
             // we need to sleep until 11.1s (rto is 1 second)
+
+            indeed, the startTimeArr will be: 10.1  10.1  10.1
+            so here we just need to directly sleep for this.rto seconds
+             */
 
             resentUnACKPacketsInWindow(numOfSegInWindow);
 

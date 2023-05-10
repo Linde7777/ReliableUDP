@@ -33,13 +33,10 @@ public class Utils {
                                 "and drop the reply ACK\n+" +
                                 "same for the [nn] [dn]\n";
                 System.out.println(statement);
-
             } else {
                 System.out.println("Invalid argument, try again.");
             }
         }
-
-
     }
 
 
