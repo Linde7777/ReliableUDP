@@ -107,12 +107,12 @@ public class Receiver {
                     new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
-            //System.out.print("drop the incoming data? ");
-            //boolean dropIncomingData = Utils.scanDropOption();
-            boolean dropIncomingData = randomDropIncomingData();
-            //System.out.print("drop the ack? ");
-            //boolean dropACK = Utils.scanDropOption();
-            boolean dropACK = randomDropACK();
+            String dropOption = Utils.scanDropOption();
+            boolean dropIncomingData = dropOption.charAt(0) == 'd';
+            boolean dropACK = dropOption.charAt(1) == 'd';
+
+            //boolean dropIncomingData = randomDropIncomingData();
+            //boolean dropACK = randomDropACK();
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);

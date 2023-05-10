@@ -1,6 +1,7 @@
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Utils {
@@ -12,12 +13,35 @@ public class Utils {
 
     static String outputFormat = "%s %.6f \t%s %d %d\n";
 
-    public static boolean scanDropOption() throws InterruptedException {
+    //if scan dd, that means drop the incoming packet and the reply ACK.
+    public static String scanDropOption() throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your choice, d for drop, otherwise not drop:");
-        String input = scanner.next();
-        return input.equals("d");
+        while (true) {
+            System.out.println("Enter your option. You can enter [help] to get help: ");
+            String input = scanner.next();
+            if (input.equals("nn") || input.equals("dd")
+                    || input.equals("nd") || input.equals("dn")) {
+                return input;
+
+            } else if (input.equals("help")) {
+                String statement =
+                        "If you enter [dd] (drop drop),\n " +
+                                "the receiver will drop \n" +
+                                "the incoming packet and the reply ACK\n" +
+                                "If you enter [nd] (notDrop drop)\n" +
+                                "the receiver will receive the incoming packet\n" +
+                                "and drop the reply ACK\n+" +
+                                "same for the [nn] [dn]\n";
+                System.out.println(statement);
+
+            } else {
+                System.out.println("Invalid argument, try again.");
+            }
+        }
+
+
     }
+
 
     public static short mod(int seqNo) {
         // short is 2 bytes, aka 16 bits
