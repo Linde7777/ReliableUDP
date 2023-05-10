@@ -283,7 +283,7 @@ public class Sender {
                 return;
             }
 
-            System.out.println("resending pkt with seqNo" + seqNo);
+            System.out.println("resending pkt with seqNo " + seqNo);
             logFOS.write(("Sending " + Utils.convertTypeNumToString(type)
                     + " pkt with seqNo " + seqNo+"\n").getBytes());
             senderSocket.send(stpPacket);

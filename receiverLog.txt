@@ -1,1 +1,46 @@
-sending ack 1drop packet with seqNo 1Drop ACK 5sending ack 7drop packet with seqNo 7sending ack 9sending ack 11sending ack 13drop packet with seqNo 13sending ack 13sending ack 17drop packet with seqNo 17drop packet with seqNo 19Drop ACK 17drop packet with seqNo 23drop packet with seqNo 17Drop ACK 19Drop ACK 19Drop ACK 19drop packet with seqNo 17sending ack 19drop packet with seqNo 19
+sending ack 1
+drop packet with seqNo 1
+Drop ACK 5
+drop packet with seqNo 5
+sending ack 5
+Drop ACK 9
+drop packet with seqNo 5
+Drop ACK 9
+Drop ACK 9
+Drop ACK 9
+drop packet with seqNo 5
+sending ack 9
+drop packet with seqNo 9
+drop packet with seqNo 11
+sending ack 9
+drop packet with seqNo 15
+drop packet with seqNo 9
+sending ack 11
+sending ack 15
+drop packet with seqNo 15
+drop packet with seqNo 15
+Drop ACK 17
+drop packet with seqNo 15
+Drop ACK 17
+sending ack 17
+Drop ACK 19
+drop packet with seqNo 19
+Drop ACK 19
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+sending ack 19
+drop packet with seqNo 19
+Drop ACK 21
+drop packet with seqNo 19
+Drop ACK 21
+drop packet with seqNo 19
+sending ack 21
+drop packet with seqNo 21
+Drop ACK 22
+drop packet with seqNo 21
+drop packet with seqNo 21
+Drop ACK 22

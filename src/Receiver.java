@@ -139,8 +139,8 @@ public class Receiver {
             writeDataIntoFile();
 
             if (dropACK) {
-                System.out.println("Drop ACK " + debug_replyACK);
-                logFOS.write(("Drop ACK " + debug_replyACK+"\n").getBytes());
+                System.out.println("drop ACK " + debug_replyACK);
+                logFOS.write(("drop ACK " + debug_replyACK+"\n").getBytes());
                 continue;
             }
 
