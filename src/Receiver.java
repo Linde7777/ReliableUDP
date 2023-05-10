@@ -1,21 +1,3 @@
-/**
- * Sample code for Receiver
- * Java
- * Usage:
- * - You need to compile it first: javac Receiver.java
- * - then run it: java Receiver receiver_port sender_port FileReceived.txt flp rlp
- * coding: utf-8
- * <p>
- * Notes:
- * Try to run the server first with the command:
- * java Receiver 10000 9000 FileReceived.txt 1 1
- * Then run the sender:
- * java Sender 9000 10000 FileToReceived.txt 1000 1
- * <p>
- * Author: Wei Song (Tutor for COMP3331/9331)
- */
-
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -135,6 +117,7 @@ public class Receiver {
 
             if (dropIncomingData) {
                 System.out.println("drop packet with seqNo " + recSeqNo);
+                logFOS.write(("drop packet with seqNo " + recSeqNo).getBytes());
                 continue;
             }
 
@@ -146,18 +129,22 @@ public class Receiver {
 
             if (dropACK) {
                 System.out.println("Drop ACK " + debug_replyACK);
+                logFOS.write(("Drop ACK " + debug_replyACK).getBytes());
                 continue;
             }
 
             System.out.println("sending ack " + debug_replyACK);
+            logFOS.write(("sending ack " + debug_replyACK).getBytes());
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
-                System.out.println("ACK of FIN has been sent, " +
+                String statement = "ACK of FIN has been sent, " +
                         "to avoid this ACK get lost \n" +
                         "on the way to the sender, receiver will " +
                         "wait for 3 seconds for the possible\n" +
-                        "FIN from sender, then receiver will close.");
+                        "FIN from sender, then receiver will close.";
+                System.out.println(statement);
+                logFOS.write(statement.getBytes());
                 this.receiverSocket.setSoTimeout(3000);
                 return;
             }
