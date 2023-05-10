@@ -69,10 +69,20 @@ public class Receiver {
     }
 
     private boolean randomDropIncomingData() {
+        //for debug usage, do not drop SYN
+        //todo: delete this
+        if (!connectionIsEstablished) {
+            return false;
+        }
         return random.nextFloat() < this.flp;
     }
 
     private boolean randomDropACK() {
+        //for debug usage, do not drop SYN
+        //todo: delete this
+        if (!connectionIsEstablished) {
+            return false;
+        }
         return random.nextFloat() < this.rlp;
     }
 
@@ -118,7 +128,7 @@ public class Receiver {
 
             if (dropIncomingData) {
                 System.out.println("drop packet with seqNo " + recSeqNo);
-                logFOS.write(("drop packet with seqNo " + recSeqNo).getBytes());
+                logFOS.write(("drop packet with seqNo " + recSeqNo + "\n").getBytes());
                 continue;
             }
 
@@ -130,12 +140,12 @@ public class Receiver {
 
             if (dropACK) {
                 System.out.println("Drop ACK " + debug_replyACK);
-                logFOS.write(("Drop ACK " + debug_replyACK).getBytes());
+                logFOS.write(("Drop ACK " + debug_replyACK+"\n").getBytes());
                 continue;
             }
 
             System.out.println("sending ack " + debug_replyACK);
-            logFOS.write(("sending ack " + debug_replyACK).getBytes());
+            logFOS.write(("sending ack " + debug_replyACK+"\n").getBytes());
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
@@ -143,8 +153,8 @@ public class Receiver {
                         "to avoid this ACK get lost \n" +
                         "on the way to the sender, receiver will " +
                         "wait for 3 seconds for the possible\n" +
-                        "FIN from sender, then receiver will close.";
-                System.out.println(statement);
+                        "FIN from sender, then receiver will close.\n";
+                System.out.print(statement);
                 logFOS.write(statement.getBytes());
                 this.receiverSocket.setSoTimeout(3000);
                 return;
