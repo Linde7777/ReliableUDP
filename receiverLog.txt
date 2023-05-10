@@ -1,11 +1,1780 @@
 receive pkt with seqNo 0 ,content: []
 sending ack 1
-receive pkt with seqNo 1 ,content: [49, 50]
-write content: [49, 50]
-drop ACK 3
+drop packet with seqNo 1
 drop packet with seqNo 3
 drop packet with seqNo 5
-drop packet with seqNo 7
-receive pkt with seqNo 1 ,content: [49, 50]
+receive pkt with seqNo 7 ,content: [55, 56]
+write content: [55, 56]
+sending ack 9
+receive pkt with seqNo 9 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 11
+receive pkt with seqNo 11 ,content: [10, 49]
+write content: [10, 49]
+sending ack 13
+drop packet with seqNo 13
+receive pkt with seqNo 15 ,content: [52, 53]
+sending ack 13
+receive pkt with seqNo 13 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+sending ack 17
+drop packet with seqNo 17
+drop packet with seqNo 19
+receive pkt with seqNo 21 ,content: [13, 10]
+sending ack 17
+receive pkt with seqNo 23 ,content: [49, 50]
+drop ACK 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+drop packet with seqNo 17
+receive pkt with seqNo 17 ,content: [54, 55]
+write content: [54, 55]
+sending ack 19
+receive pkt with seqNo 19 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
 write content: [49, 50]
-drop ACK 3
+sending ack 25
+drop packet with seqNo 25
+drop packet with seqNo 27
+receive pkt with seqNo 29 ,content: [55, 56]
+sending ack 25
+receive pkt with seqNo 31 ,content: [57, 13]
+sending ack 25
+drop packet with seqNo 25
+drop packet with seqNo 25
+drop packet with seqNo 25
+receive pkt with seqNo 25 ,content: [51, 52]
+write content: [51, 52]
+sending ack 27
+drop packet with seqNo 27
+drop packet with seqNo 27
+drop packet with seqNo 27
+drop packet with seqNo 27
+receive pkt with seqNo 27 ,content: [53, 54]
+write content: [53, 54]
+write content: [55, 56]
+write content: [57, 13]
+drop ACK 33
+receive pkt with seqNo 27 ,content: [53, 54]
+sending ack 33
+drop packet with seqNo 33
+drop packet with seqNo 35
+drop packet with seqNo 37
+drop packet with seqNo 39
+drop packet with seqNo 33
+receive pkt with seqNo 33 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 35
+drop packet with seqNo 33
+receive pkt with seqNo 33 ,content: [10, 49]
+sending ack 35
+drop packet with seqNo 35
+receive pkt with seqNo 35 ,content: [50, 51]
+write content: [50, 51]
+sending ack 37
+drop packet with seqNo 37
+receive pkt with seqNo 37 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 39
+drop packet with seqNo 37
+drop packet with seqNo 37
+receive pkt with seqNo 37 ,content: [52, 53]
+sending ack 39
+receive pkt with seqNo 39 ,content: [54, 55]
+write content: [54, 55]
+sending ack 41
+receive pkt with seqNo 41 ,content: [56, 57]
+write content: [56, 57]
+sending ack 43
+receive pkt with seqNo 43 ,content: [13, 10]
+write content: [13, 10]
+sending ack 45
+receive pkt with seqNo 45 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 47
+drop packet with seqNo 47
+receive pkt with seqNo 45 ,content: [49, 50]
+sending ack 47
+receive pkt with seqNo 47 ,content: [51, 52]
+write content: [51, 52]
+sending ack 49
+drop packet with seqNo 49
+drop packet with seqNo 51
+drop packet with seqNo 53
+drop packet with seqNo 55
+receive pkt with seqNo 49 ,content: [53, 54]
+write content: [53, 54]
+sending ack 51
+receive pkt with seqNo 51 ,content: [55, 56]
+write content: [55, 56]
+sending ack 53
+receive pkt with seqNo 53 ,content: [57, 13]
+write content: [57, 13]
+sending ack 55
+drop packet with seqNo 55
+receive pkt with seqNo 55 ,content: [10, 49]
+write content: [10, 49]
+sending ack 57
+receive pkt with seqNo 57 ,content: [50, 51]
+write content: [50, 51]
+drop ACK 59
+receive pkt with seqNo 59 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 61
+receive pkt with seqNo 61 ,content: [54, 55]
+write content: [54, 55]
+sending ack 63
+drop packet with seqNo 63
+drop packet with seqNo 63
+drop packet with seqNo 63
+receive pkt with seqNo 63 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 65
+receive pkt with seqNo 63 ,content: [56, 57]
+drop ACK 65
+drop packet with seqNo 63
+drop packet with seqNo 63
+receive pkt with seqNo 63 ,content: [56, 57]
+drop ACK 65
+receive pkt with seqNo 63 ,content: [56, 57]
+sending ack 65
+drop packet with seqNo 65
+receive pkt with seqNo 67 ,content: [49, 50]
+drop ACK 65
+drop packet with seqNo 69
+drop packet with seqNo 71
+drop packet with seqNo 65
+receive pkt with seqNo 65 ,content: [13, 10]
+write content: [13, 10]
+write content: [49, 50]
+drop ACK 69
+receive pkt with seqNo 65 ,content: [13, 10]
+sending ack 69
+receive pkt with seqNo 69 ,content: [51, 52]
+write content: [51, 52]
+sending ack 71
+receive pkt with seqNo 71 ,content: [53, 54]
+write content: [53, 54]
+sending ack 73
+receive pkt with seqNo 73 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 75
+receive pkt with seqNo 75 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 77
+receive pkt with seqNo 77 ,content: [10, 49]
+write content: [10, 49]
+sending ack 79
+drop packet with seqNo 79
+receive pkt with seqNo 79 ,content: [50, 51]
+write content: [50, 51]
+sending ack 81
+receive pkt with seqNo 81 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 83
+receive pkt with seqNo 83 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 85
+drop packet with seqNo 85
+drop packet with seqNo 87
+receive pkt with seqNo 81 ,content: [52, 53]
+drop ACK 85
+receive pkt with seqNo 81 ,content: [52, 53]
+sending ack 85
+drop packet with seqNo 85
+receive pkt with seqNo 85 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 87
+receive pkt with seqNo 85 ,content: [56, 57]
+sending ack 87
+drop packet with seqNo 87
+receive pkt with seqNo 87 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 89
+drop packet with seqNo 87
+receive pkt with seqNo 87 ,content: [13, 10]
+drop ACK 89
+receive pkt with seqNo 87 ,content: [13, 10]
+drop ACK 89
+drop packet with seqNo 87
+drop packet with seqNo 87
+receive pkt with seqNo 87 ,content: [13, 10]
+sending ack 89
+receive pkt with seqNo 89 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 91
+receive pkt with seqNo 91 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 93
+drop packet with seqNo 93
+drop packet with seqNo 95
+receive pkt with seqNo 89 ,content: [49, 50]
+sending ack 93
+drop packet with seqNo 93
+receive pkt with seqNo 93 ,content: [53, 54]
+write content: [53, 54]
+sending ack 95
+receive pkt with seqNo 95 ,content: [55, 56]
+write content: [55, 56]
+sending ack 97
+receive pkt with seqNo 97 ,content: [57, 13]
+write content: [57, 13]
+sending ack 99
+receive pkt with seqNo 99 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 101
+drop packet with seqNo 101
+receive pkt with seqNo 103 ,content: [52, 53]
+drop ACK 101
+receive pkt with seqNo 99 ,content: [10, 49]
+drop ACK 101
+drop packet with seqNo 99
+receive pkt with seqNo 99 ,content: [10, 49]
+sending ack 101
+receive pkt with seqNo 101 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+drop ACK 105
+receive pkt with seqNo 101 ,content: [50, 51]
+sending ack 105
+drop packet with seqNo 105
+drop packet with seqNo 107
+receive pkt with seqNo 109 ,content: [13, 10]
+sending ack 105
+receive pkt with seqNo 111 ,content: [49, 50]
+drop ACK 105
+receive pkt with seqNo 105 ,content: [54, 55]
+write content: [54, 55]
+sending ack 107
+drop packet with seqNo 107
+drop packet with seqNo 107
+receive pkt with seqNo 107 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+write content: [49, 50]
+drop ACK 113
+receive pkt with seqNo 107 ,content: [56, 57]
+sending ack 113
+receive pkt with seqNo 113 ,content: [51, 52]
+write content: [51, 52]
+sending ack 115
+drop packet with seqNo 115
+drop packet with seqNo 117
+drop packet with seqNo 119
+drop packet with seqNo 115
+receive pkt with seqNo 115 ,content: [53, 54]
+write content: [53, 54]
+sending ack 117
+receive pkt with seqNo 117 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 119
+receive pkt with seqNo 117 ,content: [55, 56]
+sending ack 119
+receive pkt with seqNo 119 ,content: [57, 13]
+write content: [57, 13]
+sending ack 121
+receive pkt with seqNo 121 ,content: [10, 49]
+write content: [10, 49]
+sending ack 123
+drop packet with seqNo 123
+receive pkt with seqNo 125 ,content: [52, 53]
+drop ACK 123
+drop packet with seqNo 127
+drop packet with seqNo 123
+drop packet with seqNo 123
+drop packet with seqNo 123
+drop packet with seqNo 123
+receive pkt with seqNo 123 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+sending ack 127
+receive pkt with seqNo 127 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 129
+drop packet with seqNo 127
+receive pkt with seqNo 127 ,content: [54, 55]
+sending ack 129
+receive pkt with seqNo 129 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 131
+drop packet with seqNo 131
+drop packet with seqNo 133
+drop packet with seqNo 135
+drop packet with seqNo 129
+receive pkt with seqNo 129 ,content: [56, 57]
+sending ack 131
+receive pkt with seqNo 131 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 133
+receive pkt with seqNo 131 ,content: [13, 10]
+drop ACK 133
+receive pkt with seqNo 131 ,content: [13, 10]
+drop ACK 133
+drop packet with seqNo 131
+drop packet with seqNo 131
+drop packet with seqNo 131
+receive pkt with seqNo 131 ,content: [13, 10]
+sending ack 133
+drop packet with seqNo 133
+receive pkt with seqNo 133 ,content: [49, 50]
+write content: [49, 50]
+sending ack 135
+receive pkt with seqNo 135 ,content: [51, 52]
+write content: [51, 52]
+sending ack 137
+receive pkt with seqNo 137 ,content: [53, 54]
+write content: [53, 54]
+sending ack 139
+receive pkt with seqNo 139 ,content: [55, 56]
+write content: [55, 56]
+sending ack 141
+drop packet with seqNo 141
+drop packet with seqNo 143
+drop packet with seqNo 141
+receive pkt with seqNo 141 ,content: [57, 13]
+write content: [57, 13]
+sending ack 143
+drop packet with seqNo 143
+drop packet with seqNo 143
+drop packet with seqNo 143
+receive pkt with seqNo 143 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 145
+receive pkt with seqNo 143 ,content: [10, 49]
+sending ack 145
+receive pkt with seqNo 145 ,content: [50, 51]
+write content: [50, 51]
+sending ack 147
+receive pkt with seqNo 147 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 149
+receive pkt with seqNo 149 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 151
+receive pkt with seqNo 151 ,content: [56, 57]
+write content: [56, 57]
+sending ack 153
+drop packet with seqNo 153
+receive pkt with seqNo 155 ,content: [49, 50]
+sending ack 153
+receive pkt with seqNo 157 ,content: [51, 52]
+drop ACK 153
+receive pkt with seqNo 159 ,content: [53, 54]
+sending ack 153
+receive pkt with seqNo 153 ,content: [13, 10]
+write content: [13, 10]
+write content: [49, 50]
+write content: [51, 52]
+write content: [53, 54]
+drop ACK 161
+drop packet with seqNo 153
+receive pkt with seqNo 153 ,content: [13, 10]
+sending ack 161
+receive pkt with seqNo 161 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 163
+receive pkt with seqNo 163 ,content: [57, 13]
+write content: [57, 13]
+sending ack 165
+drop packet with seqNo 165
+drop packet with seqNo 167
+drop packet with seqNo 165
+receive pkt with seqNo 165 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 167
+receive pkt with seqNo 165 ,content: [10, 49]
+sending ack 167
+receive pkt with seqNo 167 ,content: [50, 51]
+write content: [50, 51]
+drop ACK 169
+receive pkt with seqNo 167 ,content: [50, 51]
+drop ACK 169
+drop packet with seqNo 167
+receive pkt with seqNo 167 ,content: [50, 51]
+sending ack 169
+drop packet with seqNo 169
+drop packet with seqNo 171
+drop packet with seqNo 173
+drop packet with seqNo 175
+receive pkt with seqNo 169 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 171
+receive pkt with seqNo 169 ,content: [52, 53]
+sending ack 171
+receive pkt with seqNo 171 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 173
+receive pkt with seqNo 171 ,content: [54, 55]
+drop ACK 173
+drop packet with seqNo 171
+receive pkt with seqNo 171 ,content: [54, 55]
+drop ACK 173
+receive pkt with seqNo 171 ,content: [54, 55]
+drop ACK 173
+drop packet with seqNo 171
+drop packet with seqNo 171
+receive pkt with seqNo 171 ,content: [54, 55]
+sending ack 173
+receive pkt with seqNo 173 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 175
+receive pkt with seqNo 173 ,content: [56, 57]
+sending ack 175
+drop packet with seqNo 175
+drop packet with seqNo 175
+receive pkt with seqNo 175 ,content: [13, 10]
+write content: [13, 10]
+sending ack 177
+receive pkt with seqNo 177 ,content: [49, 50]
+write content: [49, 50]
+sending ack 179
+receive pkt with seqNo 179 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 181
+receive pkt with seqNo 181 ,content: [53, 54]
+write content: [53, 54]
+drop ACK 183
+receive pkt with seqNo 183 ,content: [55, 56]
+write content: [55, 56]
+sending ack 185
+drop packet with seqNo 185
+drop packet with seqNo 187
+drop packet with seqNo 189
+receive pkt with seqNo 191 ,content: [52, 53]
+sending ack 185
+drop packet with seqNo 185
+receive pkt with seqNo 185 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 187
+receive pkt with seqNo 185 ,content: [57, 13]
+sending ack 187
+drop packet with seqNo 187
+receive pkt with seqNo 187 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 189
+receive pkt with seqNo 187 ,content: [10, 49]
+drop ACK 189
+drop packet with seqNo 187
+drop packet with seqNo 187
+receive pkt with seqNo 187 ,content: [10, 49]
+sending ack 189
+receive pkt with seqNo 189 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+drop ACK 193
+drop packet with seqNo 189
+receive pkt with seqNo 189 ,content: [50, 51]
+sending ack 193
+drop packet with seqNo 193
+drop packet with seqNo 195
+receive pkt with seqNo 197 ,content: [13, 10]
+drop ACK 193
+receive pkt with seqNo 199 ,content: [49, 50]
+sending ack 193
+receive pkt with seqNo 193 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 195
+drop packet with seqNo 193
+drop packet with seqNo 193
+receive pkt with seqNo 193 ,content: [54, 55]
+drop ACK 195
+drop packet with seqNo 193
+receive pkt with seqNo 193 ,content: [54, 55]
+sending ack 195
+drop packet with seqNo 195
+drop packet with seqNo 195
+drop packet with seqNo 195
+drop packet with seqNo 195
+drop packet with seqNo 195
+receive pkt with seqNo 195 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+write content: [49, 50]
+sending ack 201
+receive pkt with seqNo 201 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 203
+receive pkt with seqNo 203 ,content: [53, 54]
+write content: [53, 54]
+sending ack 205
+drop packet with seqNo 205
+receive pkt with seqNo 207 ,content: [57, 13]
+drop ACK 205
+receive pkt with seqNo 205 ,content: [55, 56]
+write content: [55, 56]
+write content: [57, 13]
+drop ACK 209
+drop packet with seqNo 205
+drop packet with seqNo 205
+receive pkt with seqNo 205 ,content: [55, 56]
+sending ack 209
+receive pkt with seqNo 209 ,content: [10, 49]
+write content: [10, 49]
+sending ack 211
+receive pkt with seqNo 211 ,content: [50, 51]
+write content: [50, 51]
+sending ack 213
+receive pkt with seqNo 213 ,content: [52, 53]
+write content: [52, 53]
+sending ack 215
+receive pkt with seqNo 215 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 217
+drop packet with seqNo 215
+drop packet with seqNo 215
+receive pkt with seqNo 215 ,content: [54, 55]
+sending ack 217
+receive pkt with seqNo 217 ,content: [56, 57]
+write content: [56, 57]
+sending ack 219
+receive pkt with seqNo 219 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 221
+receive pkt with seqNo 221 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 223
+receive pkt with seqNo 223 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 225
+receive pkt with seqNo 219 ,content: [13, 10]
+sending ack 225
+receive pkt with seqNo 225 ,content: [53, 54]
+write content: [53, 54]
+drop ACK 227
+receive pkt with seqNo 227 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 229
+drop packet with seqNo 229
+drop packet with seqNo 231
+drop packet with seqNo 225
+drop packet with seqNo 225
+drop packet with seqNo 225
+receive pkt with seqNo 225 ,content: [53, 54]
+sending ack 229
+receive pkt with seqNo 229 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 231
+drop packet with seqNo 229
+receive pkt with seqNo 229 ,content: [57, 13]
+sending ack 231
+receive pkt with seqNo 231 ,content: [10, 49]
+write content: [10, 49]
+sending ack 233
+receive pkt with seqNo 233 ,content: [50, 51]
+write content: [50, 51]
+sending ack 235
+drop packet with seqNo 235
+receive pkt with seqNo 237 ,content: [54, 55]
+sending ack 235
+receive pkt with seqNo 239 ,content: [56, 57]
+sending ack 235
+receive pkt with seqNo 235 ,content: [52, 53]
+write content: [52, 53]
+write content: [54, 55]
+write content: [56, 57]
+drop ACK 241
+drop packet with seqNo 235
+receive pkt with seqNo 235 ,content: [52, 53]
+drop ACK 241
+receive pkt with seqNo 235 ,content: [52, 53]
+sending ack 241
+drop packet with seqNo 241
+receive pkt with seqNo 243 ,content: [49, 50]
+sending ack 241
+drop packet with seqNo 245
+receive pkt with seqNo 247 ,content: [53, 54]
+drop ACK 241
+drop packet with seqNo 241
+receive pkt with seqNo 241 ,content: [13, 10]
+write content: [13, 10]
+write content: [49, 50]
+drop ACK 245
+receive pkt with seqNo 241 ,content: [13, 10]
+drop ACK 245
+receive pkt with seqNo 241 ,content: [13, 10]
+drop ACK 245
+drop packet with seqNo 241
+receive pkt with seqNo 241 ,content: [13, 10]
+drop ACK 245
+receive pkt with seqNo 241 ,content: [13, 10]
+sending ack 245
+receive pkt with seqNo 245 ,content: [51, 52]
+write content: [51, 52]
+write content: [53, 54]
+drop ACK 249
+receive pkt with seqNo 245 ,content: [51, 52]
+sending ack 249
+drop packet with seqNo 249
+receive pkt with seqNo 251 ,content: [57, 13]
+drop ACK 249
+receive pkt with seqNo 253 ,content: [10, 49]
+sending ack 249
+drop packet with seqNo 255
+receive pkt with seqNo 249 ,content: [55, 56]
+write content: [55, 56]
+write content: [57, 13]
+write content: [10, 49]
+drop ACK 255
+receive pkt with seqNo 249 ,content: [55, 56]
+sending ack 255
+drop packet with seqNo 255
+receive pkt with seqNo 255 ,content: [50, 51]
+write content: [50, 51]
+sending ack 257
+drop packet with seqNo 257
+receive pkt with seqNo 259 ,content: [54, 55]
+sending ack 257
+receive pkt with seqNo 261 ,content: [56, 57]
+sending ack 257
+drop packet with seqNo 263
+receive pkt with seqNo 257 ,content: [52, 53]
+write content: [52, 53]
+write content: [54, 55]
+write content: [56, 57]
+sending ack 263
+drop packet with seqNo 263
+receive pkt with seqNo 263 ,content: [13, 10]
+write content: [13, 10]
+sending ack 265
+drop packet with seqNo 265
+drop packet with seqNo 267
+receive pkt with seqNo 269 ,content: [53, 54]
+sending ack 265
+drop packet with seqNo 271
+receive pkt with seqNo 265 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 267
+receive pkt with seqNo 265 ,content: [49, 50]
+drop ACK 267
+receive pkt with seqNo 265 ,content: [49, 50]
+drop ACK 267
+receive pkt with seqNo 265 ,content: [49, 50]
+drop ACK 267
+drop packet with seqNo 265
+drop packet with seqNo 265
+drop packet with seqNo 265
+drop packet with seqNo 265
+drop packet with seqNo 265
+drop packet with seqNo 265
+receive pkt with seqNo 265 ,content: [49, 50]
+sending ack 267
+drop packet with seqNo 267
+drop packet with seqNo 267
+drop packet with seqNo 267
+receive pkt with seqNo 267 ,content: [51, 52]
+write content: [51, 52]
+write content: [53, 54]
+drop ACK 271
+receive pkt with seqNo 267 ,content: [51, 52]
+drop ACK 271
+receive pkt with seqNo 267 ,content: [51, 52]
+drop ACK 271
+drop packet with seqNo 267
+receive pkt with seqNo 267 ,content: [51, 52]
+drop ACK 271
+receive pkt with seqNo 267 ,content: [51, 52]
+drop ACK 271
+receive pkt with seqNo 267 ,content: [51, 52]
+sending ack 271
+drop packet with seqNo 271
+drop packet with seqNo 271
+drop packet with seqNo 271
+drop packet with seqNo 271
+drop packet with seqNo 271
+drop packet with seqNo 271
+receive pkt with seqNo 271 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 273
+drop packet with seqNo 271
+drop packet with seqNo 271
+receive pkt with seqNo 271 ,content: [55, 56]
+drop ACK 273
+drop packet with seqNo 271
+drop packet with seqNo 271
+drop packet with seqNo 271
+receive pkt with seqNo 271 ,content: [55, 56]
+sending ack 273
+receive pkt with seqNo 273 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 275
+drop packet with seqNo 275
+receive pkt with seqNo 277 ,content: [50, 51]
+drop ACK 275
+receive pkt with seqNo 279 ,content: [52, 53]
+drop ACK 275
+receive pkt with seqNo 273 ,content: [57, 13]
+sending ack 275
+drop packet with seqNo 275
+drop packet with seqNo 275
+drop packet with seqNo 275
+receive pkt with seqNo 275 ,content: [10, 49]
+write content: [10, 49]
+write content: [50, 51]
+write content: [52, 53]
+drop ACK 281
+drop packet with seqNo 275
+drop packet with seqNo 275
+drop packet with seqNo 275
+drop packet with seqNo 275
+receive pkt with seqNo 275 ,content: [10, 49]
+sending ack 281
+drop packet with seqNo 281
+drop packet with seqNo 283
+receive pkt with seqNo 285 ,content: [13, 10]
+drop ACK 281
+receive pkt with seqNo 287 ,content: [49, 50]
+sending ack 281
+receive pkt with seqNo 281 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 283
+receive pkt with seqNo 281 ,content: [54, 55]
+sending ack 283
+drop packet with seqNo 283
+drop packet with seqNo 283
+drop packet with seqNo 283
+drop packet with seqNo 283
+receive pkt with seqNo 283 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+write content: [49, 50]
+drop ACK 289
+drop packet with seqNo 283
+receive pkt with seqNo 283 ,content: [56, 57]
+drop ACK 289
+drop packet with seqNo 283
+receive pkt with seqNo 283 ,content: [56, 57]
+drop ACK 289
+drop packet with seqNo 283
+receive pkt with seqNo 283 ,content: [56, 57]
+sending ack 289
+receive pkt with seqNo 289 ,content: [51, 52]
+write content: [51, 52]
+sending ack 291
+receive pkt with seqNo 291 ,content: [53, 54]
+write content: [53, 54]
+drop ACK 293
+receive pkt with seqNo 293 ,content: [55, 56]
+write content: [55, 56]
+sending ack 295
+receive pkt with seqNo 295 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 297
+drop packet with seqNo 295
+drop packet with seqNo 295
+drop packet with seqNo 295
+receive pkt with seqNo 295 ,content: [57, 13]
+sending ack 297
+drop packet with seqNo 297
+receive pkt with seqNo 299 ,content: [50, 51]
+drop ACK 297
+receive pkt with seqNo 301 ,content: [52, 53]
+drop ACK 297
+drop packet with seqNo 303
+receive pkt with seqNo 297 ,content: [10, 49]
+write content: [10, 49]
+write content: [50, 51]
+write content: [52, 53]
+sending ack 303
+receive pkt with seqNo 303 ,content: [54, 55]
+write content: [54, 55]
+sending ack 305
+receive pkt with seqNo 305 ,content: [56, 57]
+write content: [56, 57]
+sending ack 307
+receive pkt with seqNo 307 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 309
+receive pkt with seqNo 309 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 311
+drop packet with seqNo 311
+drop packet with seqNo 307
+drop packet with seqNo 307
+receive pkt with seqNo 307 ,content: [13, 10]
+drop ACK 311
+drop packet with seqNo 307
+drop packet with seqNo 307
+drop packet with seqNo 307
+drop packet with seqNo 307
+drop packet with seqNo 307
+drop packet with seqNo 307
+drop packet with seqNo 307
+receive pkt with seqNo 307 ,content: [13, 10]
+drop ACK 311
+receive pkt with seqNo 307 ,content: [13, 10]
+drop ACK 311
+drop packet with seqNo 307
+receive pkt with seqNo 307 ,content: [13, 10]
+drop ACK 311
+drop packet with seqNo 307
+receive pkt with seqNo 307 ,content: [13, 10]
+drop ACK 311
+drop packet with seqNo 307
+drop packet with seqNo 307
+drop packet with seqNo 307
+receive pkt with seqNo 307 ,content: [13, 10]
+sending ack 311
+receive pkt with seqNo 311 ,content: [51, 52]
+write content: [51, 52]
+sending ack 313
+drop packet with seqNo 313
+receive pkt with seqNo 315 ,content: [55, 56]
+drop ACK 313
+receive pkt with seqNo 317 ,content: [57, 13]
+sending ack 313
+receive pkt with seqNo 319 ,content: [10, 49]
+drop ACK 313
+receive pkt with seqNo 313 ,content: [53, 54]
+write content: [53, 54]
+write content: [55, 56]
+write content: [57, 13]
+write content: [10, 49]
+drop ACK 321
+receive pkt with seqNo 313 ,content: [53, 54]
+drop ACK 321
+drop packet with seqNo 313
+receive pkt with seqNo 313 ,content: [53, 54]
+drop ACK 321
+drop packet with seqNo 313
+drop packet with seqNo 313
+receive pkt with seqNo 313 ,content: [53, 54]
+sending ack 321
+receive pkt with seqNo 321 ,content: [50, 51]
+write content: [50, 51]
+sending ack 323
+receive pkt with seqNo 323 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 325
+drop packet with seqNo 325
+receive pkt with seqNo 327 ,content: [56, 57]
+sending ack 325
+receive pkt with seqNo 325 ,content: [54, 55]
+write content: [54, 55]
+write content: [56, 57]
+sending ack 329
+receive pkt with seqNo 329 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 331
+drop packet with seqNo 331
+drop packet with seqNo 333
+receive pkt with seqNo 335 ,content: [53, 54]
+drop ACK 331
+drop packet with seqNo 329
+drop packet with seqNo 329
+drop packet with seqNo 329
+receive pkt with seqNo 329 ,content: [13, 10]
+sending ack 331
+receive pkt with seqNo 331 ,content: [49, 50]
+write content: [49, 50]
+sending ack 333
+receive pkt with seqNo 333 ,content: [51, 52]
+write content: [51, 52]
+write content: [53, 54]
+sending ack 337
+receive pkt with seqNo 337 ,content: [55, 56]
+write content: [55, 56]
+sending ack 339
+drop packet with seqNo 339
+receive pkt with seqNo 341 ,content: [10, 49]
+sending ack 339
+drop packet with seqNo 343
+drop packet with seqNo 339
+drop packet with seqNo 339
+receive pkt with seqNo 339 ,content: [57, 13]
+write content: [57, 13]
+write content: [10, 49]
+drop ACK 343
+drop packet with seqNo 339
+receive pkt with seqNo 339 ,content: [57, 13]
+sending ack 343
+drop packet with seqNo 343
+drop packet with seqNo 343
+receive pkt with seqNo 343 ,content: [50, 51]
+write content: [50, 51]
+drop ACK 345
+receive pkt with seqNo 343 ,content: [50, 51]
+sending ack 345
+drop packet with seqNo 345
+receive pkt with seqNo 347 ,content: [54, 55]
+sending ack 345
+receive pkt with seqNo 349 ,content: [56, 57]
+sending ack 345
+receive pkt with seqNo 351 ,content: [13, 10]
+drop ACK 345
+drop packet with seqNo 345
+receive pkt with seqNo 345 ,content: [52, 53]
+write content: [52, 53]
+write content: [54, 55]
+write content: [56, 57]
+write content: [13, 10]
+drop ACK 353
+receive pkt with seqNo 345 ,content: [52, 53]
+sending ack 353
+drop packet with seqNo 353
+receive pkt with seqNo 355 ,content: [51, 52]
+sending ack 353
+drop packet with seqNo 357
+receive pkt with seqNo 359 ,content: [55, 56]
+drop ACK 353
+receive pkt with seqNo 353 ,content: [49, 50]
+write content: [49, 50]
+write content: [51, 52]
+drop ACK 357
+receive pkt with seqNo 353 ,content: [49, 50]
+drop ACK 357
+drop packet with seqNo 353
+receive pkt with seqNo 353 ,content: [49, 50]
+sending ack 357
+receive pkt with seqNo 357 ,content: [53, 54]
+write content: [53, 54]
+write content: [55, 56]
+drop ACK 361
+receive pkt with seqNo 357 ,content: [53, 54]
+sending ack 361
+drop packet with seqNo 361
+receive pkt with seqNo 363 ,content: [10, 49]
+drop ACK 361
+receive pkt with seqNo 365 ,content: [50, 51]
+drop ACK 361
+drop packet with seqNo 367
+drop packet with seqNo 361
+drop packet with seqNo 361
+receive pkt with seqNo 361 ,content: [57, 13]
+write content: [57, 13]
+write content: [10, 49]
+write content: [50, 51]
+sending ack 367
+drop packet with seqNo 367
+drop packet with seqNo 367
+drop packet with seqNo 367
+receive pkt with seqNo 367 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 369
+drop packet with seqNo 367
+receive pkt with seqNo 367 ,content: [52, 53]
+sending ack 369
+receive pkt with seqNo 369 ,content: [54, 55]
+write content: [54, 55]
+sending ack 371
+drop packet with seqNo 371
+receive pkt with seqNo 373 ,content: [13, 10]
+drop ACK 371
+drop packet with seqNo 375
+drop packet with seqNo 371
+drop packet with seqNo 371
+receive pkt with seqNo 371 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+sending ack 375
+drop packet with seqNo 375
+drop packet with seqNo 375
+receive pkt with seqNo 375 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 377
+receive pkt with seqNo 375 ,content: [49, 50]
+drop ACK 377
+drop packet with seqNo 375
+receive pkt with seqNo 375 ,content: [49, 50]
+drop ACK 377
+drop packet with seqNo 375
+drop packet with seqNo 375
+receive pkt with seqNo 375 ,content: [49, 50]
+sending ack 377
+drop packet with seqNo 377
+receive pkt with seqNo 379 ,content: [53, 54]
+drop ACK 377
+receive pkt with seqNo 381 ,content: [55, 56]
+sending ack 377
+receive pkt with seqNo 383 ,content: [57, 13]
+drop ACK 377
+receive pkt with seqNo 377 ,content: [51, 52]
+write content: [51, 52]
+write content: [53, 54]
+write content: [55, 56]
+write content: [57, 13]
+drop ACK 385
+receive pkt with seqNo 377 ,content: [51, 52]
+drop ACK 385
+drop packet with seqNo 377
+receive pkt with seqNo 377 ,content: [51, 52]
+sending ack 385
+receive pkt with seqNo 385 ,content: [10, 49]
+write content: [10, 49]
+sending ack 387
+drop packet with seqNo 387
+receive pkt with seqNo 389 ,content: [52, 53]
+drop ACK 387
+receive pkt with seqNo 391 ,content: [54, 55]
+drop ACK 387
+drop packet with seqNo 387
+drop packet with seqNo 387
+drop packet with seqNo 387
+drop packet with seqNo 387
+receive pkt with seqNo 387 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+write content: [54, 55]
+drop ACK 393
+drop packet with seqNo 387
+receive pkt with seqNo 387 ,content: [50, 51]
+drop ACK 393
+drop packet with seqNo 387
+drop packet with seqNo 387
+receive pkt with seqNo 387 ,content: [50, 51]
+drop ACK 393
+receive pkt with seqNo 387 ,content: [50, 51]
+drop ACK 393
+drop packet with seqNo 387
+drop packet with seqNo 387
+drop packet with seqNo 387
+drop packet with seqNo 387
+receive pkt with seqNo 387 ,content: [50, 51]
+drop ACK 393
+receive pkt with seqNo 387 ,content: [50, 51]
+drop ACK 393
+drop packet with seqNo 387
+receive pkt with seqNo 387 ,content: [50, 51]
+sending ack 393
+receive pkt with seqNo 393 ,content: [56, 57]
+write content: [56, 57]
+sending ack 395
+drop packet with seqNo 395
+receive pkt with seqNo 397 ,content: [49, 50]
+drop ACK 395
+receive pkt with seqNo 399 ,content: [51, 52]
+drop ACK 395
+drop packet with seqNo 395
+receive pkt with seqNo 395 ,content: [13, 10]
+write content: [13, 10]
+write content: [49, 50]
+write content: [51, 52]
+sending ack 401
+receive pkt with seqNo 401 ,content: [53, 54]
+write content: [53, 54]
+drop ACK 403
+receive pkt with seqNo 403 ,content: [55, 56]
+write content: [55, 56]
+sending ack 405
+receive pkt with seqNo 405 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 407
+drop packet with seqNo 407
+receive pkt with seqNo 405 ,content: [57, 13]
+sending ack 407
+receive pkt with seqNo 407 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 409
+receive pkt with seqNo 407 ,content: [10, 49]
+drop ACK 409
+drop packet with seqNo 407
+drop packet with seqNo 407
+receive pkt with seqNo 407 ,content: [10, 49]
+drop ACK 409
+drop packet with seqNo 407
+drop packet with seqNo 407
+drop packet with seqNo 407
+drop packet with seqNo 407
+receive pkt with seqNo 407 ,content: [10, 49]
+drop ACK 409
+drop packet with seqNo 407
+receive pkt with seqNo 407 ,content: [10, 49]
+sending ack 409
+receive pkt with seqNo 409 ,content: [50, 51]
+write content: [50, 51]
+sending ack 411
+receive pkt with seqNo 411 ,content: [52, 53]
+write content: [52, 53]
+sending ack 413
+drop packet with seqNo 413
+drop packet with seqNo 415
+drop packet with seqNo 413
+drop packet with seqNo 413
+receive pkt with seqNo 413 ,content: [54, 55]
+write content: [54, 55]
+sending ack 415
+receive pkt with seqNo 415 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 417
+drop packet with seqNo 415
+receive pkt with seqNo 415 ,content: [56, 57]
+sending ack 417
+receive pkt with seqNo 417 ,content: [13, 10]
+write content: [13, 10]
+sending ack 419
+receive pkt with seqNo 419 ,content: [49, 50]
+write content: [49, 50]
+sending ack 421
+receive pkt with seqNo 421 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 423
+receive pkt with seqNo 423 ,content: [53, 54]
+write content: [53, 54]
+sending ack 425
+receive pkt with seqNo 425 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 427
+receive pkt with seqNo 427 ,content: [57, 13]
+write content: [57, 13]
+sending ack 429
+drop packet with seqNo 429
+receive pkt with seqNo 431 ,content: [50, 51]
+drop ACK 429
+receive pkt with seqNo 429 ,content: [10, 49]
+write content: [10, 49]
+write content: [50, 51]
+drop ACK 433
+receive pkt with seqNo 429 ,content: [10, 49]
+drop ACK 433
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+receive pkt with seqNo 429 ,content: [10, 49]
+drop ACK 433
+drop packet with seqNo 429
+drop packet with seqNo 429
+drop packet with seqNo 429
+receive pkt with seqNo 429 ,content: [10, 49]
+sending ack 433
+drop packet with seqNo 433
+drop packet with seqNo 435
+drop packet with seqNo 437
+drop packet with seqNo 439
+drop packet with seqNo 433
+drop packet with seqNo 433
+receive pkt with seqNo 433 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 435
+receive pkt with seqNo 433 ,content: [52, 53]
+drop ACK 435
+drop packet with seqNo 433
+receive pkt with seqNo 433 ,content: [52, 53]
+drop ACK 435
+receive pkt with seqNo 433 ,content: [52, 53]
+drop ACK 435
+receive pkt with seqNo 433 ,content: [52, 53]
+drop ACK 435
+drop packet with seqNo 433
+receive pkt with seqNo 433 ,content: [52, 53]
+sending ack 435
+drop packet with seqNo 435
+receive pkt with seqNo 435 ,content: [54, 55]
+write content: [54, 55]
+sending ack 437
+drop packet with seqNo 437
+receive pkt with seqNo 437 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 439
+drop packet with seqNo 437
+drop packet with seqNo 437
+drop packet with seqNo 437
+drop packet with seqNo 437
+receive pkt with seqNo 437 ,content: [56, 57]
+drop ACK 439
+drop packet with seqNo 437
+receive pkt with seqNo 437 ,content: [56, 57]
+drop ACK 439
+receive pkt with seqNo 437 ,content: [56, 57]
+drop ACK 439
+drop packet with seqNo 437
+drop packet with seqNo 437
+receive pkt with seqNo 437 ,content: [56, 57]
+sending ack 439
+drop packet with seqNo 439
+receive pkt with seqNo 439 ,content: [13, 10]
+write content: [13, 10]
+sending ack 441
+drop packet with seqNo 441
+drop packet with seqNo 443
+drop packet with seqNo 445
+drop packet with seqNo 447
+receive pkt with seqNo 441 ,content: [49, 50]
+write content: [49, 50]
+sending ack 443
+drop packet with seqNo 443
+receive pkt with seqNo 443 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 445
+receive pkt with seqNo 443 ,content: [51, 52]
+sending ack 445
+drop packet with seqNo 445
+drop packet with seqNo 445
+receive pkt with seqNo 445 ,content: [53, 54]
+write content: [53, 54]
+sending ack 447
+drop packet with seqNo 447
+drop packet with seqNo 447
+drop packet with seqNo 447
+receive pkt with seqNo 447 ,content: [55, 56]
+write content: [55, 56]
+sending ack 449
+receive pkt with seqNo 449 ,content: [57, 13]
+write content: [57, 13]
+sending ack 451
+drop packet with seqNo 451
+drop packet with seqNo 453
+receive pkt with seqNo 455 ,content: [52, 53]
+sending ack 451
+drop packet with seqNo 451
+drop packet with seqNo 451
+receive pkt with seqNo 451 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 453
+receive pkt with seqNo 451 ,content: [10, 49]
+drop ACK 453
+receive pkt with seqNo 451 ,content: [10, 49]
+sending ack 453
+drop packet with seqNo 453
+receive pkt with seqNo 453 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+sending ack 457
+receive pkt with seqNo 457 ,content: [54, 55]
+write content: [54, 55]
+sending ack 459
+drop packet with seqNo 459
+drop packet with seqNo 461
+drop packet with seqNo 463
+receive pkt with seqNo 459 ,content: [56, 57]
+write content: [56, 57]
+drop ACK 461
+drop packet with seqNo 459
+receive pkt with seqNo 459 ,content: [56, 57]
+drop ACK 461
+drop packet with seqNo 459
+receive pkt with seqNo 459 ,content: [56, 57]
+sending ack 461
+drop packet with seqNo 461
+drop packet with seqNo 461
+receive pkt with seqNo 461 ,content: [13, 10]
+write content: [13, 10]
+sending ack 463
+drop packet with seqNo 463
+receive pkt with seqNo 463 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 465
+drop packet with seqNo 463
+drop packet with seqNo 463
+drop packet with seqNo 463
+drop packet with seqNo 463
+receive pkt with seqNo 463 ,content: [49, 50]
+drop ACK 465
+receive pkt with seqNo 463 ,content: [49, 50]
+sending ack 465
+drop packet with seqNo 465
+receive pkt with seqNo 467 ,content: [53, 54]
+drop ACK 465
+drop packet with seqNo 469
+receive pkt with seqNo 471 ,content: [57, 13]
+drop ACK 465
+drop packet with seqNo 465
+drop packet with seqNo 465
+drop packet with seqNo 465
+receive pkt with seqNo 465 ,content: [51, 52]
+write content: [51, 52]
+write content: [53, 54]
+sending ack 469
+drop packet with seqNo 469
+drop packet with seqNo 469
+drop packet with seqNo 469
+drop packet with seqNo 469
+drop packet with seqNo 469
+receive pkt with seqNo 469 ,content: [55, 56]
+write content: [55, 56]
+write content: [57, 13]
+sending ack 473
+receive pkt with seqNo 473 ,content: [10, 49]
+write content: [10, 49]
+sending ack 475
+drop packet with seqNo 475
+receive pkt with seqNo 477 ,content: [52, 53]
+sending ack 475
+receive pkt with seqNo 479 ,content: [54, 55]
+drop ACK 475
+drop packet with seqNo 475
+drop packet with seqNo 475
+drop packet with seqNo 475
+drop packet with seqNo 475
+drop packet with seqNo 475
+drop packet with seqNo 475
+drop packet with seqNo 475
+receive pkt with seqNo 475 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+write content: [54, 55]
+drop ACK 481
+drop packet with seqNo 475
+drop packet with seqNo 475
+receive pkt with seqNo 475 ,content: [50, 51]
+drop ACK 481
+receive pkt with seqNo 475 ,content: [50, 51]
+drop ACK 481
+drop packet with seqNo 475
+receive pkt with seqNo 475 ,content: [50, 51]
+sending ack 481
+drop packet with seqNo 481
+receive pkt with seqNo 483 ,content: [13, 10]
+drop ACK 481
+receive pkt with seqNo 485 ,content: [49, 50]
+drop ACK 481
+receive pkt with seqNo 487 ,content: [51, 52]
+sending ack 481
+drop packet with seqNo 481
+drop packet with seqNo 481
+drop packet with seqNo 481
+receive pkt with seqNo 481 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+write content: [49, 50]
+write content: [51, 52]
+drop ACK 489
+receive pkt with seqNo 481 ,content: [56, 57]
+drop ACK 489
+drop packet with seqNo 481
+drop packet with seqNo 481
+receive pkt with seqNo 481 ,content: [56, 57]
+sending ack 489
+receive pkt with seqNo 489 ,content: [53, 54]
+write content: [53, 54]
+sending ack 491
+drop packet with seqNo 491
+receive pkt with seqNo 493 ,content: [57, 13]
+sending ack 491
+receive pkt with seqNo 495 ,content: [10, 49]
+sending ack 491
+receive pkt with seqNo 491 ,content: [55, 56]
+write content: [55, 56]
+write content: [57, 13]
+write content: [10, 49]
+drop ACK 497
+receive pkt with seqNo 491 ,content: [55, 56]
+sending ack 497
+drop packet with seqNo 497
+drop packet with seqNo 499
+receive pkt with seqNo 501 ,content: [54, 55]
+drop ACK 497
+receive pkt with seqNo 503 ,content: [56, 57]
+drop ACK 497
+drop packet with seqNo 497
+drop packet with seqNo 497
+receive pkt with seqNo 497 ,content: [50, 51]
+write content: [50, 51]
+sending ack 499
+receive pkt with seqNo 499 ,content: [52, 53]
+write content: [52, 53]
+write content: [54, 55]
+write content: [56, 57]
+sending ack 505
+receive pkt with seqNo 505 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 507
+receive pkt with seqNo 507 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 509
+receive pkt with seqNo 509 ,content: [51, 52]
+write content: [51, 52]
+sending ack 511
+receive pkt with seqNo 511 ,content: [53, 54]
+write content: [53, 54]
+sending ack 513
+receive pkt with seqNo 513 ,content: [55, 56]
+write content: [55, 56]
+drop ACK 515
+receive pkt with seqNo 515 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 517
+drop packet with seqNo 517
+drop packet with seqNo 519
+receive pkt with seqNo 513 ,content: [55, 56]
+sending ack 517
+receive pkt with seqNo 517 ,content: [10, 49]
+write content: [10, 49]
+sending ack 519
+receive pkt with seqNo 519 ,content: [50, 51]
+write content: [50, 51]
+drop ACK 521
+drop packet with seqNo 519
+drop packet with seqNo 519
+receive pkt with seqNo 519 ,content: [50, 51]
+drop ACK 521
+receive pkt with seqNo 519 ,content: [50, 51]
+sending ack 521
+receive pkt with seqNo 521 ,content: [52, 53]
+write content: [52, 53]
+sending ack 523
+receive pkt with seqNo 523 ,content: [54, 55]
+write content: [54, 55]
+sending ack 525
+drop packet with seqNo 525
+receive pkt with seqNo 527 ,content: [13, 10]
+drop ACK 525
+drop packet with seqNo 525
+receive pkt with seqNo 525 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+drop ACK 529
+drop packet with seqNo 525
+drop packet with seqNo 525
+receive pkt with seqNo 525 ,content: [56, 57]
+drop ACK 529
+drop packet with seqNo 525
+drop packet with seqNo 525
+drop packet with seqNo 525
+drop packet with seqNo 525
+receive pkt with seqNo 525 ,content: [56, 57]
+sending ack 529
+receive pkt with seqNo 529 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 531
+drop packet with seqNo 531
+drop packet with seqNo 533
+receive pkt with seqNo 535 ,content: [55, 56]
+drop ACK 531
+drop packet with seqNo 529
+receive pkt with seqNo 529 ,content: [49, 50]
+sending ack 531
+drop packet with seqNo 531
+drop packet with seqNo 531
+drop packet with seqNo 531
+receive pkt with seqNo 531 ,content: [51, 52]
+write content: [51, 52]
+sending ack 533
+drop packet with seqNo 533
+drop packet with seqNo 533
+receive pkt with seqNo 533 ,content: [53, 54]
+write content: [53, 54]
+write content: [55, 56]
+drop ACK 537
+receive pkt with seqNo 533 ,content: [53, 54]
+drop ACK 537
+drop packet with seqNo 533
+drop packet with seqNo 533
+receive pkt with seqNo 533 ,content: [53, 54]
+drop ACK 537
+drop packet with seqNo 533
+drop packet with seqNo 533
+drop packet with seqNo 533
+receive pkt with seqNo 533 ,content: [53, 54]
+drop ACK 537
+drop packet with seqNo 533
+receive pkt with seqNo 533 ,content: [53, 54]
+sending ack 537
+drop packet with seqNo 537
+drop packet with seqNo 539
+receive pkt with seqNo 541 ,content: [50, 51]
+sending ack 537
+drop packet with seqNo 543
+drop packet with seqNo 537
+drop packet with seqNo 537
+receive pkt with seqNo 537 ,content: [57, 13]
+write content: [57, 13]
+sending ack 539
+receive pkt with seqNo 539 ,content: [10, 49]
+write content: [10, 49]
+write content: [50, 51]
+drop ACK 543
+drop packet with seqNo 539
+drop packet with seqNo 539
+receive pkt with seqNo 539 ,content: [10, 49]
+sending ack 543
+drop packet with seqNo 543
+drop packet with seqNo 543
+drop packet with seqNo 543
+receive pkt with seqNo 543 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 545
+drop packet with seqNo 543
+drop packet with seqNo 543
+receive pkt with seqNo 543 ,content: [52, 53]
+sending ack 545
+receive pkt with seqNo 545 ,content: [54, 55]
+write content: [54, 55]
+drop ACK 547
+drop packet with seqNo 547
+drop packet with seqNo 549
+drop packet with seqNo 551
+receive pkt with seqNo 545 ,content: [54, 55]
+drop ACK 547
+drop packet with seqNo 545
+drop packet with seqNo 545
+receive pkt with seqNo 545 ,content: [54, 55]
+sending ack 547
+drop packet with seqNo 547
+drop packet with seqNo 547
+drop packet with seqNo 547
+drop packet with seqNo 547
+receive pkt with seqNo 547 ,content: [56, 57]
+write content: [56, 57]
+sending ack 549
+drop packet with seqNo 549
+drop packet with seqNo 549
+receive pkt with seqNo 549 ,content: [13, 10]
+write content: [13, 10]
+drop ACK 551
+drop packet with seqNo 549
+receive pkt with seqNo 549 ,content: [13, 10]
+sending ack 551
+receive pkt with seqNo 551 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 553
+receive pkt with seqNo 551 ,content: [49, 50]
+drop ACK 553
+drop packet with seqNo 551
+receive pkt with seqNo 551 ,content: [49, 50]
+drop ACK 553
+drop packet with seqNo 551
+drop packet with seqNo 551
+receive pkt with seqNo 551 ,content: [49, 50]
+sending ack 553
+receive pkt with seqNo 553 ,content: [51, 52]
+write content: [51, 52]
+drop ACK 555
+receive pkt with seqNo 555 ,content: [53, 54]
+write content: [53, 54]
+sending ack 557
+receive pkt with seqNo 557 ,content: [55, 56]
+write content: [55, 56]
+sending ack 559
+drop packet with seqNo 559
+receive pkt with seqNo 559 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 561
+receive pkt with seqNo 559 ,content: [57, 13]
+drop ACK 561
+receive pkt with seqNo 559 ,content: [57, 13]
+sending ack 561
+drop packet with seqNo 561
+drop packet with seqNo 563
+drop packet with seqNo 565
+drop packet with seqNo 567
+receive pkt with seqNo 561 ,content: [10, 49]
+write content: [10, 49]
+sending ack 563
+drop packet with seqNo 563
+drop packet with seqNo 563
+receive pkt with seqNo 563 ,content: [50, 51]
+write content: [50, 51]
+sending ack 565
+drop packet with seqNo 565
+receive pkt with seqNo 565 ,content: [52, 53]
+write content: [52, 53]
+sending ack 567
+drop packet with seqNo 567
+drop packet with seqNo 567
+receive pkt with seqNo 567 ,content: [54, 55]
+write content: [54, 55]
+sending ack 569
+drop packet with seqNo 569
+receive pkt with seqNo 571 ,content: [13, 10]
+sending ack 569
+drop packet with seqNo 573
+receive pkt with seqNo 575 ,content: [51, 52]
+drop ACK 569
+receive pkt with seqNo 569 ,content: [56, 57]
+write content: [56, 57]
+write content: [13, 10]
+drop ACK 573
+drop packet with seqNo 569
+drop packet with seqNo 569
+receive pkt with seqNo 569 ,content: [56, 57]
+drop ACK 573
+drop packet with seqNo 569
+receive pkt with seqNo 569 ,content: [56, 57]
+drop ACK 573
+drop packet with seqNo 569
+receive pkt with seqNo 569 ,content: [56, 57]
+drop ACK 573
+receive pkt with seqNo 569 ,content: [56, 57]
+drop ACK 573
+drop packet with seqNo 569
+drop packet with seqNo 569
+receive pkt with seqNo 569 ,content: [56, 57]
+sending ack 573
+receive pkt with seqNo 573 ,content: [49, 50]
+write content: [49, 50]
+write content: [51, 52]
+drop ACK 577
+drop packet with seqNo 573
+drop packet with seqNo 573
+drop packet with seqNo 573
+receive pkt with seqNo 573 ,content: [49, 50]
+sending ack 577
+drop packet with seqNo 577
+drop packet with seqNo 579
+drop packet with seqNo 581
+drop packet with seqNo 583
+drop packet with seqNo 577
+receive pkt with seqNo 577 ,content: [53, 54]
+write content: [53, 54]
+drop ACK 579
+drop packet with seqNo 577
+receive pkt with seqNo 577 ,content: [53, 54]
+drop ACK 579
+receive pkt with seqNo 577 ,content: [53, 54]
+sending ack 579
+receive pkt with seqNo 579 ,content: [55, 56]
+write content: [55, 56]
+sending ack 581
+receive pkt with seqNo 581 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 583
+drop packet with seqNo 581
+receive pkt with seqNo 581 ,content: [57, 13]
+sending ack 583
+drop packet with seqNo 583
+receive pkt with seqNo 583 ,content: [10, 49]
+write content: [10, 49]
+sending ack 585
+drop packet with seqNo 585
+receive pkt with seqNo 587 ,content: [52, 53]
+sending ack 585
+receive pkt with seqNo 589 ,content: [54, 55]
+sending ack 585
+receive pkt with seqNo 591 ,content: [56, 57]
+sending ack 585
+drop packet with seqNo 585
+drop packet with seqNo 585
+receive pkt with seqNo 585 ,content: [50, 51]
+write content: [50, 51]
+write content: [52, 53]
+write content: [54, 55]
+write content: [56, 57]
+sending ack 593
+drop packet with seqNo 593
+receive pkt with seqNo 595 ,content: [49, 50]
+drop ACK 593
+drop packet with seqNo 597
+receive pkt with seqNo 599 ,content: [53, 54]
+drop ACK 593
+receive pkt with seqNo 593 ,content: [13, 10]
+write content: [13, 10]
+write content: [49, 50]
+drop ACK 597
+receive pkt with seqNo 593 ,content: [13, 10]
+drop ACK 597
+drop packet with seqNo 593
+drop packet with seqNo 593
+receive pkt with seqNo 593 ,content: [13, 10]
+drop ACK 597
+drop packet with seqNo 593
+receive pkt with seqNo 593 ,content: [13, 10]
+drop ACK 597
+receive pkt with seqNo 593 ,content: [13, 10]
+drop ACK 597
+receive pkt with seqNo 593 ,content: [13, 10]
+drop ACK 597
+drop packet with seqNo 593
+receive pkt with seqNo 593 ,content: [13, 10]
+sending ack 597
+drop packet with seqNo 597
+drop packet with seqNo 597
+receive pkt with seqNo 597 ,content: [51, 52]
+write content: [51, 52]
+write content: [53, 54]
+drop ACK 601
+receive pkt with seqNo 597 ,content: [51, 52]
+sending ack 601
+receive pkt with seqNo 601 ,content: [55, 56]
+write content: [55, 56]
+sending ack 603
+receive pkt with seqNo 603 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 605
+receive pkt with seqNo 605 ,content: [10, 49]
+write content: [10, 49]
+drop ACK 607
+drop packet with seqNo 607
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+receive pkt with seqNo 603 ,content: [57, 13]
+drop ACK 607
+drop packet with seqNo 603
+drop packet with seqNo 603
+drop packet with seqNo 603
+receive pkt with seqNo 603 ,content: [57, 13]
+drop ACK 607
+receive pkt with seqNo 603 ,content: [57, 13]
+sending ack 607
+receive pkt with seqNo 607 ,content: [50, 51]
+write content: [50, 51]
+sending ack 609
+drop packet with seqNo 609
+drop packet with seqNo 611
+receive pkt with seqNo 613 ,content: [56, 57]
+drop ACK 609
+drop packet with seqNo 615
+receive pkt with seqNo 609 ,content: [52, 53]
+write content: [52, 53]
+drop ACK 611
+receive pkt with seqNo 609 ,content: [52, 53]
+drop ACK 611
+drop packet with seqNo 609
+receive pkt with seqNo 609 ,content: [52, 53]
+sending ack 611
+drop packet with seqNo 611
+receive pkt with seqNo 611 ,content: [54, 55]
+write content: [54, 55]
+write content: [56, 57]
+sending ack 615
+drop packet with seqNo 615
+receive pkt with seqNo 615 ,content: [13, 10]
+write content: [13, 10]
+sending ack 617
+receive pkt with seqNo 617 ,content: [49, 50]
+write content: [49, 50]
+drop ACK 619
+receive pkt with seqNo 619 ,content: [51, 52]
+write content: [51, 52]
+sending ack 621
+receive pkt with seqNo 621 ,content: [53, 54]
+write content: [53, 54]
+drop ACK 623
+receive pkt with seqNo 623 ,content: [55, 56]
+write content: [55, 56]
+sending ack 625
+drop packet with seqNo 625
+drop packet with seqNo 627
+receive pkt with seqNo 625 ,content: [57, 13]
+write content: [57, 13]
+drop ACK 627
+receive pkt with seqNo 625 ,content: [57, 13]
+sending ack 627
+receive pkt with seqNo 627 ,content: [10]
+write content: [10]
+drop ACK 628
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+drop packet with seqNo 627
+receive pkt with seqNo 627 ,content: [10]
+sending ack 628
+receive pkt with seqNo 628 ,content: []
+drop ACK 629
+drop packet with seqNo 628
+receive pkt with seqNo 628 ,content: []
+drop ACK 629
+drop packet with seqNo 628
+drop packet with seqNo 628
