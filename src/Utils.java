@@ -25,12 +25,11 @@ public class Utils {
 
             } else if (input.equals("help")) {
                 String statement =
-                        "If you enter [dd] (drop drop),\n " +
-                                "the receiver will drop \n" +
+                        "If you enter [dd] (drop drop), the receiver will drop\n" +
                                 "the incoming packet and the reply ACK\n" +
                                 "If you enter [nd] (notDrop drop)\n" +
                                 "the receiver will receive the incoming packet\n" +
-                                "and drop the reply ACK\n+" +
+                                "and drop the reply ACK\n" +
                                 "same for the [nn] [dn]\n";
                 System.out.println(statement);
             } else {
