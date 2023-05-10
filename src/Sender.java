@@ -361,7 +361,9 @@ public class Sender {
         short seqNo = Utils.mod(this.fileBytes.length + 1);
         short expACK = Utils.mod(seqNo + 1);
         sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
-        System.out.println("FIN has been ACK, tell listenThread to close, return");
+        System.out.println("FIN has been ACK, tell listenThread to close," +
+                " call System.exit");
+        System.exit(0);
     }
 
     private void sendRESETAndDoNotCheckACK() {

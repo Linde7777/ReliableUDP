@@ -129,6 +129,7 @@ public class Receiver {
             this.clientAddress = incomingPacket.getAddress();
 
             if (dropIncomingData) {
+                System.out.println("Drop packet with seqNo " + recSeqNo);
                 continue;
             }
 
@@ -139,6 +140,7 @@ public class Receiver {
             writeDataIntoFile();
 
             if (dropACK) {
+                System.out.println("Drop ACK " + debug_replyACK);
                 continue;
             }
 
@@ -147,7 +149,7 @@ public class Receiver {
 
             if (this.receiveFIN) {
                 System.out.println("ACK of FIN has been sent, to avoid this ACK" +
-                        "get lost, receiver will wait for 3 seconds for the possible" +
+                        "get lost\n, receiver will wait for 3 seconds for the possible\n" +
                         "FIN from sender, then receiver will close.");
                 this.receiverSocket.setSoTimeout(3000);
                 return;
