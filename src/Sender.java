@@ -52,6 +52,9 @@ public class Sender {
     private int next = 0;
     private int base = 0;
     private boolean allDataHasBeenACKed = false;
+    private short receivedACKOfFINPkt = -111;
+    private boolean listenThreadShouldBeClosed = false;
+    private long FINSentTime;
 
     public Sender(int senderPort, int receiverPort, String filename, int windowSizeInByte, int rto) throws IOException {
         this.semaphore = new Semaphore(1);
@@ -175,6 +178,15 @@ public class Sender {
     public void listen() throws IOException, InterruptedException {
         // listen to incoming packets from receiver
         while (true) {
+            semaphore.acquire();
+            if (this.listenThreadShouldBeClosed) {
+                System.out.println("receive signal from sending thread, closing...");
+                semaphore.release();
+                senderSocket.close();
+                return;
+            }
+            semaphore.release();
+
             byte[] receiveData = new byte[BUFFERSIZE];
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             senderSocket.receive(receivePacket);
@@ -198,11 +210,10 @@ public class Sender {
 
             boolean recACKIsForFINSegment = connectionIsEstablished && this.allDataHasBeenACKed;
             if (recACKIsForFINSegment) {
-                System.out.println("receive ACK for FIN, closing socket...");
-                senderSocket.close();
+                this.receivedACKOfFINPkt = recSeqNo;
             }
-
             semaphore.release();
+
 
         }
     }
@@ -219,16 +230,29 @@ public class Sender {
 
     // retransmit unacknowledged packet at most this.resentLimit times
     private void sendOnePktAndCheckACK(short type, short seqNo, short expACK) throws IOException, InterruptedException {
+        if (!(type == Utils.SYN || type == Utils.FIN)) {
+            throw new IllegalArgumentException("type should be SYN or FIN");
+        }
+
         byte[] stpSegment = Utils.createSTPSegment(type, seqNo, "".getBytes());
         DatagramPacket stpPacket = createUDPPacket(stpSegment);
 
         senderSocket.send(stpPacket);
-        this.SYNSentTime = System.currentTimeMillis();
+        if (type == Utils.SYN) {
+            this.SYNSentTime = System.currentTimeMillis();
+        } else {
+            this.FINSentTime = System.currentTimeMillis();
+        }
 
         Thread.sleep(this.rto);
 
+        boolean shouldRetransmit;
         semaphore.acquire();
-        boolean shouldRetransmit = this.receivedACKOfSYNPkt != expACK;
+        if (type == Utils.SYN) {
+            shouldRetransmit = this.receivedACKOfSYNPkt != expACK;
+        } else {
+            shouldRetransmit = this.receivedACKOfFINPkt != expACK;
+        }
         semaphore.release();
 
         int resentCount = 0;
@@ -236,19 +260,29 @@ public class Sender {
             if (resentCount > this.resentLimit) {
                 System.out.println("sending Reset...");
                 sendRESETAndDoNotCheckACK();
-                // todo: tell listen() to stop
-                System.out.println("calling System.exit...");
-                System.exit(0);
+                semaphore.acquire();
+                this.listenThreadShouldBeClosed = true;
+                semaphore.release();
+                System.out.println("calling return...");
+                return;
             }
 
             senderSocket.send(stpPacket);
-            this.SYNSentTime = System.currentTimeMillis();
+            if (type == Utils.SYN) {
+                this.SYNSentTime = System.currentTimeMillis();
+            } else {
+                this.FINSentTime = System.currentTimeMillis();
+            }
 
             Thread.sleep(this.rto);
             resentCount += 1;
 
             semaphore.acquire();
-            shouldRetransmit = this.receivedACKOfSYNPkt != expACK;
+            if (type == Utils.SYN) {
+                shouldRetransmit = this.receivedACKOfSYNPkt != expACK;
+            } else {
+                shouldRetransmit = this.receivedACKOfFINPkt != expACK;
+            }
             semaphore.release();
         }
 
@@ -321,6 +355,15 @@ public class Sender {
         short seqNo = Utils.mod(this.fileBytes.length + 1);
         short expACK = Utils.mod(seqNo + 1);
         sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
+        semaphore.acquire();
+        if (this.receivedACKOfFINPkt == expACK) {
+            this.listenThreadShouldBeClosed = true;
+            System.out.println("FIN has been ACK, tell listenThread to close, return");
+            semaphore.release();
+            return;
+
+        }
+        semaphore.release();
     }
 
     private void sendRESETAndDoNotCheckACK() {

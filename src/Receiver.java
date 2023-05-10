@@ -138,7 +138,7 @@ public class Receiver {
                 continue;
             }
 
-            System.out.println("sending ack");
+            System.out.println("sending ack " + debug_replyACK);
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
@@ -192,7 +192,7 @@ public class Receiver {
                 replySegment = Utils.createSTPSegment(Utils.ACK,
                         replyACK, "".getBytes());
                 this.connectionIsEstablished = true;
-                this.debug_replyACK=replyACK;
+                this.debug_replyACK = replyACK;
                 break;
             case Utils.FIN:
                 replyACK = (short) (recSeqNo + 1);
