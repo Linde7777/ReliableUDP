@@ -142,8 +142,10 @@ public class Receiver {
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
-                System.out.println("receive FIN, closing...");
-                this.receiverSocket.close();
+                System.out.println("ACK of FIN has been sent, to avoid this ACK" +
+                        "get lost, receiver will wait for 3 seconds for the possible" +
+                        "FIN from sender, then receiver will close.");
+                this.receiverSocket.setSoTimeout(3000);
                 return;
             }
         }
