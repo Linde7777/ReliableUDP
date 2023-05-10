@@ -93,7 +93,7 @@ public class Receiver {
     }
 
     private void writeDataIntoFile() throws IOException {
-        if (dataBuffer.isEmpty()) {
+        if (!dataBuffer.containsKey(writeNext)) {
             return;
         }
 
