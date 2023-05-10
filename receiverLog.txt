@@ -4,21 +4,51 @@ drop packet with seqNo 3
 drop packet with seqNo 5
 drop packet with seqNo 7
 drop packet with seqNo 1
-drop packet with seqNo 1
-drop packet with seqNo 1
-drop ACK 3
+receive pkt with seqNo 1
 sending ack 3
+drop packet with seqNo 3
+drop packet with seqNo 3
+receive pkt with seqNo 3
+drop ACK 5
+drop packet with seqNo 3
+drop packet with seqNo 3
+drop packet with seqNo 3
+drop packet with seqNo 3
+receive pkt with seqNo 3
+drop ACK 5
+drop packet with seqNo 3
+drop packet with seqNo 3
+receive pkt with seqNo 3
+drop ACK 5
+drop packet with seqNo 3
+receive pkt with seqNo 3
+drop ACK 5
+receive pkt with seqNo 3
 sending ack 5
 drop packet with seqNo 5
+drop packet with seqNo 5
+receive pkt with seqNo 5
 sending ack 7
+drop packet with seqNo 7
+receive pkt with seqNo 7
+drop ACK 9
+receive pkt with seqNo 7
+drop ACK 9
+receive pkt with seqNo 7
+drop ACK 9
+drop packet with seqNo 7
+drop packet with seqNo 7
+drop packet with seqNo 7
+drop packet with seqNo 7
+receive pkt with seqNo 7
 sending ack 9
 drop packet with seqNo 9
+receive pkt with seqNo 9
+drop ACK 10
 drop packet with seqNo 9
 drop packet with seqNo 9
+receive pkt with seqNo 9
 sending ack 10
-drop packet with seqNo 10
-drop packet with seqNo 10
-drop packet with seqNo 10
 sending ack 11
 ACK of FIN has been sent, to avoid this ACK get lost 
 on the way to the sender, receiver will wait for 3 seconds for the possible

@@ -132,6 +132,9 @@ public class Receiver {
                 continue;
             }
 
+            System.out.println("receive pkt with seqNo " + recSeqNo);
+            logFOS.write(("receive pkt with seqNo " + recSeqNo + "\n").getBytes());
+
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (dataBuffer.size() == 1) {
                 this.writeNext = this.latestInOrderSeqNo;
@@ -198,8 +201,7 @@ public class Receiver {
                 replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 this.debug_replyACK = replyACK;
-                System.out.println("receive pkt with seqNo " + recSeqNo);
-                logFOS.write(("receive pkt with seqNo " + recSeqNo + "\n").getBytes());
+
                 break;
 
             case Utils.SYN:
