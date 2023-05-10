@@ -287,7 +287,11 @@ public class Sender {
         }
 
         semaphore.acquire();
-        this.connectionIsEstablished = true;
+        if (type == Utils.SYN) {
+            this.connectionIsEstablished = true;
+        } else {
+            this.listenThreadShouldBeClosed = true;
+        }
         semaphore.release();
     }
 
@@ -355,18 +359,11 @@ public class Sender {
         short seqNo = Utils.mod(this.fileBytes.length + 1);
         short expACK = Utils.mod(seqNo + 1);
         sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
-        semaphore.acquire();
-        if (this.receivedACKOfFINPkt == expACK) {
-            this.listenThreadShouldBeClosed = true;
-            System.out.println("FIN has been ACK, tell listenThread to close, return");
-            semaphore.release();
-            return;
-
-        }
-        semaphore.release();
+        System.out.println("FIN has been ACK, tell listenThread to close, return");
     }
 
     private void sendRESETAndDoNotCheckACK() {
+        //todo
     }
 
     private boolean detect3DupACKs(short seqNo) {
