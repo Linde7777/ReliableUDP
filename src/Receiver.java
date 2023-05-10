@@ -136,9 +136,9 @@ public class Receiver {
             }
 
             System.out.println("receive pkt with seqNo " + recSeqNo
-                    + " content: " + Arrays.toString(recData));
+                    + " ,content: " + Arrays.toString(recData));
             logFOS.write(("receive pkt with seqNo " + recSeqNo
-                    + " content: " + Arrays.toString(recData) + "\n").getBytes());
+                    + " ,content: " + Arrays.toString(recData) + "\n").getBytes());
 
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (dataBuffer.size() == 1) {
