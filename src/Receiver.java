@@ -45,6 +45,8 @@ public class Receiver {
     private final float flp;
     private final float rlp;
     private final InetAddress serverAddress;
+    private final File receiverLogFile;
+    private FileOutputStream logFOS;
     private InetAddress clientAddress;
 
     private final DatagramSocket receiverSocket;
@@ -54,7 +56,7 @@ public class Receiver {
     private Random random = new Random();
     private short writeNext = -111;
     private File fileReceived;
-    private FileOutputStream fos;
+    private FileOutputStream recFileFOS;
     private short debug_replyACK = -111;
     private boolean connectionIsEstablished = false;
     private boolean receiveFIN = false;
@@ -72,7 +74,10 @@ public class Receiver {
         if (!fileReceived.exists()) {
             fileReceived.createNewFile();
         }
-        this.fos = new FileOutputStream(fileReceived);
+        this.recFileFOS = new FileOutputStream(fileReceived);
+        this.receiverLogFile = new File(System.getProperty("user.dir")
+                + System.getProperty("file.separator") + "receiverLog.txt");
+        this.logFOS = new FileOutputStream(receiverLogFile);
 
         // init the UDP socket
         // define socket for the server side and bind address
@@ -95,8 +100,8 @@ public class Receiver {
 
         while (this.writeNext <= this.latestInOrderSeqNo) {
             byte[] data = dataBuffer.get(this.writeNext);
-            fos.write(data);
-            fos.flush();
+            recFileFOS.write(data);
+            recFileFOS.flush();
             writeNext += data.length;
         }
     }

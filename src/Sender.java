@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -187,6 +188,7 @@ public class Sender {
             semaphore.acquire();
             if (this.listenThreadShouldBeClosed) {
                 System.out.println("receive signal from sending thread, closing...");
+                logFOS.write("receive signal from sending thread, closing...".getBytes());
                 semaphore.release();
                 senderSocket.close();
                 return;
@@ -201,6 +203,7 @@ public class Sender {
             short type = Utils.getType(stpSegment);
 
             System.out.println("receive ACK: " + recSeqNo);
+            logFOS.write(("receive ACK: " + recSeqNo).getBytes());
 
             semaphore.acquire();
 
@@ -245,6 +248,8 @@ public class Sender {
 
         System.out.println("Sending " + Utils.convertTypeNumToString(type)
                 + " pkt with seqNo " + seqNo);
+        logFOS.write(("Sending " + Utils.convertTypeNumToString(type)
+                + " pkt with seqNo " + seqNo).getBytes());
         senderSocket.send(stpPacket);
         if (type == Utils.SYN) {
             this.SYNSentTime = System.currentTimeMillis();
@@ -267,15 +272,19 @@ public class Sender {
         while (shouldRetransmit) {
             if (resentCount > this.resentLimit) {
                 System.out.println("sending Reset...");
+                logFOS.write("sending Reset...".getBytes());
                 sendRESETAndDoNotCheckACK();
                 semaphore.acquire();
                 this.listenThreadShouldBeClosed = true;
                 semaphore.release();
                 System.out.println("calling return...");
+                logFOS.write("calling return...".getBytes());
                 return;
             }
 
             System.out.println("resending pkt with seqNo" + seqNo);
+            logFOS.write(("Sending " + Utils.convertTypeNumToString(type)
+                    + " pkt with seqNo " + seqNo).getBytes());
             senderSocket.send(stpPacket);
             if (type == Utils.SYN) {
                 this.SYNSentTime = System.currentTimeMillis();
@@ -308,6 +317,7 @@ public class Sender {
     private void sendAllPacketsInWindow(int numOfSegInWindow) throws IOException {
         while (this.next < this.base + numOfSegInWindow) {
             System.out.println("sending pkt with seqNo " + segmentSeqNoArr[this.next]);
+            logFOS.write(("sending pkt with seqNo " + segmentSeqNoArr[this.next]).getBytes());
             senderSocket.send(this.UDPPacketArr[this.next]);
             this.startTimeArr[this.next] = System.currentTimeMillis();
             this.amountOfDataTransferred += dataArr[this.next].length;
@@ -325,6 +335,8 @@ public class Sender {
             if (needToBeResent) {
                 System.out.println("resending pkt with seqNo "
                         + segmentSeqNoArr[this.base]);
+                logFOS.write(("resending pkt with seqNo "
+                        + segmentSeqNoArr[this.base]).getBytes());
                 senderSocket.send(this.UDPPacketArr[this.base]);
                 this.startTimeArr[this.base] = System.currentTimeMillis();
                 this.numOfRetransmittedDataSegment += 1;
@@ -372,6 +384,7 @@ public class Sender {
         sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
         System.out.println("FIN has been ACK, tell listenThread to close," +
                 " call System.exit");
+        logFOS.write("FIN has been ACK, tell listenThread to close, call System.exit".getBytes());
         System.exit(0);
     }
 
