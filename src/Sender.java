@@ -190,6 +190,7 @@ public class Sender {
             boolean recACKIsForDATASegment = this.connectionIsEstablished;
             semaphore.release();
             if (recACKIsForDATASegment) {
+                // todo: move semaphore to here
                 dealingWithRecACKOfDATA(recSeqNo);
             }
 
@@ -324,8 +325,8 @@ public class Sender {
     }
 
     private void sendFINAndCheckACK() throws IOException, InterruptedException {
-        short seqNo = Utils.mod(this.fileBytes.length);
-        short expACK = Utils.mod(seqNo + 1);
+        short seqNo = Utils.mod(this.fileBytes.length + 1);
+        short expACK = Utils.mod(seqNo + 2);
         sendOnePktAndCheckACK(Utils.FIN, seqNo, expACK);
     }
 
