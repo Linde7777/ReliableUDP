@@ -269,6 +269,7 @@ public class Sender {
                 return;
             }
 
+            System.out.println("Resending pkt with seqNo" + seqNo);
             senderSocket.send(stpPacket);
             if (type == Utils.SYN) {
                 this.SYNSentTime = System.currentTimeMillis();
@@ -316,6 +317,8 @@ public class Sender {
             boolean needToBeResent = receivedACKArr[this.base] < expectedACKArr[this.base];
             semaphore.release();
             if (needToBeResent) {
+                System.out.println("Resending pkt with seqNo "
+                        + segmentSeqNoArr[this.base]);
                 senderSocket.send(this.UDPPacketArr[this.base]);
                 this.startTimeArr[this.base] = System.currentTimeMillis();
                 this.numOfRetransmittedDataSegment += 1;
