@@ -4,55 +4,27 @@ sending pkt with seqNo 1
 sending pkt with seqNo 3
 sending pkt with seqNo 5
 sending pkt with seqNo 7
+resending pkt with seqNo 1
+resending pkt with seqNo 1
+resending pkt with seqNo 1
+resending pkt with seqNo 1
+resending pkt with seqNo 1
+receive ACK: 3
+resending pkt with seqNo 3
 receive ACK: 5
 resending pkt with seqNo 5
 resending pkt with seqNo 5
-resending pkt with seqNo 5
-resending pkt with seqNo 5
-resending pkt with seqNo 5
-resending pkt with seqNo 5
-resending pkt with seqNo 5
+receive ACK: 7
+resending pkt with seqNo 7
 receive ACK: 9
 sending pkt with seqNo 9
-sending pkt with seqNo 11
-sending pkt with seqNo 13
-sending pkt with seqNo 15
-receive ACK: 9
 resending pkt with seqNo 9
 resending pkt with seqNo 9
+resending pkt with seqNo 9
+receive ACK: 10
+Sending FIN pkt with seqNo 10
+Sending FIN pkt with seqNo 10
+Sending FIN pkt with seqNo 10
+Sending FIN pkt with seqNo 10
 receive ACK: 11
-resending pkt with seqNo 11
-receive ACK: 15
-resending pkt with seqNo 15
-resending pkt with seqNo 15
-resending pkt with seqNo 15
-resending pkt with seqNo 15
-resending pkt with seqNo 15
-resending pkt with seqNo 15
-receive ACK: 17
-sending pkt with seqNo 17
-sending pkt with seqNo 19
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-resending pkt with seqNo 17
-receive ACK: 19
-resending pkt with seqNo 19
-resending pkt with seqNo 19
-resending pkt with seqNo 19
-resending pkt with seqNo 19
-resending pkt with seqNo 19
-resending pkt with seqNo 19
-receive ACK: 21
-Sending FIN pkt with seqNo 21
-Sending FIN pkt with seqNo 21
-Sending FIN pkt with seqNo 21
-Sending FIN pkt with seqNo 21
-Sending FIN pkt with seqNo 21
-sending Reset...
-calling return...
 FIN has been ACK, tell listenThread to close, call System.exit

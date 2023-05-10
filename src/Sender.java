@@ -247,9 +247,9 @@ public class Sender {
         byte[] stpSegment = Utils.createSTPSegment(type, seqNo, "".getBytes());
         DatagramPacket stpPacket = createUDPPacket(stpSegment);
 
-        System.out.println("Sending " + Utils.convertTypeNumToString(type)
+        System.out.println("sending " + Utils.convertTypeNumToString(type)
                 + " pkt with seqNo " + seqNo);
-        logFOS.write(("Sending " + Utils.convertTypeNumToString(type)
+        logFOS.write(("sending " + Utils.convertTypeNumToString(type)
                 + " pkt with seqNo " + seqNo+"\n").getBytes());
         senderSocket.send(stpPacket);
         if (type == Utils.SYN) {

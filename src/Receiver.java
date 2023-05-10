@@ -140,12 +140,12 @@ public class Receiver {
 
             if (dropACK) {
                 System.out.println("drop ACK " + debug_replyACK);
-                logFOS.write(("drop ACK " + debug_replyACK+"\n").getBytes());
+                logFOS.write(("drop ACK " + debug_replyACK + "\n").getBytes());
                 continue;
             }
 
             System.out.println("sending ack " + debug_replyACK);
-            logFOS.write(("sending ack " + debug_replyACK+"\n").getBytes());
+            logFOS.write(("sending ack " + debug_replyACK + "\n").getBytes());
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
@@ -186,7 +186,7 @@ public class Receiver {
 
     //todo: spilt this function,
     // case DATA: recData(); createReplyPacket();
-    private DatagramPacket recDataAndCreateReplyPacket(short recType, short recSeqNo, byte[] recData) {
+    private DatagramPacket recDataAndCreateReplyPacket(short recType, short recSeqNo, byte[] recData) throws IOException {
         byte[] replySegment = new byte[0];
         short replyACK = -111;
         switch (recType) {
@@ -198,6 +198,8 @@ public class Receiver {
                 replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 this.debug_replyACK = replyACK;
+                System.out.println("receive pkt with seqNo " + recSeqNo);
+                logFOS.write(("receive pkt with seqNo " + recSeqNo + "\n").getBytes());
                 break;
 
             case Utils.SYN:
