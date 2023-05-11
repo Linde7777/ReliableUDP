@@ -200,8 +200,6 @@ public class Receiver {
 
     }
 
-    //todo: spilt this function,
-    // case DATA: recData(); createReplyPacket();
     private DatagramPacket recDataAndCreateReplyPacket(short recType, short recSeqNo, byte[] recData) throws IOException {
         byte[] replySegment = new byte[0];
         short replyACK;
@@ -272,7 +270,6 @@ public class Receiver {
                 break;
             }
         }
-
 
         return latestInOrderSeqNo;
 

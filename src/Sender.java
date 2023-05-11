@@ -3,6 +3,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Stack;
 import java.util.concurrent.Semaphore;
 import java.util.logging.*;
 
@@ -19,7 +20,7 @@ public class Sender {
     private final File senderLogFile;
     private FileOutputStream logFOS;
     //todo: random ISN
-    private short ISN = 0;
+    private short initSeqNo = 0;
     private String debugMessage;
     /**
      * The Sender will be able to connect the Receiver via UDP
@@ -45,7 +46,7 @@ public class Sender {
 
     private Semaphore semaphore;
     private short receivedACKOfSYNPkt;
-    private int resentLimit = 3;
+    private final int resentLimit = 3;
     private long SYNSentTime;
     private boolean connectionIsEstablished = false;
     private Integer recACKNext = 0;
@@ -58,6 +59,8 @@ public class Sender {
     private short receivedACKOfFINPkt = -111;
     private boolean listenThreadShouldBeClosed = false;
     private long FINSentTime;
+    private Stack<Short> stack = new Stack<>();
+    private Thread mainThread;
 
     public Sender(int senderPort, int receiverPort, String filename, int windowSizeInByte, int rto) throws IOException {
         this.semaphore = new Semaphore(1);
@@ -81,7 +84,7 @@ public class Sender {
 
         this.fileBytes = readBytesFromFile(filename);
         this.dataArr = sliceFileBytesIntoDataWindow(this.fileBytes);
-        this.segmentSeqNoArr = createSeqNoArr(this.ISN, this.dataArr);
+        this.segmentSeqNoArr = createSeqNoArr(this.initSeqNo, this.dataArr);
         this.expectedACKArr = createExpectedACKArr(this.segmentSeqNoArr, this.dataArr);
         this.STPSegmentArr = createSTPSegmentArr(this.dataArr, this.segmentSeqNoArr);
         this.UDPPacketArr = createUDPPacketArr(this.STPSegmentArr);
@@ -92,6 +95,8 @@ public class Sender {
 
         Logger.getLogger(Sender.class.getName()).log(Level.INFO, "The sender is using the address {0}:{1}", new Object[]{senderAddress, senderPort});
         this.senderSocket = new DatagramSocket(senderPort, senderAddress);
+
+        this.mainThread = Thread.currentThread();
 
         // start the listening sub-thread
         Thread listenThread = new Thread(() -> {
@@ -143,7 +148,7 @@ public class Sender {
         }
     }
 
-    private void doNothing() {
+    private void readThisComment() {
         // we can not increment recACKNext here
         /*
         window length is 4(max segment size is 2,
@@ -168,7 +173,7 @@ public class Sender {
          */
     }
 
-    private void dealingWithRecACKOfDATA(short recSeqNo) throws InterruptedException {
+    private void dealingWithRecACKOfDATA(short recSeqNo) throws InterruptedException, IOException {
         receivedACKArr[recACKNext] = recSeqNo;
         short currRecACK = receivedACKArr[recACKNext];
         short expRecACK = expectedACKArr[recACKNext];
@@ -179,7 +184,17 @@ public class Sender {
         } else if (currRecACK == expRecACK) {
             recACKNext += 1;
         } else {
-            doNothing();
+            readThisComment();
+            if (stack.size() == 3) {
+                stack.clear();
+                // wake up main thread
+                debugMessage = "detect 3 duplicate ACK, trying " +
+                        "to wake up main thread\n";
+                System.out.print(debugMessage);
+                logFOS.write(debugMessage.getBytes());
+                mainThread.interrupt();
+            }
+            this.stack.push(recSeqNo);
         }
     }
 
@@ -237,7 +252,7 @@ public class Sender {
     }
 
     private void sendSYNAndCheckACK() throws IOException, InterruptedException {
-        sendOnePktAndCheckACK(Utils.SYN, this.ISN, Utils.mod(this.ISN + 1));
+        sendOnePktAndCheckACK(Utils.SYN, this.initSeqNo, Utils.mod(this.initSeqNo + 1));
     }
 
     // retransmit unacknowledged packet at most this.resentLimit times
@@ -365,7 +380,16 @@ public class Sender {
 
             sendAllPacketsInWindow(numOfSegInWindow);
 
-            Thread.sleep(this.rto);
+            try {
+
+                Thread.sleep(this.rto);
+            } catch (InterruptedException e) {
+                debugMessage = "main thread be interrupted from sleeping \n" +
+                        "for a RTT duration, starting fast-retransmit\n";
+                System.out.print(debugMessage);
+                logFOS.write(debugMessage.getBytes());
+                // stop sleeping
+            }
             /*
             you might think this will be a possible scenario
             // e.g.
@@ -404,10 +428,6 @@ public class Sender {
         byte[] stpSegment = Utils.createSTPSegment(Utils.RESET, (short) (this.fileBytes.length + 1), "".getBytes());
         DatagramPacket packet = createUDPPacket(stpSegment);
         senderSocket.send(packet);
-    }
-
-    private boolean detect3DupACKs(short seqNo) {
-        return false;
     }
 
     private DatagramPacket createUDPPacket(byte[] stpSegment) {
