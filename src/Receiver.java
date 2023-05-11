@@ -82,20 +82,10 @@ public class Receiver {
     }
 
     private boolean randomDropIncomingData() {
-        //for debug usage, do not drop SYN
-        //todo: delete this
-        if (!connectionIsEstablished) {
-            return false;
-        }
         return random.nextFloat() < this.flp;
     }
 
     private boolean randomDropACK() {
-        //for debug usage, do not drop SYN
-        //todo: delete this
-        if (!connectionIsEstablished) {
-            return false;
-        }
         return random.nextFloat() < this.rlp;
     }
 
