@@ -4,18 +4,3 @@ sending pkt with seqNo 1, content: [49, 50]
 sending pkt with seqNo 3, content: [51, 52]
 sending pkt with seqNo 5, content: [53, 54]
 sending pkt with seqNo 7, content: [55, 56]
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1
-resending pkt with seqNo 1

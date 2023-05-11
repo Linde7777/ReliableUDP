@@ -44,7 +44,7 @@ public class Receiver {
     private boolean connectionIsEstablished = false;
     private boolean receiveFIN = false;
 
-    private String temp;
+    private String debugMessage;
     private boolean writeNextHasBeenInit = false;
     private short seqNoOfSYN;
     private short seqNoOfFIN;
@@ -101,9 +101,9 @@ public class Receiver {
             byte[] data = dataBuffer.get(this.writeNext);
             recFileFOS.write(data);
             recFileFOS.flush();
-            temp = "write content: " + Arrays.toString(data) + "\n";
-            System.out.print(temp);
-            logFOS.write(temp.getBytes());
+            debugMessage = "write content: " + Arrays.toString(data) + "\n";
+            System.out.print(debugMessage);
+            logFOS.write(debugMessage.getBytes());
             writeNext += data.length;
         }
     }
@@ -117,17 +117,18 @@ public class Receiver {
                     new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
-            /*
-            todo: comment this
-            //@ manual control packet lost
+            //todo: comment this
+            //@ manual control packet lost, for debug usage
             String dropOption = Utils.scanDropOption();
             boolean dropIncomingData = dropOption.charAt(0) == 'd';
             boolean dropACK = dropOption.charAt(1) == 'd';
-             */
 
+            /*
             //@random control packet lost
             boolean dropIncomingData = randomDropIncomingData();
             boolean dropACK = randomDropACK();
+
+             */
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);
@@ -137,16 +138,16 @@ public class Receiver {
             this.clientAddress = incomingPacket.getAddress();
 
             if (dropIncomingData) {
-                temp = "drop packet with seqNo " + recSeqNo + "\n";
-                System.out.print(temp);
-                logFOS.write(temp.getBytes());
+                debugMessage = "drop packet with seqNo " + recSeqNo + "\n";
+                System.out.print(debugMessage);
+                logFOS.write(debugMessage.getBytes());
                 continue;
             }
 
-            temp = "receive pkt with seqNo " + recSeqNo
+            debugMessage = "receive pkt with seqNo " + recSeqNo
                     + " ,content: " + Arrays.toString(recData) + "\n";
-            System.out.print(temp);
-            logFOS.write(temp.getBytes());
+            System.out.print(debugMessage);
+            logFOS.write(debugMessage.getBytes());
 
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (!this.writeNextHasBeenInit && dataBuffer.size() == 1) {
@@ -156,25 +157,25 @@ public class Receiver {
             writeDataIntoFile();
 
             if (dropACK) {
-                temp = "drop ACK " + debug_replyACK + "\n";
-                System.out.print(temp);
-                logFOS.write(temp.getBytes());
+                debugMessage = "drop ACK " + debug_replyACK + "\n";
+                System.out.print(debugMessage);
+                logFOS.write(debugMessage.getBytes());
                 continue;
             }
 
-            temp = "sending ack " + debug_replyACK + "\n";
-            System.out.print(temp);
-            logFOS.write(temp.getBytes());
+            debugMessage = "sending ack " + debug_replyACK + "\n";
+            System.out.print(debugMessage);
+            logFOS.write(debugMessage.getBytes());
             receiverSocket.send(replyPacket);
 
             if (this.receiveFIN) {
-                temp = "ACK of FIN has been sent, " +
+                debugMessage = "ACK of FIN has been sent, " +
                         "to avoid this ACK get lost \n" +
                         "on the way to the sender, receiver will " +
                         "wait for 3 seconds \nfor the possible " +
                         "FIN from sender, then receiver will close.\n";
-                System.out.print(temp);
-                logFOS.write(temp.getBytes());
+                System.out.print(debugMessage);
+                logFOS.write(debugMessage.getBytes());
                 this.receiverSocket.setSoTimeout(3000);
                 return;
             }
@@ -198,36 +199,27 @@ public class Receiver {
 
     }
 
-    private short createReplyACK(HashMap<Short, byte[]> dataBuffer, short latestInOrderSeqNo) {
-        /*
-        Receiver has received SYN(with seqNo 0), sender has received the ACK 1,
-        then sender send packet with seqNo 1,3,5,7,
-        but receiver only receive packet with seqNo 7,
-        in this scenario, receiver should send ACK 1, not 9
-         */
-        if (dataBuffer.containsKey(latestInOrderSeqNo)) {
-            int len = dataBuffer.get(latestInOrderSeqNo).length;
-            return (short) (latestInOrderSeqNo + len);
-        } else {
-            return this.latestInOrderSeqNo;
-        }
-    }
-
     //todo: spilt this function,
     // case DATA: recData(); createReplyPacket();
     private DatagramPacket recDataAndCreateReplyPacket(short recType, short recSeqNo, byte[] recData) throws IOException {
         byte[] replySegment = new byte[0];
-        short replyACK = -111;
+        short replyACK;
         switch (recType) {
             case Utils.DATA:
                 if (!dataBuffer.containsKey(recSeqNo)) {
                     this.dataBuffer.put(recSeqNo, recData);
                 }
+
                 this.latestInOrderSeqNo = updateLatestInOrderSeqNo();
-                replyACK = createReplyACK(dataBuffer, this.latestInOrderSeqNo);
+
+                if (this.latestInOrderSeqNo != this.seqNoOfSYN) {
+                    int len = dataBuffer.get(latestInOrderSeqNo).length;
+                    replyACK = (short) (this.latestInOrderSeqNo + len);
+                } else {
+                    replyACK = (short) (this.latestInOrderSeqNo + 1);
+                }
                 replySegment = Utils.createSTPSegment(Utils.ACK, replyACK, "".getBytes());
                 this.debug_replyACK = replyACK;
-
                 break;
 
             case Utils.SYN:
@@ -239,6 +231,7 @@ public class Receiver {
                 this.connectionIsEstablished = true;
                 this.debug_replyACK = replyACK;
                 break;
+
             case Utils.FIN:
                 this.seqNoOfFIN = recSeqNo;
                 replyACK = (short) (recSeqNo + 1);
@@ -247,37 +240,24 @@ public class Receiver {
                 this.debug_replyACK = replyACK;
                 this.receiveFIN = true;
                 break;
+
             case Utils.RESET:
-                temp = "receive RESET, closing...\n";
-                System.out.print(temp);
-                logFOS.write(temp.getBytes());
-                System.exit(1);
+                debugMessage = "receive RESET, closing...\n";
+                System.out.print(debugMessage);
+                logFOS.write(debugMessage.getBytes());
+                System.exit(0);
         }
 
         return createSTPPacket(replySegment);
     }
 
     private short updateLatestInOrderSeqNo() {
-        if (dataBuffer.isEmpty()) {
-            throw new IllegalArgumentException("dataBuffer is empty");
-        }
-
-        /*
-        After receive SYN, the latestInOrderSeqNo is SYN's seqNo,
-        now we receive DATA, if the DATA's seqNo is SYN's seqNo + 1,
-        we should update the latestInOrderSeqNo.
-
-        receiver has received SYN(with seqNo 0) and sender receive the ACK of SYN,
-        then sender send packet with seqNo 1,3,5,7
-        and receiver only receive the packet with seqNo 7,
-        in this scenario, receive should return ACK 1, not ACK 9
-         */
-        if (dataBuffer.size() == 1) {
-            short tempSeqNo = (short) (this.latestInOrderSeqNo + 1);
-            if (dataBuffer.containsKey(tempSeqNo)) {
-                return tempSeqNo;
+        if (this.latestInOrderSeqNo == this.seqNoOfSYN) {
+            short nextSeqNo = (short) (this.latestInOrderSeqNo + 1);
+            if (this.dataBuffer.containsKey(nextSeqNo)) {
+                this.latestInOrderSeqNo = nextSeqNo;
             } else {
-                return this.latestInOrderSeqNo;
+                //otherwise, do not change the latestInOrderSeqNo
             }
         }
 
