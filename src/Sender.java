@@ -59,8 +59,8 @@ public class Sender {
     private short receivedACKOfFINPkt = -111;
     private boolean listenThreadShouldBeClosed = false;
     private long FINSentTime;
-    private Stack<Short> stack = new Stack<>();
     private Thread mainThread;
+    private int dupACKCount = 0;
 
     public Sender(int senderPort, int receiverPort, String filename, int windowSizeInByte, int rto) throws IOException {
         this.semaphore = new Semaphore(1);
@@ -192,9 +192,9 @@ public class Sender {
             recACKNext += 1;
         } else {
             readThisComment();
-            this.stack.push(recSeqNo);
-            if (stack.size() == 3) {
-                stack.clear();
+            this.dupACKCount += 1;
+            if (dupACKCount == 3) {
+                dupACKCount = 0;
                 // wake up main thread
                 debugMessage = "detect 3 duplicate ACK, trying " +
                         "to wake up main thread\n";
@@ -393,6 +393,7 @@ public class Sender {
                 debugMessage = "main thread wake up, starting fast-retransmit\n";
                 System.out.print(debugMessage);
                 logFOS.write(debugMessage.getBytes());
+
                 // stop sleeping
             }
             /*
