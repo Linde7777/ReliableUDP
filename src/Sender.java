@@ -76,6 +76,13 @@ public class Sender {
         this.senderLogFile.createNewFile();
         this.logFOS = new FileOutputStream(senderLogFile);
 
+        String temp = "file to be sent: " + filename + "\n"
+                + "senderPort: " + senderPort +
+                " receiverPort: " + receiverPort + "\n" +
+                "window size in bytes: " + windowSizeInByte
+                + "retransmit time: " + rto + " milliseconds\n";
+        System.out.print(temp);
+        logFOS.write(temp.getBytes());
 
         if (windowSizeInByte % maxSegmentSize != 0) {
             throw new IllegalArgumentException("windowSizeInByte " +

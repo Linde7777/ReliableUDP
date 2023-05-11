@@ -68,6 +68,14 @@ public class Receiver {
         receiverLogFile.createNewFile();
         this.logFOS = new FileOutputStream(receiverLogFile);
 
+        String temp = "received message are stored in " + filename + "\n"
+                + "receiver port: " + receiverPort
+                + " sender port: " + senderPort + "\n"
+                + "incoming packets loss probability is set to " + flp + "\n"
+                + "outgoing packets loss probability is set to " + rlp + "\n";
+        System.out.print(temp);
+        logFOS.write(temp.getBytes());
+
         // init the UDP socket
         // define socket for the server side and bind address
         Logger.getLogger(Receiver.class.getName()).log(Level.INFO, "The sender is using the address " + serverAddress + " to receive message!");
