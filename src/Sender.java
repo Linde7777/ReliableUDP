@@ -80,7 +80,7 @@ public class Sender {
                 + "senderPort: " + senderPort +
                 " receiverPort: " + receiverPort + "\n" +
                 "window size in bytes: " + windowSizeInByte
-                + "retransmit time: " + rto + " milliseconds\n";
+                + " retransmit time: " + rto + " milliseconds\n\n";
         System.out.print(temp);
         logFOS.write(temp.getBytes());
 
@@ -192,6 +192,7 @@ public class Sender {
             recACKNext += 1;
         } else {
             readThisComment();
+            this.stack.push(recSeqNo);
             if (stack.size() == 3) {
                 stack.clear();
                 // wake up main thread
@@ -201,7 +202,6 @@ public class Sender {
                 logFOS.write(debugMessage.getBytes());
                 mainThread.interrupt();
             }
-            this.stack.push(recSeqNo);
         }
     }
 
@@ -388,7 +388,6 @@ public class Sender {
             sendAllPacketsInWindow(numOfSegInWindow);
 
             try {
-
                 Thread.sleep(this.rto);
             } catch (InterruptedException e) {
                 debugMessage = "main thread be interrupted from sleeping \n" +
