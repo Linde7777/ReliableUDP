@@ -152,7 +152,7 @@ public class Receiver {
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
             if (!this.writeNextHasBeenInit &&
                     this.latestInOrderSeqNo != this.seqNoOfSYN) {
-                this.writeNext = this.latestInOrderSeqNo;
+                this.writeNext = (short) (this.seqNoOfSYN + 1);
                 this.writeNextHasBeenInit = true;
             }
             writeDataIntoFile();

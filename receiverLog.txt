@@ -3,3 +3,9 @@ sending ack 1
 drop packet with seqNo 1
 receive pkt with seqNo 3 ,content: [51, 52]
 drop ACK 1
+drop packet with seqNo 5
+receive pkt with seqNo 7 ,content: [55, 56]
+sending ack 1
+receive pkt with seqNo 1 ,content: [49, 50]
+write content: [51, 52]
+sending ack 5
