@@ -2,3 +2,4 @@ receive pkt with seqNo 0 ,content: []
 sending ack 1
 drop packet with seqNo 1
 receive pkt with seqNo 3 ,content: [51, 52]
+drop ACK 1

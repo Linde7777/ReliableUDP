@@ -150,7 +150,8 @@ public class Receiver {
             logFOS.write(debugMessage.getBytes());
 
             DatagramPacket replyPacket = recDataAndCreateReplyPacket(recType, recSeqNo, recData);
-            if (!this.writeNextHasBeenInit && dataBuffer.size() == 1) {
+            if (!this.writeNextHasBeenInit &&
+                    this.latestInOrderSeqNo != this.seqNoOfSYN) {
                 this.writeNext = this.latestInOrderSeqNo;
                 this.writeNextHasBeenInit = true;
             }
