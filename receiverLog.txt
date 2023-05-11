@@ -7,11 +7,11 @@ receive pkt with seqNo 0 ,content: []
 sending ack 1
 receive pkt with seqNo 1 ,content: [49, 50]
 write content: [49, 50]
-sending ack 3
+drop ACK 3
 drop packet with seqNo 3
-receive pkt with seqNo 5 ,content: [53, 54]
-sending ack 3
-receive pkt with seqNo 7 ,content: [55, 56]
-sending ack 3
+drop packet with seqNo 5
+drop packet with seqNo 7
 receive pkt with seqNo 9 ,content: [57, 13]
+drop ACK 3
+receive pkt with seqNo 1 ,content: [49, 50]
 sending ack 3

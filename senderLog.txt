@@ -9,10 +9,5 @@ sending pkt with seqNo 3, content: [51, 52]
 sending pkt with seqNo 5, content: [53, 54]
 sending pkt with seqNo 7, content: [55, 56]
 sending pkt with seqNo 9, content: [57, 13]
+resending pkt with seqNo 1
 receive ACK: 3
-receive ACK: 3
-receive ACK: 3
-receive ACK: 3
-detect 3 duplicate ACK, trying to wake up main thread
-main thread wake up, starting fast-retransmit
-resending pkt with seqNo 3

@@ -78,9 +78,9 @@ public class Sender {
 
         String temp = "file to be sent: " + filename + "\n"
                 + "senderPort: " + senderPort +
-                " receiverPort: " + receiverPort + "\n" +
+                ", receiverPort: " + receiverPort + "\n" +
                 "window size in bytes: " + windowSizeInByte
-                + " retransmit time: " + rto + " milliseconds\n\n";
+                + ", retransmit time: " + rto + " milliseconds\n\n";
         System.out.print(temp);
         logFOS.write(temp.getBytes());
 
