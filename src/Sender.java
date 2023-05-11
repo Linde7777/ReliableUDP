@@ -397,8 +397,11 @@ public class Sender {
     }
 
     private void sendRESETAndDoNotCheckACK() throws IOException {
-        // in RESET segment, the seqNo will not be used, so set a random number here
-        byte[] stpSegment = Utils.createSTPSegment(Utils.RESET, (short) -111, "".getBytes());
+        // in RESET segment, the seqNo will not be used,
+        // but we can't randomly choose a sequence number,
+        // since in Utils.createSTPSegment, it needs the sequence number
+        // between 0 and 2^16 -1
+        byte[] stpSegment = Utils.createSTPSegment(Utils.RESET, (short) (this.fileBytes.length + 1), "".getBytes());
         DatagramPacket packet = createUDPPacket(stpSegment);
         senderSocket.send(packet);
     }

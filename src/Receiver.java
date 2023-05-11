@@ -117,18 +117,18 @@ public class Receiver {
                     new DatagramPacket(buffer, buffer.length);
             receiverSocket.receive(incomingPacket);
 
+            /*
             //todo: comment this
             //@ manual control packet lost, for debug usage
             String dropOption = Utils.scanDropOption();
             boolean dropIncomingData = dropOption.charAt(0) == 'd';
             boolean dropACK = dropOption.charAt(1) == 'd';
+             */
 
-            /*
             //@random control packet lost
             boolean dropIncomingData = randomDropIncomingData();
             boolean dropACK = randomDropACK();
 
-             */
 
             byte[] stpSegment = incomingPacket.getData();
             short recSeqNo = Utils.getSeqNo(stpSegment);
