@@ -2,5 +2,12 @@ received message are stored in FileReceived.txt
 receiver port: 60000 sender port: 50000
 incoming packets loss probability is set to 0.5
 outgoing packets loss probability is set to 0.5
+
 receive pkt with seqNo 0 ,content: []
 sending ack 1
+receive pkt with seqNo 1 ,content: [49, 50]
+write content: [49, 50]
+sending ack 3
+drop packet with seqNo 3
+drop packet with seqNo 5
+drop packet with seqNo 7

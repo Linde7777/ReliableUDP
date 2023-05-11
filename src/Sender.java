@@ -390,8 +390,7 @@ public class Sender {
             try {
                 Thread.sleep(this.rto);
             } catch (InterruptedException e) {
-                debugMessage = "main thread be interrupted from sleeping \n" +
-                        "for a RTT duration, starting fast-retransmit\n";
+                debugMessage = "main thread wake up, starting fast-retransmit\n";
                 System.out.print(debugMessage);
                 logFOS.write(debugMessage.getBytes());
                 // stop sleeping
