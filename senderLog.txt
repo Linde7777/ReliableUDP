@@ -9,4 +9,3 @@ sending pkt with seqNo 3, content: [51, 52]
 sending pkt with seqNo 5, content: [53, 54]
 sending pkt with seqNo 7, content: [55, 56]
 receive ACK: 3
-resending pkt with seqNo 3
