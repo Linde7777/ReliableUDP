@@ -258,6 +258,7 @@ public class Receiver {
                 this.latestInOrderSeqNo = nextSeqNo;
             } else {
                 //otherwise, do not change the latestInOrderSeqNo
+                return this.latestInOrderSeqNo;
             }
         }
 
