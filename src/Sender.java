@@ -20,7 +20,7 @@ public class Sender {
     private final File senderLogFile;
     private FileOutputStream logFOS;
     //todo: random ISN
-    private short initSeqNo = 0;
+    private short initSeqNo = (short) (Math.pow(2, 16) - 10);
     private String debugMessage;
     /**
      * The Sender will be able to connect the Receiver via UDP
@@ -437,7 +437,6 @@ public class Sender {
     private DatagramPacket createUDPPacket(byte[] stpSegment) {
         return Utils.createSTPPacket(stpSegment, receiverAddress, receiverPort);
     }
-
 
     private byte[][] createSTPSegmentArr(byte[][] dataArr, short[] segmentSeqNoArr) {
         byte[][] STPSegmentArr = new byte[dataArr.length][];
