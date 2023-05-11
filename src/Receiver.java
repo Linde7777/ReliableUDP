@@ -78,7 +78,6 @@ public class Receiver {
 
         // init the UDP socket
         // define socket for the server side and bind address
-        Logger.getLogger(Receiver.class.getName()).log(Level.INFO, "The sender is using the address " + serverAddress + " to receive message!");
         this.receiverSocket = new DatagramSocket(receiverPort, serverAddress);
     }
 

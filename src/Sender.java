@@ -99,8 +99,6 @@ public class Sender {
         this.receivedACKArr = new short[UDPPacketArr.length];
         Arrays.fill(receivedACKArr, NOT_REC);
 
-
-        Logger.getLogger(Sender.class.getName()).log(Level.INFO, "The sender is using the address {0}:{1}", new Object[]{senderAddress, senderPort});
         this.senderSocket = new DatagramSocket(senderPort, senderAddress);
 
         this.mainThread = Thread.currentThread();
@@ -507,8 +505,6 @@ public class Sender {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Logger.getLogger(Sender.class.getName()).setLevel(Level.ALL);
-
         if (args.length != 5) {
             System.err.println("\n===== Error usage, java Sender senderPort receiverPort FileReceived.txt maxWin rto ======\n");
             System.exit(0);

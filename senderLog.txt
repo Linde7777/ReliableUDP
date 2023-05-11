@@ -1,6 +1,6 @@
 file to be sent: FileToSend.txt
-senderPort: 50000 receiverPort: 60000
-window size in bytes: 10 retransmit time: 8000 milliseconds
+senderPort: 50000, receiverPort: 60000
+window size in bytes: 10, retransmit time: 8000 milliseconds
 
 sending SYN pkt with seqNo 0
 receive ACK: 1
@@ -9,5 +9,8 @@ sending pkt with seqNo 3, content: [51, 52]
 sending pkt with seqNo 5, content: [53, 54]
 sending pkt with seqNo 7, content: [55, 56]
 sending pkt with seqNo 9, content: [57, 13]
+resending pkt with seqNo 1
+resending pkt with seqNo 1
+resending pkt with seqNo 1
 resending pkt with seqNo 1
 receive ACK: 3
