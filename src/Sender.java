@@ -19,8 +19,7 @@ public class Sender {
     private final short[] receivedACKArr;
     private final File senderLogFile;
     private FileOutputStream logFOS;
-    //todo: random ISN
-    private short initSeqNo = (short) (Math.pow(2, 16) - 10);
+    private short initSeqNo = 0;
     private String debugMessage;
     /**
      * The Sender will be able to connect the Receiver via UDP
