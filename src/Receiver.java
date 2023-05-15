@@ -20,6 +20,12 @@ public class Receiver {
      * :param rlp: reverse loss probability, which is the probability of a segment in the reverse direction (i.e., ACKs) being lost.
      */
 
+    /**
+     * :param receiverPort: the UDP port number that be used by receiver to receive packets from sender
+     * :param senderPort: the UDP port number that be used by sender to send packets to receiver.
+     * :param filename: the receiver will put received message into this file
+     */
+
     private static final int BUFFERSIZE = 1024;
     private final String address = "127.0.0.1"; // change it to 0.0.0.0 or public ipv4 address if want to test it between different computers
     private final int receiverPort;
@@ -105,7 +111,7 @@ public class Receiver {
         }
     }
 
-    public void run() throws IOException, InterruptedException {
+    public void run() throws IOException{
 
         while (true) {
             // try to receive any incoming message from the sender

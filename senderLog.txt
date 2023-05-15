@@ -2,3 +2,4 @@ file to be sent: FileToSend.txt
 senderPort: 50000, receiverPort: 60000
 window size in bytes: 8, retransmit time: 1000 milliseconds
 
+sending SYN pkt with seqNo 32760

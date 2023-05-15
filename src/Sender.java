@@ -3,33 +3,23 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Stack;
 import java.util.concurrent.Semaphore;
-import java.util.logging.*;
 
 public class Sender {
     private static final short NOT_REC = -1;
     private final byte[] fileBytes;
     private final byte[][] dataArr;
-    private final short[] segmentSeqNoArr;
+    private final short[] seqNoArr;
     private final short[] expectedACKArr;
-    private final byte[][] STPSegmentArr;
+    private final byte[][] segmentArr;
     private final DatagramPacket[] UDPPacketArr;
     private final long[] startTimeArr;
     private final short[] receivedACKArr;
     private final File senderLogFile;
     private FileOutputStream logFOS;
-    private short initSeqNo = 0;
+    //todo: random initSeqNo
+    private short initSeqNo = Short.MAX_VALUE - 7;
     private String debugMessage;
-    /**
-     * The Sender will be able to connect the Receiver via UDP
-     * :param sender_port: the UDP port number to be used by the sender to send PTP segments to the receiver
-     * :param receiver_port: the UDP port number on which receiver is expecting to receive PTP segments from the sender
-     * :param filename: the name of the text file that must be transferred from sender to receiver using your reliable transport protocol.
-     * :param max_win: the maximum window size in bytes for the sender window.
-     * :param rot: the value of the retransmission timer in milliseconds. This should be an unsigned integer.
-     */
-
     private final int senderPort;
     private final int receiverPort;
     private final InetAddress senderAddress;
@@ -85,15 +75,15 @@ public class Sender {
 
         if (windowSizeInByte % maxSegmentSize != 0) {
             throw new IllegalArgumentException("windowSizeInByte " +
-                    "must be a multiple od max segment size");
+                    "must be a multiple of maxSegmentSize");
         }
 
         this.fileBytes = readBytesFromFile(filename);
         this.dataArr = sliceFileBytesIntoDataWindow(this.fileBytes);
-        this.segmentSeqNoArr = createSeqNoArr(this.initSeqNo, this.dataArr);
-        this.expectedACKArr = createExpectedACKArr(this.segmentSeqNoArr, this.dataArr);
-        this.STPSegmentArr = createSTPSegmentArr(this.dataArr, this.segmentSeqNoArr);
-        this.UDPPacketArr = createUDPPacketArr(this.STPSegmentArr);
+        this.seqNoArr = createSeqNoArr(this.initSeqNo, this.dataArr);
+        this.expectedACKArr = createExpectedACKArr(this.seqNoArr, this.dataArr);
+        this.segmentArr = createSTPSegmentArr(this.dataArr, this.seqNoArr);
+        this.UDPPacketArr = createUDPPacketArr(this.segmentArr);
         this.startTimeArr = new long[UDPPacketArr.length];
         this.receivedACKArr = new short[UDPPacketArr.length];
         Arrays.fill(receivedACKArr, NOT_REC);
@@ -204,12 +194,13 @@ public class Sender {
 
     public void listen() throws IOException, InterruptedException {
         // listen to incoming packets from receiver
+        String debugMessage2;
         while (true) {
             semaphore.acquire();
             if (this.listenThreadShouldBeClosed) {
-                debugMessage = "receive signal from sending thread, closing...\n";
-                System.out.print(debugMessage);
-                logFOS.write(debugMessage.getBytes());
+                debugMessage2 = "receive signal from sending thread, closing...\n";
+                System.out.print(debugMessage2);
+                logFOS.write(debugMessage2.getBytes());
                 semaphore.release();
                 senderSocket.close();
                 return;
@@ -223,13 +214,14 @@ public class Sender {
             short recSeqNo = Utils.getSeqNo(stpSegment);
             short type = Utils.getType(stpSegment);
 
-            debugMessage = "receive ACK: " + recSeqNo + "\n";
-            System.out.print(debugMessage);
-            logFOS.write(debugMessage.getBytes());
+            debugMessage2 = "receive ACK: " + recSeqNo + "\n";
+            System.out.print(debugMessage2);
+            logFOS.write(debugMessage2.getBytes());
 
             semaphore.acquire();
 
-            boolean recACKIsForDATASegment = this.connectionIsEstablished && !this.allDataHasBeenACKed;
+            boolean recACKIsForDATASegment =
+                    this.connectionIsEstablished && !this.allDataHasBeenACKed;
             if (recACKIsForDATASegment) {
                 dealingWithRecACKOfDATA(recSeqNo);
             }
@@ -239,12 +231,12 @@ public class Sender {
                 this.receivedACKOfSYNPkt = recSeqNo;
             }
 
-            boolean recACKIsForFINSegment = connectionIsEstablished && this.allDataHasBeenACKed;
+            boolean recACKIsForFINSegment =
+                    connectionIsEstablished && this.allDataHasBeenACKed;
             if (recACKIsForFINSegment) {
                 this.receivedACKOfFINPkt = recSeqNo;
             }
             semaphore.release();
-
 
         }
     }
@@ -256,7 +248,8 @@ public class Sender {
     }
 
     private void sendSYNAndCheckACK() throws IOException, InterruptedException {
-        sendOnePktAndCheckACK(Utils.SYN, this.initSeqNo, Utils.mod(this.initSeqNo + 1));
+        sendOnePktAndCheckACK(Utils.SYN, Utils.mod(this.initSeqNo),
+                Utils.mod(this.initSeqNo + 1));
     }
 
     // retransmit unacknowledged packet at most this.resentLimit times
@@ -341,7 +334,7 @@ public class Sender {
     // this function doesn't have a limit for retransmit packet
     private void sendAllPacketsInWindow(int numOfSegInWindow) throws IOException {
         while (this.next < this.base + numOfSegInWindow) {
-            debugMessage = "sending pkt with seqNo " + segmentSeqNoArr[this.next]
+            debugMessage = "sending pkt with seqNo " + seqNoArr[this.next]
                     + ", content: " + Arrays.toString(dataArr[next]) + "\n";
             System.out.print(debugMessage);
             logFOS.write(debugMessage.getBytes());
@@ -361,7 +354,7 @@ public class Sender {
             semaphore.release();
             if (needToBeResent) {
                 debugMessage = "resending pkt with seqNo "
-                        + segmentSeqNoArr[this.base] + "\n";
+                        + seqNoArr[this.base] + "\n";
                 System.out.print(debugMessage);
                 logFOS.write(debugMessage.getBytes());
                 senderSocket.send(this.UDPPacketArr[this.base]);
@@ -458,7 +451,7 @@ public class Sender {
     private short[] createExpectedACKArr(short[] segmentSeqNoArr, byte[][] dataArr) {
         short[] expectedACKArr = new short[dataArr.length];
         for (int i = 0; i < expectedACKArr.length; i++) {
-            expectedACKArr[i] = (short) (segmentSeqNoArr[i] + dataArr[i].length);
+            expectedACKArr[i] = Utils.mod(segmentSeqNoArr[i] + dataArr[i].length);
         }
         return expectedACKArr;
     }
@@ -491,11 +484,11 @@ public class Sender {
         return dataWindow;
     }
 
-    private short[] createSeqNoArr(short ISN, byte[][] dataArr) {
+    private short[] createSeqNoArr(short initSeqNo, byte[][] dataArr) {
         short[] seqNoArr = new short[dataArr.length];
-        // SYN segment's seqNo is ISN, so the first
-        // Data Segment's seqNo is ISN+1
-        seqNoArr[0] = Utils.mod(ISN + 1);
+        // SYN segment's seqNo is initSeqNo, so the first
+        // Data Segment's seqNo is initSeqNo+1
+        seqNoArr[0] = Utils.mod(initSeqNo + 1);
         for (int i = 1; i < seqNoArr.length; i++) {
             seqNoArr[i] = Utils.mod(seqNoArr[i - 1] + dataArr[i - 1].length);
         }
