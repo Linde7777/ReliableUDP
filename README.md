@@ -1,6 +1,8 @@
 # ReliableUDP
-This program imitates some characteristics from TCP:  
-2-way handshake  
-sliding window  
-only set a timer for the oldest unacknowledged packet  
-fast retransmit  
+Mimicking some features of TCP.  
+- Implemented cumulative acknowledgment
+- Implemented sliding window
+- On the sender side, ran a thread for sending packets and a thread for receiving ACKs, used semaphores to prevent conflicts
+- When the receiving thread detected 3 duplicate ACKs and the sending thread was sleeping, it woke up the sending thread, enabling fast re-transmission
+- On the receiving side, used a HashMap to receive packets that might be out of order, and only wrote them into memory once a sorted set of packets forming a complete message was received
+- Set only one timer and re-transmitted only one packet that did not receive ACK at a time
