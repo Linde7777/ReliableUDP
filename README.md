@@ -8,4 +8,4 @@ Mimicking some features of TCP.
 - Set only one timer and re-transmitted only one packet that did not receive ACK at a time
 
 # Warning
-I haven't read Code Complete 2 before I write this program, I used many global variable to make the implementation easier, this is a bad style.
+When I wrote this program, I hadn’t read Code Complete 2, and I didn’t know that declaring too many global variables would hurt readability, don’t learn this from me
