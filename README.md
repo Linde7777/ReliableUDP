@@ -6,3 +6,6 @@ Mimicking some features of TCP.
 - When the receiving thread detected 3 duplicate ACKs and the sending thread was sleeping, it woke up the sending thread, enabling fast re-transmission
 - On the receiving side, used a HashMap to receive packets that might be out of order, and only wrote them into memory once a sorted set of packets forming a complete message was received
 - Set only one timer and re-transmitted only one packet that did not receive ACK at a time
+
+# Warning
+I haven't read Code Complete 2 before I write this program, I used many global variable to make the implementation easier, this is a bad style.
