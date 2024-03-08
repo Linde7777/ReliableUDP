@@ -8,5 +8,5 @@ Mimicking some features of TCP.
 - Set only one timer and re-transmitted only one packet that did not receive ACK at a time
 
 # Warning
-- When I wrote this program, I hadn’t read Code Complete 2, and I didn’t know that declaring too many global variables would hurt readability, don’t learn this from me!
-- At the time I don't know that Java has a log API, so I use print and file.write
+- When I wrote this program, I hadn’t read Code Complete 2, so I didn’t know that declaring too many global variables would hurt readability, don’t learn this from me!
+- At the time I didn't know that Java has a built-in log API, so I use print and file.write
